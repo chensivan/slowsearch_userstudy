@@ -10,78 +10,47 @@ var obj = {name: 'JP'}
 
 
 var mongojs = require('mongojs');
-var db = mongojs('contactlist', ['contactlist']);
+var db = mongojs('slowsearch', ['slowsearch']);
 var bodyParser = require('body-parser');
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 
-app.get('/contactlist', function (req, res) {
+app.get('/slowsearch', function (req, res) {
   console.log('I received a GET request');
 
-  // var docs = {
-  //   name: "123",
-  //   email: "333",
-  //   number: "ok"
-  // }
-
-  db.contactlist.find(function (err, docs) {
-    console.log(docs);
+  db.slowsearch.find(function (err, docs) {
     res.json(docs);
   });
 });
 
-app.post('/contactlist', function (req, res) {
+app.post('/slowsearch', function (req, res) {
   console.log(req.body);
-  db.contactlist.insert(req.body, function(err, doc) {
-
-
-  // var doc = {
-  //   name: "123",
-  //   email: "333",
-  //   number: "ok"
-  // }
-
-
-  // jsonfile.writeFile(file, doc, function (err) {
-  //   console.error(err)
-  // })
-
+  db.slowsearch.insert(req.body, function(err, doc) {
     res.json(doc);
   });
 });
 
-app.delete('/contactlist/:id', function (req, res) {
+app.delete('/slowsearch/:id', function (req, res) {
   var id = req.params.id;
 
-  // var doc = {
-  //   name: "123",
-  //   email: "333",
-  //   number: "ok"
-  // }
-  // console.log(id);
-  db.contactlist.remove({_id: mongojs.ObjectId(id)}, function (err, doc) {
+  db.slowsearch.remove({_id: mongojs.ObjectId(id)}, function (err, doc) {
     res.json(doc);
   });
 });
 
-app.get('/contactlist/:id', function (req, res) {
+app.get('/slowsearch/:id', function (req, res) {
   var id = req.params.id;
   console.log(id);
-  var doc = {
-    name: "123",
-    email: "333",
-    number: "ok"
-  }
-  db.contactlist.findOne({_id: mongojs.ObjectId(id)}, function (err, doc) {
+  db.slowsearch.findOne({_id: mongojs.ObjectId(id)}, function (err, doc) {
     res.json(doc);
   });
 });
 
-app.put('/contactlist/:id', function (req, res) {
+app.put('/slowsearch/:id', function (req, res) {
   var id = req.params.id;
   console.log(req.body.name);
-  db.contactlist.findAndModify({
+  db.slowsearch.findAndModify({
     query: {_id: mongojs.ObjectId(id)},
     update: {$set: {name: req.body.name, email: req.body.email, number: req.body.number}},
     new: true}, function (err, doc) {
@@ -90,5 +59,5 @@ app.put('/contactlist/:id', function (req, res) {
   );
 });
 
-app.listen(3000);
-console.log("Server running on port 3000");
+app.listen(4000);
+console.log("Server running on port 4000");

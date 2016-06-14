@@ -1,0 +1,14 @@
+#answer {
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    padding: 20px;
+    float: left;
+    margin: 10px;
+    width: 30%;
+    height: auto;
+}
+
+.ace_editor  {
+  height : 200px;
+  max-width: 500px;
+}
