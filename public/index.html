@@ -19,7 +19,16 @@
     <div ng-controller="TestController">
 
       <!-- ********* Consent Form ********** -->
+      <div ng-show="showConsent">
 
+        <h2>Consent Form</h2> This is a consent form
+        <label>You must check the box to continue
+          <input type="checkbox" ng-click="isClicked()">
+        </label>
+        <br>
+        <button ng-disabled="disableSubmit" ng-click="submitConsent()">Continue</button>
+
+      </div>
 
       <!-- ********* Quiz ********** -->
 
@@ -44,7 +53,7 @@
 
       <!-- ********* Tasks ********** -->
 
-      <div id="wrapper" ng-show="!showQuiz">
+      <div id="wrapper" ng-if="showWrapper">
 
         <!-- ********* Subjective Tasks ********** -->
 
@@ -57,7 +66,6 @@
 
           <div id="answer" ng-repeat="(key,answer) in answers">
             <div ng-repeat="(level, levels_content) in answer.answer" ng-show="level == (idCounter-1)">
-              <p>what</p>
               <p>{{levels_content}}</p>
             </div>
             <div>
@@ -79,11 +87,16 @@
 
             <section id="editors">
               <div class="ace_editor" ui-ace="{onLoad:aceLoaded}" ng-model="task.content"></div>
-              <div class="output"></div>
+              <button ng-click="run(task.content,task.correctOutput)" class="btn btn-xs btn-primary pull-right" type="button"> run </button>
+              <div id="output">
+                <h3>Result</h3>
+                <br> {{consoleOutput}}
+              </div>
+              <br> {{msg}}
             </section>
           </div>
-          <button ng-click="nextTask()" class="btn btn-xs btn-primary pull-right" type="button"> Next </button>
-          <button ng-click="run()" class="btn btn-xs btn-primary pull-right" type="button"> run </button>
+          <button ng-click="nextTask()" class="btn btn-xs btn-primary pull-right" type="button" ng-disabled="disableNext"> Next </button>
+          <!-- <button ng-click="run()" class="btn btn-xs btn-primary pull-right" type="button"> run </button> -->
         </div>
 
       </div>

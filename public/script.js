@@ -14,11 +14,15 @@ function TestController($scope, $http, $timeout) {
 
 
   $scope.showTask = true;
-  $scope.showQuiz = true;
+  $scope.showQuiz = false;
+
+  $scope.showWrapper = false;
+  $scope.showConsent = true;
   $scope.idCounter = 1;
   $scope.buttonText = 'Hint Lv1';
   $scope.hint = "";
   $scope.disableSubmit = true;
+  $scope.disableNext = true;
   $scope.counter = 0;
 
   //assessment
@@ -28,6 +32,11 @@ function TestController($scope, $http, $timeout) {
   $scope.specialValue = {
     "id": "12345",
     "value": "green"
+  };
+
+
+  $scope.isClicked = function() {
+    $scope.disableSubmit = false;
   };
 
   $scope.quizAnswer = {
@@ -105,6 +114,28 @@ function TestController($scope, $http, $timeout) {
     }
   };
 
+  $scope.submitConsent = function() {
+    $scope.showConsent = false;
+    $scope.disableSubmit = true;
+    $scope.showQuiz = !$scope.showQuiz;
+  };
+
+  $scope.run = function(a, b) {
+    //alert(b
+    debugger;
+    eval(a)
+    console.log = function(message) {
+      $scope.consoleOutput = message;
+    };
+    if ($scope.consoleOutput == b) {
+      $scope.disableNext = false;
+      $scope.msg = "You have the right output! Press the next button to move on!";
+    }
+    else {
+      $scope.msg = "Your output is wrong.";
+    }
+  };
+
   $scope.answers = [{
     'answer': ["level 1.1", "level 1.2"],
     'value': 5,
@@ -169,6 +200,9 @@ function TestController($scope, $http, $timeout) {
     var timestampe = new Date();
     participant_data.quiz.quiz_answer = $scope.quizAnswer;
     participant_data.quiz['timestampe'] = timestampe.getTime();
+    $scope.showQuiz = !$scope.showQuiz;
+    $scope.showWrapper = true;
+
     $scope.showQuiz = false;
     $scope.disableSubmit = true;
   }
@@ -219,16 +253,17 @@ function TestController($scope, $http, $timeout) {
 
 
     if($scope.idCounter==2){
+      alert('you are done with all the tasks, thanks for your participation')
       $http.post('/slowsearch', participant_data).success(function(response) {
         console.log(response);
       });
     }
 
-
-
     $scope.idCounter++;
     $scope.showTask = !$scope.showTask;
     $scope.disableSubmit = true;
+    $scope.msg="";
+
   };
 
   $scope.tasks = [{
@@ -236,18 +271,14 @@ function TestController($scope, $http, $timeout) {
     name: 'Task 1 (b)',
     content: 'task 1 content ',
     description: 'You are given a variable that contains a text. \n var task1 = \'I have 300 dollars in my pocket. Could you sell me that?\'; \n Remove all the digits, whitespace character and punctuations, and print the result in console.',
-    hintLv1: 'You can go to this link to find what you need: http://www.w3schools.com/jsref/jsref_obj_regexp.asp',
-    hintLv2: 'you could use .match(), .replace() function, /\s+/g expression, /[0-9]/g, and /[.?]/g expression',
-    hintLv3: 'var task1 = \'I have 300 dollars in my pocket. Could you sell me that?\';\n', //missing something, fix later
+    correctOutput: '1'
 
   }, {
     id: '2',
     name: 'Task 2 (b)',
     content: 'task 2 content',
     description: 'Can you provide two asynchronous methods in javascript and write a working example',
-    hintLv1: 'Synchronous method means the code will not execute the next method till this method is finished; whereas for asynchronous method, the next method will run no matter the status of this method',
-    hintLv2: 'Ajax call is asynchronous, and a for loop is synchronous,',
-    hintLv3: 'Explanation + running code',
+    correctOutput: '2'
 
   }]
 
@@ -268,16 +299,6 @@ function TestController($scope, $http, $timeout) {
 
   }]
 
-  $scope.run = function(){
-    alert("hi");
-    $(function () {
-    var val = _session.getValue();
-  eval(val)
-  console.log = function(message) {
-    $('.output').text(message);
-  }
-    });
-  }
 
 
 
