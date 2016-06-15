@@ -1,5 +1,13 @@
 var myApp = angular.module('myapp', ['rzModule', 'ui.ace']);
 var id = Math.random().toString(36).substring(7);
+var participant_data = {
+                          _id:  id,
+                          quiz: {
+                            quiz_answer: []
+                          },
+                          task_answer: {}
+                        };
+
 myApp.controller('TestController', ['$scope','$http', TestController]);
 
 function TestController($scope, $http, $timeout) {
@@ -13,21 +21,6 @@ function TestController($scope, $http, $timeout) {
   $scope.disableSubmit = true;
   $scope.counter = 0;
 
-  $scope.quizAnswer = {
-    _id: id,
-    question: []
-  };
-
-  $scope.taskSubAnswer = {
-    _id: id,
-    answers: []
-  };
-
-  $scope.taskObjAnswer = {
-    _id: id,
-    answers: []
-  }
-
   //assessment
   $scope.color = {
     name: 'blue'
@@ -35,6 +28,10 @@ function TestController($scope, $http, $timeout) {
   $scope.specialValue = {
     "id": "12345",
     "value": "green"
+  };
+
+  $scope.quizAnswer = {
+    question: []
   };
 
   $scope.quiz = [
@@ -87,6 +84,11 @@ function TestController($scope, $http, $timeout) {
       "options": ["1", "2", "undefined", "Error"]
     }
   ]
+
+  //load quizzes
+  // $scope.quiz = $http.get('/data/quiz.json').success(function(response){
+  //   return response
+  // });
 
   $scope.slider = { //requires angular-bootstrap to display tooltips
     value: 5,
@@ -160,30 +162,40 @@ function TestController($scope, $http, $timeout) {
     //}
   }
 
-  $scope.generateID = function(){
-
-  }
-
   $scope.submitQuiz = function() {
-    debugger;
-    $http.post('/slowsearch', $scope.quizAnswer).success(function(response) {
-      console.log(response);
-    });
+    // $http.post('/slowsearch', $scope.quizAnswer).success(function(response) {
+    //   console.log(response);
+    // });
+    var timestampe = new Date();
+    participant_data.quiz.quiz_answer = $scope.quizAnswer;
+    participant_data.quiz['timestampe'] = timestampe.getTime();
     $scope.showQuiz = false;
     $scope.disableSubmit = true;
   }
 
   $scope.submit = function() {
+    var taskSubAnswer = [$scope.answers[0].value, $scope.answers[1].value, $scope.answers[2].value];
+    var timestampe = new Date();
+    var task_sub_index = 'task'+$scope.idCounter+'a';
     debugger;
+    participant_data.task_answer[task_sub_index] = [];
+    participant_data.task_answer[task_sub_index] = taskSubAnswer;
+    participant_data.task_answer[task_sub_index+"_finish_time"] = timestampe.getTime();
+
+
+    $http.post('/slowsearch', participant_data).success(function(response) {
+      console.log(response);
+    });
+
+    // $http.put('/slowsearch/'+$scope.taskSubAnswer._id, $scope.taskSubAnswer.answers).success(function(response) {
+    //   console.log(response);
+    // });
     $scope.showTask = !$scope.showTask;
-
-
   };
 
   $scope.aceLoaded = function(_editor){
     var _session = _editor.getSession();
     var _renderer = _editor.renderer;
-    console.log("shit")
     // Options
     _editor.setReadOnly(false);
     _session.setUndoManager(new ace.UndoManager());

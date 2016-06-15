@@ -49,11 +49,14 @@ app.get('/slowsearch/:id', function (req, res) {
 
 app.put('/slowsearch/:id', function (req, res) {
   var id = req.params.id;
-  console.log(req.body.name);
-  db.slowsearch.findAndModify({
-    query: {_id: mongojs.ObjectId(id)},
-    update: {$set: {name: req.body.name, email: req.body.email, number: req.body.number}},
-    new: true}, function (err, doc) {
+  console.log(req.body);
+
+  db.slowsearch.findAndModify(
+    {
+      query: {_id: id},
+      update: {$set: {"task1sub": req.body}},
+      upsert:true
+    }, function (err, doc) {
       res.json(doc);
     }
   );

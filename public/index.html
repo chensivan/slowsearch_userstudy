@@ -49,18 +49,22 @@
         <!-- ********* Subjective Tasks ********** -->
 
         <div id="task(A)" ng-show="showTask">
+
           <div ng-repeat="taskA in taskAs" ng-show="taskA.id == idCounter">
             <h2>{{taskA.name}}</h2>
             <p>taskA.content</p>
           </div>
-          <div id="answer" ng-repeat="answer in answers">
+
+          <div id="answer" ng-repeat="(key,answer) in answers">
             <p>{{answer.answer}}</p>
             <div>
               <rzslider rz-slider-model="answer.value" rz-slider-options="answer.options" ng-click="isClicked()"></rzslider>
             </div>
             <p>Willingness to wait for: {{answer.value}} minutes</p>
           </div>
+
           <button ng-click="submit()" ng-disabled="disableSubmit">Submit</button>
+
         </div>
 
         <!-- ********* Objective Tasks ********** -->
