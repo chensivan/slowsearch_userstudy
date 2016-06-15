@@ -1,0 +1,43 @@
+[{
+  "answer": "level 1",
+  "value": 5,
+  "options": {
+    "floor": 0,
+    "ceil": 10,
+    "showTicksValues": true,
+    "ticksValuesTooltip": function(v) {
+      return "Tooltip for " + v;
+    },
+    "translate": function(value) {
+      return value;
+    }
+  }
+}, {
+  "answer": "level 2",
+  "value": 5,
+  "options": {
+    "floor": 0,
+    "ceil": 10,
+    "showTicksValues": true,
+    "ticksValuesTooltip": function(v) {
+      return "Tooltip for " + v;
+    },
+    "translate": function(value) {
+      return value;
+    }
+  }
+}, {
+  "answer": "level 3",
+  "value": 5,
+  "options": {
+    "floor": 0,
+    "ceil": 10,
+    "showTicksValues": true,
+    "ticksValuesTooltip": function(v) {
+      return "Tooltip for " + v;
+    },
+    "translate": function(value) {
+      return value;
+    }
+  }
+}]

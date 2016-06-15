@@ -56,7 +56,10 @@
           </div>
 
           <div id="answer" ng-repeat="(key,answer) in answers">
-            <p>{{answer.answer}}</p>
+            <div ng-repeat="(level, levels_content) in answer.answer" ng-show="level == (idCounter-1)">
+              <p>what</p>
+              <p>{{levels_content}}</p>
+            </div>
             <div>
               <rzslider rz-slider-model="answer.value" rz-slider-options="answer.options" ng-click="isClicked()"></rzslider>
             </div>

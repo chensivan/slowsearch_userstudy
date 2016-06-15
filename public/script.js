@@ -106,7 +106,7 @@ function TestController($scope, $http, $timeout) {
   };
 
   $scope.answers = [{
-    'answer': "level 1",
+    'answer': ["level 1.1", "level 1.2"],
     'value': 5,
     options: {
       floor: 0,
@@ -120,7 +120,7 @@ function TestController($scope, $http, $timeout) {
       }
     }
   }, {
-    'answer': 'level 2',
+    'answer': ["level 2.1", "level 2.2"],
     'value': 5,
     options: {
       floor: 0,
@@ -134,7 +134,7 @@ function TestController($scope, $http, $timeout) {
       }
     }
   }, {
-    'answer': 'level 3',
+    'answer': ["level 3.1", "level 3.2"],
     'value': 5,
     options: {
       floor: 0,
@@ -175,17 +175,18 @@ function TestController($scope, $http, $timeout) {
 
   $scope.submit = function() {
     var taskSubAnswer = [$scope.answers[0].value, $scope.answers[1].value, $scope.answers[2].value];
+
     var timestampe = new Date();
     var task_sub_index = 'task'+$scope.idCounter+'a';
-    debugger;
+
     participant_data.task_answer[task_sub_index] = [];
     participant_data.task_answer[task_sub_index] = taskSubAnswer;
     participant_data.task_answer[task_sub_index+"_finish_time"] = timestampe.getTime();
 
-
-    $http.post('/slowsearch', participant_data).success(function(response) {
-      console.log(response);
-    });
+    //
+    // $http.post('/slowsearch', participant_data).success(function(response) {
+    //   console.log(response);
+    // });
 
     // $http.put('/slowsearch/'+$scope.taskSubAnswer._id, $scope.taskSubAnswer.answers).success(function(response) {
     //   console.log(response);
@@ -193,15 +194,10 @@ function TestController($scope, $http, $timeout) {
     $scope.showTask = !$scope.showTask;
   };
 
-  $scope.aceLoaded = function(_editor){
-    var _session = _editor.getSession();
-    var _renderer = _editor.renderer;
-    // Options
-    _editor.setReadOnly(false);
-    _session.setUndoManager(new ace.UndoManager());
-    _renderer.setShowGutter(true);
-    _editor.setOption("maxlines",10);
-  }
+  // $scope.aceLoaded = function(_editor){
+  //
+  //
+  // }
 
   $scope.aceOption = {
 
@@ -213,9 +209,24 @@ function TestController($scope, $http, $timeout) {
 
 
   $scope.nextTask = function() {
+
+    debugger;
+    var timestampe = new Date();
+    var task_sub_index = 'task'+$scope.idCounter+'b';
+
+    participant_data.task_answer[task_sub_index] = $scope.tasks[$scope.idCounter-1].content;
+    participant_data.task_answer[task_sub_index+"_finish_time"] = timestampe.getTime();
+
+
+    if($scope.idCounter==2){
+      $http.post('/slowsearch', participant_data).success(function(response) {
+        console.log(response);
+      });
+    }
+
+
+
     $scope.idCounter++;
-    $scope.hint = "";
-    $scope.buttonText = 'Hint Lv1';
     $scope.showTask = !$scope.showTask;
     $scope.disableSubmit = true;
   };
