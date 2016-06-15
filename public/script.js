@@ -137,7 +137,7 @@ function TestController($scope, $http, $timeout) {
   };
 
   $scope.answers = [{
-    'answer': ["level 1.1", "level 1.2"],
+    'answer': ["You can go to this link to find what you need: \nw3schools.com/jsref", "level 1.2"],
     'value': 5,
     options: {
       floor: 0,
@@ -151,7 +151,7 @@ function TestController($scope, $http, $timeout) {
       }
     }
   }, {
-    'answer': ["level 2.1", "level 2.2"],
+    'answer': ["You could use .match(), .replace() function. \nFor the expression, you can use /\s+/g expression, /[0-9]/g, and /[.?]/g expression", "No matter what button the user clicks the number 5 will always be logged to the console. This is because, at the point that the onclick method is invoked (for any of the buttons), the for loop has already completed and the variable i already has a value of 5. (Bonus points for the interviewee if they know enough to talk about how execution contexts, variable objects, activation objects, and the internal “scope” property contribute to the closure behavior.)"],
     'value': 5,
     options: {
       floor: 0,
@@ -165,7 +165,7 @@ function TestController($scope, $http, $timeout) {
       }
     }
   }, {
-    'answer': ["level 3.1", "level 3.2"],
+    'answer': ["var task1 = 'I have 300 dollars in my pocket. Could you sell me that?';\n //the correct answer is 'IhavedollarsinmypocketCouldyousellmethat'\n   \nvar task1 = task1.replace(/\s+/g,'');\nvar task1 = task1.replace(/[0-9]/g,'');\nvar task1 = task1.replace(/[.?]/g,'');\n\nconsole.log(task1);", "The key to making this work is to capture the value of i at each pass through the for loop by passing it into a newly created function object. Here are three possible ways to accomplish this:\n\nfor (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button');\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', (function(i) {\n    return function() { console.log(i); };\n  })(i));\n  document.body.appendChild(btn);\n}"],
     'value': 5,
     options: {
       floor: 0,
@@ -241,7 +241,6 @@ function TestController($scope, $http, $timeout) {
 
   };
 
-
   $scope.nextTask = function() {
 
     debugger;
@@ -253,7 +252,8 @@ function TestController($scope, $http, $timeout) {
 
 
     if($scope.idCounter==2){
-      alert('you are done with all the tasks, thanks for your participation')
+      $scope.showWrapper = !$scope.showWrapper;
+      $scope.finalpage = !$scope.finalpage;
       $http.post('/slowsearch', participant_data).success(function(response) {
         console.log(response);
       });
@@ -269,21 +269,17 @@ function TestController($scope, $http, $timeout) {
   $scope.tasks = [{
     id: '1',
     name: 'Task 1 (b)',
-    content: 'task 1 content ',
+    content: "var task1 = 'I have 300 dollars in my pocket. Could you sell me that?';\n//The correct answer is console.log(1). You probably need to press run button twice. ",
     description: 'You are given a variable that contains a text. \n var task1 = \'I have 300 dollars in my pocket. Could you sell me that?\'; \n Remove all the digits, whitespace character and punctuations, and print the result in console.',
     correctOutput: '1'
 
   }, {
     id: '2',
     name: 'Task 2 (b)',
-    content: 'task 2 content',
-    description: 'Can you provide two asynchronous methods in javascript and write a working example',
+    content: "for (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button');\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', function(){ console.log(i); });\n  document.body.appendChild(btn);\n}\n\n\n//The correct answer is console.log(2). You probably need to press run button twice. ",
+    description: "Consider the following code snippet:\n\nfor (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button');\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', function(){ console.log(i); });\n  document.body.appendChild(btn);\n}\n\nWhat gets logged to the console when the user clicks on “Button 4” and why? \nProvide one or more alternate implementations that will work as expected.",
     correctOutput: '2'
-
-  }]
-
-
-
+  }];
 
   $scope.taskAs = [{
     id: '1',
@@ -295,13 +291,8 @@ function TestController($scope, $http, $timeout) {
     id: '2',
     name: 'Task 2 (a)',
     content: 'task 2 content',
-    description: 'Can you provide two asynchronous methods in javascript and write a working example',
+    description: "Consider the following code snippet:\n\nfor (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button');\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', function(){ console.log(i); });\n  document.body.appendChild(btn);\n}\n\nWhat gets logged to the console when the user clicks on “Button 4” and why? \nProvide one or more alternate implementations that will work as expected."
 
   }]
-
-
-
-
-
 
 }

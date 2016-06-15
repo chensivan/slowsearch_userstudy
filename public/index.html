@@ -21,7 +21,8 @@
       <!-- ********* Consent Form ********** -->
       <div ng-show="showConsent">
 
-        <h2>Consent Form</h2> This is a consent form
+        <h2>Consent Form</h2>
+        <p>In this study, you will need to do XYZ.</p></br>
         <label>You must check the box to continue
           <input type="checkbox" ng-click="isClicked()">
         </label>
@@ -61,20 +62,21 @@
 
           <div ng-repeat="taskA in taskAs" ng-show="taskA.id == idCounter">
             <h2>{{taskA.name}}</h2>
-            <p>taskA.content</p>
+            <pre>{{taskA.description}}</pre>
+            <p>Please take a look at the following three versions of answers. Drag the radio button to tell us how long are you willing to wait for that version of answer.</p>
           </div>
 
           <div id="answer" ng-repeat="(key,answer) in answers">
             <div ng-repeat="(level, levels_content) in answer.answer" ng-show="level == (idCounter-1)">
-              <p>{{levels_content}}</p>
+              <pre>{{levels_content}}</pre>
             </div>
             <div>
               <rzslider rz-slider-model="answer.value" rz-slider-options="answer.options" ng-click="isClicked()"></rzslider>
             </div>
             <p>Willingness to wait for: {{answer.value}} minutes</p>
           </div>
-
-          <button ng-click="submit()" ng-disabled="disableSubmit">Submit</button>
+          <br>
+          <button ng-click="submit()" class="btn btn-xs btn-success" ng-disabled="disableSubmit">Submit</button>
 
         </div>
 
@@ -82,12 +84,12 @@
 
         <div id="task(B)" ng-if="!showTask">
           <div ng-repeat="task in tasks" ng-show="task.id == idCounter">
-            {{task.name}} <br>
-            {{task.description}} <br>
+            <h2>{{task.name}}</h2> <br>
+            <pre>{{task.description}}</pre> <br>
 
             <section id="editors">
               <div class="ace_editor" ui-ace="{onLoad:aceLoaded}" ng-model="task.content"></div>
-              <button ng-click="run(task.content,task.correctOutput)" class="btn btn-xs btn-primary pull-right" type="button"> run </button>
+              <button ng-click="run(task.content,task.correctOutput)" class="btn btn-xs btn-primary" type="button"> run </button>
               <div id="output">
                 <h3>Result</h3>
                 <br> {{consoleOutput}}
@@ -95,13 +97,18 @@
               <br> {{msg}}
             </section>
           </div>
-          <button ng-click="nextTask()" class="btn btn-xs btn-primary pull-right" type="button" ng-disabled="disableNext"> Next </button>
+          <button ng-click="nextTask()" class="btn btn-xs btn-primary" type="button" ng-disabled="disableNext"> Next </button>
           <!-- <button ng-click="run()" class="btn btn-xs btn-primary pull-right" type="button"> run </button> -->
         </div>
 
       </div>
 
-      <!-- ********* End of  Tasks ********** -->
+      <!-- ********* End of  Tasks / Goodbye page********** -->
+
+      <div ng-show="finalpage">
+        <h2> Thank you for your participation! We will compensate you soon.</h2>
+      </div>
+
 
     </div>
   </div>
