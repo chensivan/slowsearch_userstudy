@@ -206,8 +206,12 @@ function TestController($scope, $http, $timeout) {
     $scope.showQuiz = false;
     $scope.disableSubmit = true;
   }
-
-  $scope.submit = function() {
+  
+   
+    var taskACurrentId = 1;
+    $scope.submit = function() {
+        
+        
     var taskSubAnswer = [$scope.answers[0].value, $scope.answers[1].value, $scope.answers[2].value];
 
     var timestampe = new Date();
@@ -225,13 +229,27 @@ function TestController($scope, $http, $timeout) {
     // $http.put('/slowsearch/'+$scope.taskSubAnswer._id, $scope.taskSubAnswer.answers).success(function(response) {
     //   console.log(response);
     // });
-    $scope.showTask = !$scope.showTask;
+      if(taskACurrentId==$scope.taskAs.length){
+        
+          $scope.showTask = !$scope.showTask;
+          $scope.idCounter =1;
+      }
+      else{
+          taskACurrentId++;
+          $scope.idCounter++;
+      }
+      
+    
   };
 
-  // $scope.aceLoaded = function(_editor){
-  //
-  //
-  // }
+   $scope.aceLoaded = function(_editor){
+       _editor.setTheme("ace/theme/twilight");
+       _editor.getSession().setMode("ace/mode/javascript");
+//    useWrapMode : true,
+//      showGutter: false,
+//      theme:'twilight',
+//      mode: 'javascript',
+   }
 
   $scope.aceOption = {
 
@@ -260,7 +278,7 @@ function TestController($scope, $http, $timeout) {
     }
 
     $scope.idCounter++;
-    $scope.showTask = !$scope.showTask;
+    //$scope.showTask = !$scope.showTask;
     $scope.disableSubmit = true;
     $scope.msg="";
 
@@ -294,5 +312,7 @@ function TestController($scope, $http, $timeout) {
     description: "Consider the following code snippet:\n\nfor (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button');\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', function(){ console.log(i); });\n  document.body.appendChild(btn);\n}\n\nWhat gets logged to the console when the user clicks on “Button 4” and why? \nProvide one or more alternate implementations that will work as expected."
 
   }]
+  
+  
 
 }
