@@ -23,3 +23,9 @@ body {
   height : 300px;
   max-width: 800px;
 }
+
+
+
+[disabled] {
+    pointer-events: none;
+}   

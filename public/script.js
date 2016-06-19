@@ -1,4 +1,4 @@
-var myApp = angular.module('myapp', ['rzModule', 'ui.ace']);
+var myApp = angular.module('myapp', ['rzModule', 'ui.ace','ui.bootstrap']);
 var id = Math.random().toString(36).substring(7);
 var participant_data = {
                           _id:  id,
@@ -10,12 +10,14 @@ var participant_data = {
 
 myApp.controller('TestController', ['$scope','$http', TestController]);
 
+
+
 function TestController($scope, $http, $timeout) {
 
 
   $scope.showTask = true;
   $scope.showQuiz = false;
-
+    
   $scope.showWrapper = false;
   $scope.showConsent = true;
   $scope.idCounter = 1;
@@ -24,6 +26,8 @@ function TestController($scope, $http, $timeout) {
   $scope.disableSubmit = true;
   $scope.disableNext = true;
   $scope.counter = 0;
+    
+    $scope.buttonHovered = false;
 
   //assessment
   $scope.color = {
@@ -34,11 +38,19 @@ function TestController($scope, $http, $timeout) {
     "value": "green"
   };
 
+    
+    $scope.disabled = function() {
+  if($scope.addInviteesDisabled) { return false;}
+}
 
   $scope.isClicked = function() {
     $scope.disableSubmit = false;
   };
 
+    $scope.isToggled = function() {
+    $scope.disableSubmit = !$scope.disableSubmit;
+  };
+    
   $scope.quizAnswer = {
     question: []
   };
@@ -121,12 +133,14 @@ function TestController($scope, $http, $timeout) {
   };
 
   $scope.run = function(a, b) {
-    //alert(b
-    debugger;
+//    alert(b)
+    //debugger;
     eval(a)
     console.log = function(message) {
       $scope.consoleOutput = message;
+        
     };
+      console.log($scope.consoleOutput);
     if ($scope.consoleOutput == b) {
       $scope.disableNext = false;
       $scope.msg = "You have the right output! Press the next button to move on!";
@@ -209,6 +223,7 @@ function TestController($scope, $http, $timeout) {
   
    
     var taskACurrentId = 1;
+    
     $scope.submit = function() {
         
         
@@ -239,6 +254,7 @@ function TestController($scope, $http, $timeout) {
           $scope.idCounter++;
       }
       
+        $scope.disableSubmit = !$scope.disableSubmit;
     
   };
 
@@ -281,6 +297,8 @@ function TestController($scope, $http, $timeout) {
     //$scope.showTask = !$scope.showTask;
     $scope.disableSubmit = true;
     $scope.msg="";
+      
+      $scope.disableNext = !$scope.disableNext;
 
   };
 
@@ -316,3 +334,6 @@ function TestController($scope, $http, $timeout) {
   
 
 }
+
+
+

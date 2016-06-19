@@ -3,10 +3,12 @@
 
 <head>
     <script data-require="jquery@2.2.0" data-semver="2.2.0" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
     <script src="https://rawgit.com/rzajac/angularjs-slider/master/dist/rzslider.js"></script>
     <script src="https://rawgithub.com/ajaxorg/ace-builds/v1.2.3/src-min-noconflict/ace.js"></script>
     <script src="https://rawgithub.com/angular-ui/ui-ace/bower/ui-ace.min.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.3.3.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://rawgit.com/rzajac/angularjs-slider/master/dist/rzslider.css" />
     <link data-require="bootstrap-css@3.3.6" data-semver="3.3.6" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" />
@@ -25,10 +27,10 @@
                 <p>In this study, you will need to do XYZ.</p>
                 <br>
                 <label>You must check the box to continue
-                    <input type="checkbox" ng-click="isClicked()">
+                    <input type="checkbox" ng-click="isToggled()">
                 </label>
                 <br>
-                <button ng-disabled="disableSubmit" ng-click="submitConsent()">Continue</button>
+                <button class="btn btn-xs btn-primary" ng-disabled="disableSubmit" ng-click="submitConsent()">Continue</button>
 
             </div>
 
@@ -49,7 +51,11 @@
                         </label>
                     </div>
                 </div>
-                <input type="button" value="Submit" ng-click="submitQuiz()">
+                <div style="display: inline-block;" 
+         uib-tooltip="Make sure you do all the questions before submit!">
+                <input type="button" class="btn btn-xs btn-primary" value="Submit" ng-click="submitQuiz()">
+                </div>
+                
             </div>
 
 
@@ -77,8 +83,14 @@
                         <p>Willingness to wait for: {{answer.value}} minutes</p>
                     </div>
                     <br>
+                    
+<!--                    add tooltip-->
+                    <div style="display: inline-block;" 
+         uib-tooltip="Remember to select all the choices!">
                     <button ng-click="submit()" class="btn btn-xs btn-success" ng-disabled="disableSubmit">Submit</button>
-
+                    </div>
+                        
+                    
                 </div>
 
                 <!-- ********* Objective Tasks ********** -->
@@ -102,7 +114,13 @@
                             <br> {{msg}}
                         </section>
                     </div>
+                    
+<!--                    add tooltip-->
+                    <div style="display: inline-block;" 
+         uib-tooltip="You can only proceed after getting the correct output!">
                     <button ng-click="nextTask()" class="btn btn-xs btn-primary" type="button" ng-disabled="disableNext"> Next </button>
+                    </div> 
+                    
                     <!-- <button ng-click="run()" class="btn btn-xs btn-primary pull-right" type="button"> run </button> -->
                 </div>
 
