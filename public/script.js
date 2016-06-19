@@ -115,6 +115,13 @@ function TestController($scope, $http, $timeout) {
   };
 
   $scope.submitConsent = function() {
+
+    // debugger;
+    $http.get('http://slow-server-test.dataprocessingclub.org/c/1/task?uid=123&no=3').success(function(data, status, headers, config){
+      debugger;
+      console.log(data);
+    });
+
     $scope.showConsent = false;
     $scope.disableSubmit = true;
     $scope.showQuiz = !$scope.showQuiz;
@@ -206,12 +213,12 @@ function TestController($scope, $http, $timeout) {
     $scope.showQuiz = false;
     $scope.disableSubmit = true;
   }
-  
-   
+
+
     var taskACurrentId = 1;
     $scope.submit = function() {
-        
-        
+
+
     var taskSubAnswer = [$scope.answers[0].value, $scope.answers[1].value, $scope.answers[2].value];
 
     var timestampe = new Date();
@@ -230,7 +237,7 @@ function TestController($scope, $http, $timeout) {
     //   console.log(response);
     // });
       if(taskACurrentId==$scope.taskAs.length){
-        
+
           $scope.showTask = !$scope.showTask;
           $scope.idCounter =1;
       }
@@ -238,8 +245,8 @@ function TestController($scope, $http, $timeout) {
           taskACurrentId++;
           $scope.idCounter++;
       }
-      
-    
+
+
   };
 
    $scope.aceLoaded = function(_editor){
@@ -312,7 +319,7 @@ function TestController($scope, $http, $timeout) {
     description: "Consider the following code snippet:\n\nfor (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button');\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', function(){ console.log(i); });\n  document.body.appendChild(btn);\n}\n\nWhat gets logged to the console when the user clicks on “Button 4” and why? \nProvide one or more alternate implementations that will work as expected."
 
   }]
-  
-  
+
+
 
 }
