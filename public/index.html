@@ -51,11 +51,11 @@
                         </label>
                     </div>
                 </div>
-                <div style="display: inline-block;" 
+                <div style="display: inline-block;"
          uib-tooltip="Make sure you do all the questions before submit!">
                 <input type="button" class="btn btn-xs btn-primary" value="Submit" ng-click="submitQuiz()">
                 </div>
-                
+
             </div>
 
 
@@ -83,14 +83,14 @@
                         <p>Willingness to wait for: {{answer.value}} minutes</p>
                     </div>
                     <br>
-                    
+
 <!--                    add tooltip-->
-                    <div style="display: inline-block;" 
+                    <div style="display: inline-block;"
          uib-tooltip="Remember to select all the choices!">
                     <button ng-click="submit()" class="btn btn-xs btn-success" ng-disabled="disableSubmit">Submit</button>
                     </div>
-                        
-                    
+
+
                 </div>
 
                 <!-- ********* Objective Tasks ********** -->
@@ -103,9 +103,7 @@
                         <br>
 
                         <section id="editors">
-                            <div class="ace_editor" ui-ace="{
-                                                            onLoad:aceLoaded
-                                                           }" ng-model="task.content"></div>
+                            <div class="ace_editor" id='task1' ui-ace="{onLoad:aceLoaded}" ng-model="task.content"></div>
                             <button ng-click="run(task.content,task.correctOutput)" class="btn btn-xs btn-primary" type="button"> run </button>
                             <div id="output">
                                 <h3>Result</h3>
@@ -114,13 +112,12 @@
                             <br> {{msg}}
                         </section>
                     </div>
-                    
-<!--                    add tooltip-->
-                    <div style="display: inline-block;" 
-         uib-tooltip="You can only proceed after getting the correct output!">
-                    <button ng-click="nextTask()" class="btn btn-xs btn-primary" type="button" ng-disabled="disableNext"> Next </button>
-                    </div> 
-                    
+
+                    <!--   add tooltip-->
+                    <div style="display: inline-block;" uib-tooltip="You can only proceed after getting the correct output!">
+                      <button ng-click="nextTask()" class="btn btn-xs btn-primary" type="button" ng-disabled="disableNext"> Next </button>
+                    </div>
+
                     <!-- <button ng-click="run()" class="btn btn-xs btn-primary pull-right" type="button"> run </button> -->
                 </div>
 

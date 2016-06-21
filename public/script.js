@@ -17,7 +17,7 @@ function TestController($scope, $http, $timeout) {
 
   $scope.showTask = true;
   $scope.showQuiz = false;
-    
+
   $scope.showWrapper = false;
   $scope.showConsent = true;
   $scope.idCounter = 1;
@@ -26,7 +26,7 @@ function TestController($scope, $http, $timeout) {
   $scope.disableSubmit = true;
   $scope.disableNext = true;
   $scope.counter = 0;
-    
+
     $scope.buttonHovered = false;
 
   //assessment
@@ -38,7 +38,7 @@ function TestController($scope, $http, $timeout) {
     "value": "green"
   };
 
-    
+
     $scope.disabled = function() {
   if($scope.addInviteesDisabled) { return false;}
 }
@@ -50,7 +50,7 @@ function TestController($scope, $http, $timeout) {
     $scope.isToggled = function() {
     $scope.disableSubmit = !$scope.disableSubmit;
   };
-    
+
   $scope.quizAnswer = {
     question: []
   };
@@ -63,40 +63,40 @@ function TestController($scope, $http, $timeout) {
       "question": " var f = function g(){ return 23; };   \n typeof g();",
       "options": ["\"number\"", "\"undefined\"", "\"function\"", "Error"]
     },
-    
-      {
-  "question": " <script type=\"text/javascript\">\n x=4+\"4\";\ndocument.write(x);\n</script>",
-  "options": ["44", "8", "4", "Error output"]
-},
- {
-  "question": " <script type=\"text/javascript\">\nvar s = \"9123456 or 80000?\";\nvar pattern = /\d{4}/;\nvar output = s.match(pattern);\ndocument.write(output);\n</script>",
-  "options": ["9123", "91234", "80000", "None of the above"]
-},
- {
-  "question": " Consider the following code snippet\nfunction printprops(o) \n{\n    for(var p in o)\n      console.log(p + \": \" + o[p] + \"\n\");\n}\n What will the above code snippet result ?",
-  "options": ["Prints the contents of each property of o", "Returns undefined", "Both a and b", "None of the mentioned"]
-},
- {
-  "question": " What is the code to print hello one second from now?",
-  "options": ["setTimeout(function() { console.log(\"Hello World\"); }, 1000);", "setTimeout(function() { 1000, console.log(\"Hello World\"); });", "setTimeout(function(1000) { console.log(\"Hello World\"); });", "setTimeout(function() { console.log(\"Hello World\"); });"]
-},
- {
-  "question": " Which of the following is an equivalent replacement of $(document).ready(f)?",
-  "options": ["jQuery(f)", "$(f)", "#(f)", "None of the mentioned"]
-},
- {
-  "question": " Which of the following is used for parsing JSON text?",
-  "options": ["jQuery.each()", "jQuery.parseJSON()", "jQuery.noConflict()", "None of the mentioned"]
-},
- {
-  "question": " Consider the following code snippet :\n var book = {\n\"main title\": \"JavaScript\",\n 'sub-title': \"The Definitive Guide\",\n\"for\": \"all audiences\",\n author: { \nfirstname: \"David\", \nsurname: \"Flanagan\" }};\nIn the above snippet, firstname and surname are", 
-  "options": ["properties", " property values", "property names", "objects"]
-},
- {
-  "question": " Consider the following code snippet\n const pi=3.14;\nvar pi=4;\nconsole.log(pi);\nWhat will be the output for the above code snippet?",
-  "options": ["This will flash an error", "Prints 4", "Prints 3.14", "Ambiguity"]
-}
-      
+
+    {
+      "question": " <script type=\"text/javascript\">\n x=4+\"4\";\ndocument.write(x);\n</script>",
+      "options": ["44", "8", "4", "Error output"]
+    },
+     {
+      "question": " <script type=\"text/javascript\">\nvar s = \"9123456 or 80000?\";\nvar pattern = /\d{4}/;\nvar output = s.match(pattern);\ndocument.write(output);\n</script>",
+      "options": ["9123", "91234", "80000", "None of the above"]
+    },
+     {
+      "question": " Consider the following code snippet\nfunction printprops(o) \n{\n    for(var p in o)\n      console.log(p + \": \" + o[p] + \"\n\");\n}\n What will the above code snippet result ?",
+      "options": ["Prints the contents of each property of o", "Returns undefined", "Both a and b", "None of the mentioned"]
+    },
+     {
+      "question": " What is the code to print hello one second from now?",
+      "options": ["setTimeout(function() { console.log(\"Hello World\"); }, 1000);", "setTimeout(function() { 1000, console.log(\"Hello World\"); });", "setTimeout(function(1000) { console.log(\"Hello World\"); });", "setTimeout(function() { console.log(\"Hello World\"); });"]
+    },
+     {
+      "question": " Which of the following is an equivalent replacement of $(document).ready(f)?",
+      "options": ["jQuery(f)", "$(f)", "#(f)", "None of the mentioned"]
+    },
+     {
+      "question": " Which of the following is used for parsing JSON text?",
+      "options": ["jQuery.each()", "jQuery.parseJSON()", "jQuery.noConflict()", "None of the mentioned"]
+    },
+     {
+      "question": " Consider the following code snippet :\n var book = {\n\"main title\": \"JavaScript\",\n 'sub-title': \"The Definitive Guide\",\n\"for\": \"all audiences\",\n author: { \nfirstname: \"David\", \nsurname: \"Flanagan\" }};\nIn the above snippet, firstname and surname are",
+      "options": ["properties", " property values", "property names", "objects"]
+    },
+     {
+      "question": " Consider the following code snippet\n const pi=3.14;\nvar pi=4;\nconsole.log(pi);\nWhat will be the output for the above code snippet?",
+      "options": ["This will flash an error", "Prints 4", "Prints 3.14", "Ambiguity"]
+    }
+
   ]
 
   //load quizzes
@@ -138,7 +138,7 @@ function TestController($scope, $http, $timeout) {
     eval(a)
     console.log = function(message) {
       $scope.consoleOutput = message;
-        
+
     };
       console.log($scope.consoleOutput);
     if ($scope.consoleOutput == b) {
@@ -223,7 +223,7 @@ function TestController($scope, $http, $timeout) {
 
 
     var taskACurrentId = 1;
-    
+
     $scope.submit = function() {
 
 
@@ -254,19 +254,15 @@ function TestController($scope, $http, $timeout) {
           $scope.idCounter++;
       }
 
-      
+
         $scope.disableSubmit = !$scope.disableSubmit;
-    
+
 
   };
 
    $scope.aceLoaded = function(_editor){
        _editor.setTheme("ace/theme/twilight");
        _editor.getSession().setMode("ace/mode/javascript");
-//    useWrapMode : true,
-//      showGutter: false,
-//      theme:'twilight',
-//      mode: 'javascript',
    }
 
   $scope.aceOption = {
@@ -279,7 +275,6 @@ function TestController($scope, $http, $timeout) {
 
   $scope.nextTask = function() {
 
-    debugger;
     var timestampe = new Date();
     var task_sub_index = 'task'+$scope.idCounter+'b';
 
@@ -299,7 +294,7 @@ function TestController($scope, $http, $timeout) {
     //$scope.showTask = !$scope.showTask;
     $scope.disableSubmit = true;
     $scope.msg="";
-      
+
       $scope.disableNext = !$scope.disableNext;
 
   };
@@ -336,6 +331,3 @@ function TestController($scope, $http, $timeout) {
 
 
 }
-
-
-
