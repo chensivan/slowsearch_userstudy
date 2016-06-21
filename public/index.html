@@ -73,7 +73,8 @@
                         <p>Please take a look at the following three versions of answers. Drag the radio button to tell us how long are you willing to wait for that version of answer.</p>
                     </div>
 
-                    <div id="answer" ng-repeat="(key,answer) in answers">
+                    <div id="answer" ng-repeat="answer in answers">
+                      <p>
                         <div ng-repeat="(level, levels_content) in answer.answer" ng-show="level == (idCounter-1)">
                             <pre>{{levels_content}}</pre>
                         </div>

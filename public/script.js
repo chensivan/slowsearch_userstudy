@@ -89,7 +89,7 @@ function TestController($scope, $http, $timeout) {
       "options": ["jQuery.each()", "jQuery.parseJSON()", "jQuery.noConflict()", "None of the mentioned"]
     },
      {
-      "question": " Consider the following code snippet :\n var book = {\n\"main title\": \"JavaScript\",\n 'sub-title': \"The Definitive Guide\",\n\"for\": \"all audiences\",\n author: { \nfirstname: \"David\", \nsurname: \"Flanagan\" }};\nIn the above snippet, firstname and surname are",
+      "question": " Consider the following code snippet :\n var book = {\n\"main title\": \"JavaScript\",\n \'sub-title': \"The Definitive Guide\",\n\"for\": \"all audiences\",\n author: { \nfirstname: \"David\", \nsurname: \"Flanagan\" }};\nIn the above snippet, firstname and surname are",
       "options": ["properties", " property values", "property names", "objects"]
     },
      {
@@ -123,7 +123,7 @@ function TestController($scope, $http, $timeout) {
 
     // debugger;
     $http.get('http://slow-server-test.dataprocessingclub.org/c/1/task?uid=123&no=3').success(function(data, status, headers, config){
-      debugger;
+
       console.log(data);
     });
 
@@ -141,7 +141,7 @@ function TestController($scope, $http, $timeout) {
 
     };
       console.log($scope.consoleOutput);
-      
+
     if ($scope.consoleOutput == b) {
       $scope.disableNext = false;
       $scope.msg = "You have the right output! Press the next button to move on!";
@@ -152,48 +152,51 @@ function TestController($scope, $http, $timeout) {
   };
 
   $scope.answers = [{
-    'answer': ["You can go to this link to find what you need: \nw3schools.com/jsref", "level 1.2"],
-    'value': 5,
-    options: {
-      floor: 0,
-      ceil: 10,
-      showTicksValues: true,
-      ticksValuesTooltip: function(v) {
-        return 'Tooltip for ' + v;
-      },
-      translate: function(value) {
-        return value;
-      }
-    }
-  }, {
-    'answer': ["You could use .match(), .replace() function. \nFor the expression, you can use /\s+/g expression, /[0-9]/g, and /[.?]/g expression", "No matter what button the user clicks the number 5 will always be logged to the console. This is because, at the point that the onclick method is invoked (for any of the buttons), the for loop has already completed and the variable i already has a value of 5. (Bonus points for the interviewee if they know enough to talk about how execution contexts, variable objects, activation objects, and the internal “scope” property contribute to the closure behavior.)"],
-    'value': 5,
-    options: {
-      floor: 0,
-      ceil: 10,
-      showTicksValues: true,
-      ticksValuesTooltip: function(v) {
-        return 'Tooltip for ' + v;
-      },
-      translate: function(value) {
-        return value;
-      }
-    }
-  }, {
-    'answer': ["var task1 = 'I have 300 dollars in my pocket. Could you sell me that?';\n //the correct answer is 'IhavedollarsinmypocketCouldyousellmethat'\n   \nvar task1 = task1.replace(/\s+/g,'');\nvar task1 = task1.replace(/[0-9]/g,'');\nvar task1 = task1.replace(/[.?]/g,'');\n\nconsole.log(task1);", "The key to making this work is to capture the value of i at each pass through the for loop by passing it into a newly created function object. Here are three possible ways to accomplish this:\n\nfor (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button');\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', (function(i) {\n    return function() { console.log(i); };\n  })(i));\n  document.body.appendChild(btn);\n}"],
-    'value': 5,
-    options: {
-      floor: 0,
-      ceil: 10,
-      showTicksValues: true,
-      ticksValuesTooltip: function(v) {
-        return 'Tooltip for ' + v;
-      },
-      translate: function(value) {
-        return value;
-      }
-    }
-  }]
+                      'answer': ["You can go to this link to find what you need: http://www.w3schools.com/jsref/jsref_obj_regexp.asp",
+                                  "level 2",
+                                  "level 3",
+                                  "level 4", "level 5", "level 6", "level 7"],
+                      'value': 5,
+                        options: {
+                        floor: 0,
+                        ceil: 10,
+                        showTicksValues: true,
+                        ticksValuesTooltip: function(v) {
+                          return 'Tooltip for ' + v;
+                        },
+                        translate: function(value) {
+                          return value;
+                        }
+                      }
+                    }, {
+                      'answer': ["you could use .match(), .replace() function, /\s+/g expression, /[0-9]/g, and /[.?]/g expression", "level 22", "level 33", "level 44", "level 55", "level 66", "level 77"],
+                      'value': 5,
+                      options: {
+                        floor: 0,
+                        ceil: 10,
+                        showTicksValues: true,
+                        ticksValuesTooltip: function(v) {
+                          return 'Tooltip for ' + v;
+                        },
+                        translate: function(value) {
+                          return value;
+                        }
+                      }
+                    }, {
+                      'answer': ["var task1 = 'I have 300 dollars in my pocket. Could you sell me that?';\n //the correct answer is 'IhavedollarsinmypocketCouldyousellmethat'\n   \nvar task1 = task1.replace(/\s+/g,'');\nvar task1 = task1.replace(/[0-9]/g,'');\nvar task1 = task1.replace(/[.?]/g,'');\n\nconsole.log(task1);", "level 222", "level 333", "level 444", "level 555", "level 666", "level 777"],
+                      'value': 5,
+                      options: {
+                        floor: 0,
+                        ceil: 10,
+                        showTicksValues: true,
+                        ticksValuesTooltip: function(v) {
+                          return 'Tooltip for ' + v;
+                        },
+                        translate: function(value) {
+                          return value;
+                        }
+                      }
+                    }];
 
   $scope.isClicked = function() {
     $scope.disableSubmit = false;
@@ -283,7 +286,7 @@ function TestController($scope, $http, $timeout) {
     participant_data.task_answer[task_sub_index+"_finish_time"] = timestampe.getTime();
 
 
-    if($scope.idCounter==2){//if all tasks are complete
+    if($scope.idCounter==7){//if all tasks are complete
       $scope.showWrapper = !$scope.showWrapper;
       $scope.finalpage = !$scope.finalpage;
       $http.post('/slowsearch', participant_data).success(function(response) {
@@ -296,90 +299,98 @@ function TestController($scope, $http, $timeout) {
     $scope.disableSubmit = true;
     $scope.msg="";
 
-      $scope.disableNext = !$scope.disableNext;
+    $scope.disableNext = !$scope.disableNext;
 
   };
 
-    //objective tasks
-  $scope.tasks = [{
-    id: '1',
-    name: 'Task 1 (b)',
-    content: "var task1 = 'I have 300 dollars in my pocket. Could you sell me that?';\n//The correct answer is console.log(1). You probably need to press run button twice. ",
-    description: 'You are given a variable that contains a text. \nvar task1 = \'I have $300 in my left pocket and $200 in my right pocket that can buy 2 tickets, Could you see me that?why?\'\nWrite a function to replace dollar sign \'$\' in front of the numbers with the word \'dollars\' after them. Also, add space after question mark \'?\'. You answer should like this \'I have 300 dollars in my left pocket and 200 dollars in my right pocket that can buy 2 tickets, Could you see me that? why? \'',
-    correctOutput: '1'
 
-  }, {
-    id: '2',
-    name: 'Task 2 (b)',
-    content: "for (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button');\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', function(){ console.log(i); });\n  document.body.appendChild(btn);\n}\n\n\n//The correct answer is console.log(2). You probably need to press run button twice. ",
-    description: "Consider the following code snippet:\n\nfor (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button');\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', function(){ console.log(i); });\n  document.body.appendChild(btn);\n}\n\n(a)What gets logged to the console when the user clicks on “Button 4” and why? ",
-    correctOutput: '2'
-  }
-                  , {
-    id: '3',
-    name: 'Task 3 (b)',
-    content: "for (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button');\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', function(){ console.log(i); });\n  document.body.appendChild(btn);\n}\n\n\n//The correct answer is console.log(2). You probably need to press run button twice. ",
-    description: "Consider the following code snippet:\n\nfor (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button');\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', function(){ console.log(i); });\n  document.body.appendChild(btn);\n}\n \n(b)Provide one or more alternate implementations that will work as expected.",
-    correctOutput: '2'
-  }, {
-    id: '4',
-    name: 'Task 4 (b)',
-    content: "var funcs = [];\nfor (var i = 0; i < 3; i++) {          // let's create 3 functions\n    funcs[i] = function() {            // and store them in funcs\n        console.log(\"My value: \" + i); // each should log its value.\n    };\n}\nfor (var j = 0; j < 3; j++) {\n    funcs[j]();                        // and now let's run each one to see\n} ",
-    description: "var funcs = [];\nfor (var i = 0; i < 3; i++) {          // let's create 3 functions\n    funcs[i] = function() {            // and store them in funcs\n        console.log(\"My value: \" + i); // each should log its value.\n    };\n}\nfor (var j = 0; j < 3; j++) {\n    funcs[j]();                        // and now let's run each one to see\n}\nThe desire output is 1,2,3. Please correct this code to achieve the desired output.",
-    correctOutput: '1,2,3'
-  }, {
-    id: '5',
-    name: 'Task 5 (b)',
-    content: "<div id=\"foo\">\n    <input type=\"text\">\n    <input type=\"button\" value=\"b\">\n    <input type=\"button\" value=\"c\">  \n</div>\n\n<script>\n\n$(document).ready(function(){       \n \n   \n});\n</script> ",
-    description: "Finish the following code so that when clicking the 2nd input button (with value='c'), it will pop up an alert to show the output in the 1st text input tag. Please do no change the current html code but only javascript below.",
-    correctOutput: '2'
-  }, {
-    id: '6',
-    name: 'Task 6 (b)',
-    content: "// test cases \n\n// lookUpNumberByProperty(\"Holmes\", \"lastName\")\n//  returns :\n[\"0487345643\"]\n\n\n// lookUpNumberByProperty(\"Harry\", \"firstName\")\n// [\"0994372684\", \"unknown\"]\n\n// lookUpNumberByProperty(\"222\", \"lastName\")\n// []\n\nvar contacts = [\n    {\n        \"firstName\": \"Akira\",\n        \"lastName\": \"Laine\",\n        \"number\": \"0543236543\",\n    },\n    {\n        \"firstName\": \"Harry\",\n        \"lastName\": \"Potter\",\n        \"number\":\n\"0994372684\",\n    },\n    {\n        \"firstName\": \"Sherlock\",\n        \"lastName\": \"Holmes\",\n        \"number\": \"0487345643\",\n    },\n    {\n        \"firstName\": \"Kristian\",\n        \"lastName\": \"Vos\",\n        \"number\": \"unknown\",\n    }\n];\nfunction lookUpNumberByLastName(lastName){\n  // Only change code below this line\n  for (var i = 0; i < contacts.length; i++) {\n    if (contacts[i].lastName === lastName){\n        return contacts[i].number;\n     }\n  }\n}\n\nconsole.log (\"Akira Laine\' phone number is \"+ lookUpNumberByLastName(\"Laine\")); ",
-    description: "The following code allows you to search the phone number for a given last name in the database. Change the code so that it will look up a phone number by any property (not just last name) that is passed and refactor the example. ",
-    correctOutput: '2'
-  }
-                 
-                 ];
 //subjective tasks
   $scope.taskAs = [{
-    id: '1',
-    name: 'Task 1 (a)',
-    content: 'task 1 content ',
-    description: 'You are given a variable that contains a text. \n var task1 = \'I have 300 dollars in my pocket. Could you sell me that?\'; \n Remove all the digits, whitespace character and punctuations, and print the result in console.',
-
-  }, {
-    id: '2',
-    name: 'Task 2 (a)',
-    content: 'task 2 content',
-    description: "Given the following javascript code:\nfunction countdown (num) {\n    for (var i = 0; i <= num; i += 1) {\n        setTimeout(function () {\n            alert(num - i);\n        }, i * 1000);\n    }\n}\ncountdown(5);\nThe desired result is a countdown from 5 to 0 using alert messages. Explain why the code only alerts -1, then fix the code so it works as expected."
-
-  }
-//    , {
-//    id: '3',
-//    name: 'Task 3 (a)',
-//    content: 'task 3 content',
-//    description: "Rewrite the following code using jQuery library\n<script>\nfunction change(){\n       var myNewTitle = document.getElementById('myTextField').value;\n   if( myNewTitle.length==0 ){\n       alert('Write Some real Text please.');\n   return;\n   }\n      var title = document.getElementById('title');\n   title.innerHTML = myNewTitle;\n    }\n</script>\n<h1 id=\"title\">Javascript example no.2</h1>\n<input type=\"text\" id=\"myTextField\"/>\n<input type=\"submit\" id=\"byBtn\" value=\"Change\" onclick=\"change()\"/>
-//
-//"
-//
-//  }, {
-//    id: '4',
-//    name: 'Task 4 (a)',
-//    content: 'task 4 content',
-//    description: "Giving the following array, try to rewrite it to a JSON format with each element having the pattern of {\"firstName\": \"Akira\", \"lastName\":\"Laine\", \"number\":\"0543236543\"}.\nvar contacts = {\n    \"firstName\": [\"Akira\", \"Harry\",\"Sherlock\",\"Kristian\"],\n    \"lastName\": [\"Laine\",\"Potter\", \"Holmes\",\"Vos\"],\n    \"number\":\n[\"0543236543\",\"0994372684\",\"0487345643\",\"unknown\"]\n    };"
-//
-//  }, {
-//    id: '5',
-//    name: 'Task 5 (a)',
-//    content: 'task 5 content',
-//    description: "Explain what is the output of the following code and why:\n  var foo = {\n    bar: function() { return this.baz; },\n    baz: 1\n  };\n  (function(){\n    return typeof arguments[0]();\n  })(foo.bar);"
-//
-//  }
-                  
-                  
+                      id: '1',
+                      name: 'Task 1 (a)',
+                      content: '',
+                      description: "You are given a variable that contains a text. \n\nvar task1 = 'I have 300 dollars in my pocket. Could you sell me that?';\n\nRemove all the digits, whitespace character and punctuations, and print the result in console."
+                    },{
+                      id: '2',
+                      name: 'Task 2 (a)',
+                      content: '',
+                      description: 'Explain what will the following code print out and why? Can you rewrite it so that it does what you think it should do?\n\nfor( var j = 0; j < 5; j++ )\n{\n   setTimeout ( function () {\n       console.log(j);\n   }, j);\n}'
+                    },{
+                      id: '3',
+                      name: 'Task 3(a)',
+                      content: '',
+                      description: 'Given the following javascript code:\n\nfunction countdown (num) {\n    for (var i = 0; i <= num; i += 1) {\n        setTimeout(function () {\n            alert(num - i);\n        }, i * 1000);\n    }\n}\n\ncountdown(5);\nThe desired result is a countdown from 5 to 0 using alert messages. Explain why the code only alerts -1, then fix the code so it works as expected.\n\n'
+                    },{
+                      id: '4',
+                      name: 'Task 4 (a)',
+                      content: '',
+                      description: 'Write Javascript code that converts a date formatted as M/D/YYYY to a format as YYYYMMD string.\n\nFor example, it should convert user entered date "12/31/2014" to "20141231". \n\nfunction formatDate(userDate) {\n  // format from M/D/YYYY to YYYYMMDD\n}\n\nconsole.log(formatDate("12/31/2014"));'
+                    },{
+                      id: '5',
+                      name: 'Task 5 (a)',
+                      content: '',
+                      description: 'Please write a function to sort an array of objects by one of their properties. Each object may have different property and the property could be string or number. \n\nFor example, given the following array, \n \nvar arrayOfPeople = [\n{name:"Rick", age: 30, place: 2},\n{name:"Alan", age: 25, place: 1},\n{name:"Joe", age: 40, place: 4},\n{name:"Dave", age: 35, place:3}\n];\n\nIf sorting by place, this function should print out:\n\n[\n{name:"Alan", age: 25, place: 1},\n{name:"Rick", age: 30, place: 2},\n{name:"Dave", age: 35, place:3},\n{name:"Joe", age: 40, place: 4}\n];'
+                    },{
+                      id: '6',
+                      name: 'Task 6 (a)',
+                      content: '',
+                      description: 'Rewrite the following code using jQuery library\n\n<script>\nfunction change(){\n    \n   var myNewTitle = document.getElementById("myTextField").value;\n   if( myNewTitle.length==0 ){\n       console.log("Write Some real Text please.");\n   return;\n   }\n   \n   var title = document.getElementById("title");\n   title.innerHTML = myNewTitle;\n    \n}\n</script>\n\n\n<h1 id="title">Javascript example no.2</h1>\n<input type="text" id="myTextField"/>\n<input type="submit" id="byBtn" value="Change" onclick="change()"/>\n\n'
+                    },{
+                      id: '7',
+                      name: 'Task 7 (a)',
+                      content: '',
+                      description: 'Giving the following JSON, try to rewrite it to an array format with each element having the pattern of {"firstName": "Akira", "lastName":"Laine", "number":"0543236543"}.\n\nvar contacts = {\n    "firstName": ["Akira", "Harry","Sherlock","Kristian"],\n    "lastName": ["Laine","Potter", "Holmes","Vos"],\n    "number": ["0543236543","0994372684","0487345643","unknown"]\n    };\n\n'
+                    }
 ]
+
+
+//objective tasks
+$scope.tasks = [{
+  id: '1',
+  name: 'Task 1 (b)',
+  content: "var task1 = 'I have $300 in my left pocket and $200 in my right pocket that can buy 2 tickets.'; \n//The correct answer is console.log(1). You probably need to press run button twice. ",
+  description: "You are given a variable that contains a text. \n\nvar task1 = 'I have $300 in my left pocket and $200 in my right pocket that can buy 2 tickets.'\n\nWrite a function to replace dollar sign '$' in front of the numbers with the word 'dollars' after them. (e.g. $300 -> 300 dollars) Your answer should like this 'I have 300 dollars in my left pocket and 200 dollars in my right pocket that can buy 2 tickets.'",
+  correctOutput: '1'
+
+}, {
+  id: '2',
+  name: 'Task 2 (b)',
+  content: "for (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button');\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', function(){ \n      console.log(i); \n  });\n  document.body.appendChild(btn);\n}",
+  description: "Consider the following code snippet. \nExplain what will the code print out when clicking button 4 and why? Can you rewrite it so that it does what you think it should do?\n",
+  correctOutput: '2'
+},{
+  id: '3',
+  name: 'Task 3 (b)',
+  content: "var funcs = [];\nfor (var i = 0; i < 3; i++) {          // let\'s create 3 functions\n    funcs[i] = function() {            // and store them in funcs\n        console.log('My value: ' + i); // each should log its value.\n    };\n}\nfor (var j = 0; j < 3; j++) {\n    funcs[j]();                        // and now let\'s run each one to see\n}\n\n",
+  description: "The desire output is 1,2,3. Please correct this code to achieve the desired output.",
+  correctOutput: '2'
+},{
+  id: '4',
+  name: 'Task 4 (b)',
+  content: "function dateoutput(){\nvar today;\n//you code\n\nconsole.log(today)  //should be a string\n}\n\n",
+  description: "Write Javascript code to display the current date in this format: Tuesday, June 21, 2016.",
+  correctOutput: '2'
+},{
+  id: '5',
+  name: 'Task 5 (b)',
+  content: 'var array2d = [\n    [1, "Cathy"]\n    [3, "Boa"],\n    [10, "Drew"],\n    [9, "Drew"],\n    [0, "Bob"],\n    ];',
+  description: 'Given a 2D array, please sort them by the 2nd element (i.e. names) and then 1st element (i.e. numbers). \n\n\nYou output should like this:\n\n[\n    [3, "Boa"],\n    [0, "Bob"],\n    [1, "Cathy"],\n    [9, "Drew"],\n    [10, "Drew"]\n    ];',
+  correctOutput: '2'
+},{
+  id: '6',
+  name: 'Task 6 (b)',
+  content: "var obj = {\n\n'current_job_title': [{'engineer': 'front-end'}, {'staff': 'hr'}, {'ceo': 'personal-startup'}],\n'previous_company': { 'time': 1996, 'company_name':  'Facebook' },\n'name' : 'sam',\n'title': 'student'\n\n};",
+  description: "Given an objects. Please write a function to count the number of all object property in it. ",
+  correctOutput: '2'
+},{
+  id: '7',
+  name: 'Task 7 (b)',
+  content: ' \n// test cases \n\n// lookUpNumberByProperty("Holmes", "lastName")\n//  returns : ["0487345643"]\n\n\n// lookUpNumberByProperty("Harry", "firstName")\n// ["0994372684", "unknown"]\n\n// lookUpNumberByProperty("222", "lastName")\n// []\n\nvar contacts = [\n    {\n        "firstName": "Akira",\n        "lastName": "Laine",\n        "number": "0543236543",\n    },\n    {\n        "firstName": "Harry",\n        "lastName": "Potter",\n        "number": "0994372684",\n    },\n    {\n        "firstName": "Sherlock",\n        "lastName": "Holmes",\n        "number": "0487345643",\n    },\n    {\n        "firstName": "Kristian",\n        "lastName": "Vos",\n        "number": "unknown",\n    }\n];\n\nfunction lookUpNumberByLastName(lastName){\n  // Only change code below this line\n  for (var i = 0; i < contacts.length; i++) {\n    if (contacts[i].lastName === lastName){\n        return contacts[i].number;\n     }\n  }\n}\n\nconsole.log ("Akira Laine\' phone number is "+ lookUpNumberByLastName("Laine"));',
+  description: "The following code allows you to search the phone number for a given last name in the database. Change the code so that it will look up a phone number by any property (not just last name) that is passed and refactor the example.",
+  correctOutput: '2'
+}
+
+];
 
 
 
