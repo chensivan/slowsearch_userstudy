@@ -51,9 +51,9 @@
                         </label>
                     </div>
                 </div>
-                <div style="display: inline-block;"
-         uib-tooltip="Make sure you do all the questions before submit!">
-                <input type="button" class="btn btn-xs btn-primary" value="Submit" ng-click="submitQuiz()">
+                <!-- <div style="display: inline-block;" uib-tooltip="Make sure you do all the questions before submit!"> -->
+                <div style="display: inline-block;">
+                  <input type="button" class="btn btn-xs btn-primary" value="Submit" ng-click="submitQuiz()">
                 </div>
 
             </div>
@@ -85,12 +85,9 @@
                     </div>
                     <br>
 
-<!--                    add tooltip-->
-                    <div style="display: inline-block;"
-         uib-tooltip="Remember to select all the choices!">
-                    <button ng-click="submit()" class="btn btn-xs btn-success" ng-disabled="disableSubmit">Submit</button>
+                    <div style="display: inline-block;">
+                      <button ng-click="submit()" class="btn btn-xs btn-success" ng-disabled="disableSubmit">Submit</button>
                     </div>
-
 
                 </div>
 
@@ -115,7 +112,9 @@
                     </div>
 
                     <!--   add tooltip-->
-                    <div style="display: inline-block;" uib-tooltip="You can only proceed after getting the correct output!">
+                    <!-- <div style="display: inline-block;" uib-tooltip="You can only proceed after getting the correct output!"> -->
+                    <div style="display: inline-block;">
+
                       <button ng-click="nextTask()" class="btn btn-xs btn-primary" type="button" ng-disabled="disableNext"> Next </button>
                     </div>
 

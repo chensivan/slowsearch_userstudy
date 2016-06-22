@@ -121,9 +121,9 @@ function TestController($scope, $http, $timeout) {
 
   $scope.submitConsent = function() {
 
-    // debugger;
-    $http.get('http://slow-server-test.dataprocessingclub.org/c/1/task?uid=123&no=3').success(function(data, status, headers, config){
 
+
+    $http.get('http://slow-server-test.dataprocessingclub.org/c/1/task?uid=123&no=3').success(function(data, status, headers, config){
       console.log(data);
     });
 
@@ -132,15 +132,15 @@ function TestController($scope, $http, $timeout) {
     $scope.showQuiz = !$scope.showQuiz;
   };
 
-  $scope.run = function(a, b) {
-//    alert(b)
-    //debugger;
+  $scope.run = function(userContent, correctAnswer) {
+    // $scope.consoleOutput = '';
+    debugger;
+    eval(userContent)
 
     console.log = function(message) {
       $scope.consoleOutput = message;
 
     };
-    console.log($scope.consoleOutput);
 
 
     if($scope.idCounter==4){
@@ -149,13 +149,13 @@ function TestController($scope, $http, $timeout) {
       var months = new Array('January','February','March','April','May','June','July','August','September','October','November','December');
       var date = ((now.getDate()<10) ? "0" : "")+ now.getDate();
 
-      b =  days[now.getDay()] + ", " +
+      correctAnswer =  days[now.getDay()] + ", " +
                months[now.getMonth()] + " " +
                date + ", 2016";
     }
 
 
-    if ($scope.consoleOutput == b) {
+    if (JSON.stringify($scope.consoleOutput) == JSON.stringify(correctAnswer)) {
       $scope.disableNext = false;
       $scope.msg = "You have the right output! Press the next button to move on!";
     }
@@ -258,24 +258,27 @@ function TestController($scope, $http, $timeout) {
 
     $scope.submit = function() {
 
+      // debugger;
+      $http.post('http://slow-server-test.dataprocessingclub.org/c/1/task?uid='+id+'&no=1', 'true');
 
-    var taskSubAnswer = [$scope.answers[0].value, $scope.answers[1].value, $scope.answers[2].value];
 
-    var timestampe = new Date();
-    var task_sub_index = 'task'+$scope.idCounter+'a';
+      var taskSubAnswer = [$scope.answers[0].value, $scope.answers[1].value, $scope.answers[2].value];
 
-    participant_data.task_answer[task_sub_index] = [];
-    participant_data.task_answer[task_sub_index] = taskSubAnswer;
-    participant_data.task_answer[task_sub_index+"_finish_time"] = timestampe.getTime();
+      var timestampe = new Date();
+      var task_sub_index = 'task'+$scope.idCounter+'a';
 
-    //
-    // $http.post('/slowsearch', participant_data).success(function(response) {
-    //   console.log(response);
-    // });
+      participant_data.task_answer[task_sub_index] = [];
+      participant_data.task_answer[task_sub_index] = taskSubAnswer;
+      participant_data.task_answer[task_sub_index+"_finish_time"] = timestampe.getTime();
 
-    // $http.put('/slowsearch/'+$scope.taskSubAnswer._id, $scope.taskSubAnswer.answers).success(function(response) {
-    //   console.log(response);
-    // });
+      //
+      // $http.post('/slowsearch', participant_data).success(function(response) {
+      //   console.log(response);
+      // });
+
+      // $http.put('/slowsearch/'+$scope.taskSubAnswer._id, $scope.taskSubAnswer.answers).success(function(response) {
+      //   console.log(response);
+      // });
       if(taskACurrentId==$scope.taskAs.length){
 
           $scope.showTask = !$scope.showTask;
@@ -307,6 +310,8 @@ function TestController($scope, $http, $timeout) {
 
   $scope.nextTask = function() {
 
+    $scope.consoleOutput = "";
+
     var timestampe = new Date();
     var task_sub_index = 'task'+$scope.idCounter+'b';
 
@@ -324,6 +329,10 @@ function TestController($scope, $http, $timeout) {
 
     $scope.idCounter++;
     //$scope.showTask = !$scope.showTask;
+
+    // debugger;
+    $http.post('http://slow-server-test.dataprocessingclub.org/c/1/task?uid='+id+'&no='+$scope.idCounter+'', 'true');
+
     $scope.disableSubmit = true;
     $scope.msg="";
 
@@ -338,36 +347,6 @@ function TestController($scope, $http, $timeout) {
                       name: 'Task 1 (a)',
                       content: '',
                       description: "You are given a variable that contains a text. \n\nvar task1 = 'I have 300 dollars in my pocket. Could you sell me that?';\n\nRemove all the digits, whitespace character and punctuations, and print the result in console."
-                    },{
-                      id: '2',
-                      name: 'Task 2 (a)',
-                      content: '',
-                      description: "Consider the following code snippet. for (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button')\n  btn.setAttribute('id',i);\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', function(){ \n      console.log(i); \n  });\n  document.body.appendChild(btn);\n}\n \nExplain what will the code print out when clicking button 4 and why? Can you rewrite it so that it does what you think it should do?\n"
-                    },{
-                      id: '3',
-                      name: 'Task 3(a)',
-                      content: '',
-                      description: 'Given the following javascript code:\n\nfunction countdown (num) {\n    for (var i = 0; i <= num; i += 1) {\n        setTimeout(function () {\n            alert(num - i);\n        }, i * 1000);\n    }\n}\n\ncountdown(5);\nThe desired result is a countdown from 5 to 0 using alert messages. Explain why the code only alerts -1, then fix the code so it works as expected.\n\n'
-                    },{
-                      id: '4',
-                      name: 'Task 4 (a)',
-                      content: '',
-                      description: 'Write Javascript code that converts a date formatted as M/D/YYYY to a format as YYYYMMD string.\n\nFor example, it should convert user entered date "12/31/2014" to "20141231". \n\nfunction formatDate(userDate) {\n  // format from M/D/YYYY to YYYYMMDD\n}\n\nconsole.log(formatDate("12/31/2014"));'
-                    },{
-                      id: '5',
-                      name: 'Task 5 (a)',
-                      content: '',
-                      description: 'Please write a function to sort an array of objects by one of their properties. Each object may have different property and the property could be string or number. \n\nFor example, given the following array, \n \nvar arrayOfPeople = [\n{name:"Rick", age: 30, place: 2},\n{name:"Alan", age: 25, place: 1},\n{name:"Joe", age: 40, place: 4},\n{name:"Dave", age: 35, place:3}\n];\n\nIf sorting by place, this function should print out:\n\n[\n{name:"Alan", age: 25, place: 1},\n{name:"Rick", age: 30, place: 2},\n{name:"Dave", age: 35, place:3},\n{name:"Joe", age: 40, place: 4}\n];'
-                    },{
-                      id: '6',
-                      name: 'Task 6 (a)',
-                      content: '',
-                      description: 'Rewrite the following code using jQuery library\n\n<script>\nfunction change(){\n    \n   var myNewTitle = document.getElementById("myTextField").value;\n   if( myNewTitle.length==0 ){\n       console.log("Write Some real Text please.");\n   return;\n   }\n   \n   var title = document.getElementById("title");\n   title.innerHTML = myNewTitle;\n    \n}\n</script>\n\n\n<h1 id="title">Javascript example no.2</h1>\n<input type="text" id="myTextField"/>\n<input type="submit" id="byBtn" value="Change" onclick="change()"/>\n\n'
-                    },{
-                      id: '7',
-                      name: 'Task 7 (a)',
-                      content: '',
-                      description: 'Giving the following JSON, try to rewrite it to an array format with each element having the pattern of {"firstName": "Akira", "lastName":"Laine", "number":"0543236543"}.\n\nvar contacts = {\n    "firstName": ["Akira", "Harry","Sherlock","Kristian"],\n    "lastName": ["Laine","Potter", "Holmes","Vos"],\n    "number": ["0543236543","0994372684","0487345643","unknown"]\n    };\n\n'
                     }
 ]
 
@@ -385,13 +364,13 @@ $scope.tasks = [{
   name: 'Task 2 (b)',
   content: "var a = [];\nfor( var j = 0; j < 5; j++ )\n{\n   setTimeout ( function () {\n       a.push(j)\n       console.log(a);\n   }, j);\n}",
   description: "Explain what will the following code print out and why? Can you rewrite it so that it does what you think it should do?\n\n",
-  correctOutput: '[0,1,2,3,4]'
+  correctOutput: [0,1,2,3,4]
 },{
   id: '3',
   name: 'Task 3 (b)',
   content: "var a = [],\n    funcs = [];\nfor (var i = 0; i < 3; i++) {          // let's create 3 functions\n    funcs[i] = function() {            // and store them in funcs\n        a.push(i); // each should log its value.\n    };\n}\nfor (var j = 0; j < 3; j++) {\n    funcs[j]();                        // and now let\'s run each one to see\n}\n\nconsole.log(a)\n\n",
-  description: "The desire output is 1,2,3. Please correct this code to achieve the desired output.",
-  correctOutput: '[1,2,3]'
+  description: "The desire output is 0,1,2. Please correct this code to achieve the desired output.",
+  correctOutput: [0,1,2]
 },{
   id: '4',
   name: 'Task 4 (b)',
@@ -401,21 +380,21 @@ $scope.tasks = [{
 },{
   id: '5',
   name: 'Task 5 (b)',
-  content: 'var array2d = [\n    [1, "Cathy"]\n    [3, "Boa"],\n    [10, "Drew"],\n    [9, "Drew"],\n    [0, "Bob"],\n    ];',
+  content: 'var arrays = [\n    [1, "Cathy"]\n    [3, "Boa"],\n    [10, "Drew"],\n    [9, "Drew"],\n    [0, "Bob"],\n    ];\n\n\n',
   description: 'Given a 2D array, please sort them by the 2nd element (i.e. names) and then 1st element (i.e. numbers). \n\n\nYou output should like this:\n\n[\n    [3, "Boa"],\n    [0, "Bob"],\n    [1, "Cathy"],\n    [9, "Drew"],\n    [10, "Drew"]\n    ];',
-  correctOutput: '[[3, "Boa"],[0, "Bob"],[1, "Cathy"],[9, "Drew"],[10, "Drew"]]'
+  correctOutput: [[3, "Boa"],[0, "Bob"],[1, "Cathy"],[9, "Drew"],[10, "Drew"]]
 },{
   id: '6',
   name: 'Task 6 (b)',
   content: "var obj = {\n\n'current_job_title': [{'engineer': 'front-end'}, {'staff': 'hr'}, {'ceo': 'personal-startup'}],\n'previous_company': { 'time': 1996, 'company_name':  'Facebook' },\n'name' : 'sam',\n'title': 'student'\n\n};",
   description: "Given an objects. Please write a function to count the number of all object property in it. ",
-  correctOutput: '9'
+  correctOutput: 9
 },{
   id: '7',
   name: 'Task 7 (b)',
-  content: ' \n// test cases \n\n// lookUpNumberByProperty("Holmes", "lastName")\n//  returns : ["0487345643"]\n\n\n// lookUpNumberByProperty("Harry", "firstName")\n// ["0994372684", "unknown"]\n\n// lookUpNumberByProperty("222", "lastName")\n// []\n\nvar contacts = [\n    {\n        "firstName": "Akira",\n        "lastName": "Laine",\n        "number": "0543236543",\n    },\n    {\n        "firstName": "Harry",\n        "lastName": "Potter",\n        "number": "0994372684",\n    },\n    {\n        "firstName": "Sherlock",\n        "lastName": "Holmes",\n        "number": "0487345643",\n    },\n    {\n        "firstName": "Kristian",\n        "lastName": "Vos",\n        "number": "unknown",\n    }\n];\n\nfunction lookUpNumberByLastName(lastName){\n  // Only change code below this line\n  for (var i = 0; i < contacts.length; i++) {\n    if (contacts[i].lastName === lastName){\n        return contacts[i].number;\n     }\n  }\n}\n\nconsole.log ("Akira Laine\' phone number is "+ lookUpNumberByLastName("Laine") \n\n//test case\nconsole.log (lookUpNumberByProperty("Laine", "lastName")););',
+  content: 'var contacts = [\n    {\n        "firstName": "Akira",\n        "lastName": "Laine",\n        "number": 0543236543,\n    },\n    {\n        "firstName": "Harry",\n        "lastName": "Potter",\n        "number": 0994372684,\n    },\n    {\n        "firstName": "Sherlock",\n        "lastName": "Holmes",\n        "number": 0487345643,\n    },\n    {\n        "firstName": "Kristian",\n        "lastName": "Vos",\n        "number": unknown,\n    }\n];\n\nfunction lookUpNumberByLastName(lastName){\n  // Only change code below this line\n  for (var i = 0; i < contacts.length; i++) {\n    if (contacts[i].lastName === lastName){\n        return contacts[i].number;\n     }\n  }\n}\n\nconsole.log (lookUpNumberByLastName("Laine"));\n\n//test case\n// lookUpNumberByProperty("Potter", "lastName")\n//  returns : 0994372684\n',
   description: "The following code allows you to search the phone number for a given last name in the database. Change the code so that it will look up a phone number by any property (not just last name) that is passed and refactor the example.",
-  correctOutput: '543236543'
+  correctOutput: 0543236543
 }
 
 ];
