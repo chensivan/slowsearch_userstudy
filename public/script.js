@@ -135,23 +135,24 @@ function TestController($scope, $http, $timeout) {
   $scope.run = function(a, b) {
 //    alert(b)
     //debugger;
-    if($scope.idCounter == 2){
-      document.getElementById("1").remove();
-      document.getElementById("2").remove();
-      document.getElementById("3").remove();
-      document.getElementById("4").remove();
-      document.getElementById("0").remove();
-    }
-    eval(a)
+
     console.log = function(message) {
       $scope.consoleOutput = message;
 
     };
     console.log($scope.consoleOutput);
 
-   //remove the buttons that task 2 created
 
+    if($scope.idCounter==4){
+      var now = new Date();
+      var days = new Array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
+      var months = new Array('January','February','March','April','May','June','July','August','September','October','November','December');
+      var date = ((now.getDate()<10) ? "0" : "")+ now.getDate();
 
+      b =  days[now.getDay()] + ", " +
+               months[now.getMonth()] + " " +
+               date + ", 2016";
+    }
 
 
     if ($scope.consoleOutput == b) {
@@ -377,44 +378,44 @@ $scope.tasks = [{
   name: 'Task 1 (b)',
   content: "var task1 = 'I have $300 in my left pocket and $200 in my right pocket that can buy 2 tickets.'; \n//The correct answer is console.log(1). You probably need to press run button twice. ",
   description: "You are given a variable that contains a text. \n\nvar task1 = 'I have $300 in my left pocket and $200 in my right pocket that can buy 2 tickets.'\n\nWrite a function to replace dollar sign '$' in front of the numbers with the word 'dollars' after them. (e.g. $300 -> 300 dollars) Your answer should like this 'I have 300 dollars in my left pocket and 200 dollars in my right pocket that can buy 2 tickets.'",
-  correctOutput: '1'
+  correctOutput: 'I have 300 dollars in my left pocket and 200 dollars in my right pocket that can buy 2 tickets.'
 
 }, {
   id: '2',
   name: 'Task 2 (b)',
-  content: "for( var j = 0; j < 5; j++ )\n{\n   setTimeout ( function () {\n       console.log(j);\n   }, j);\n}",
+  content: "var a = [];\nfor( var j = 0; j < 5; j++ )\n{\n   setTimeout ( function () {\n       a.push(j)\n       console.log(a);\n   }, j);\n}",
   description: "Explain what will the following code print out and why? Can you rewrite it so that it does what you think it should do?\n\n",
-  correctOutput: '2'
+  correctOutput: '[0,1,2,3,4]'
 },{
   id: '3',
   name: 'Task 3 (b)',
-  content: "var funcs = [];\nfor (var i = 0; i < 3; i++) {          // let\'s create 3 functions\n    funcs[i] = function() {            // and store them in funcs\n        console.log('My value: ' + i); // each should log its value.\n    };\n}\nfor (var j = 0; j < 3; j++) {\n    funcs[j]();                        // and now let\'s run each one to see\n}\n\n",
+  content: "var a = [],\n    funcs = [];\nfor (var i = 0; i < 3; i++) {          // let's create 3 functions\n    funcs[i] = function() {            // and store them in funcs\n        a.push(i); // each should log its value.\n    };\n}\nfor (var j = 0; j < 3; j++) {\n    funcs[j]();                        // and now let\'s run each one to see\n}\n\nconsole.log(a)\n\n",
   description: "The desire output is 1,2,3. Please correct this code to achieve the desired output.",
-  correctOutput: '2'
+  correctOutput: '[1,2,3]'
 },{
   id: '4',
   name: 'Task 4 (b)',
   content: "function dateoutput(){\nvar today;\n//you code\n\nconsole.log(today)  //should be a string\n}\n\n",
   description: "Write Javascript code to display the current date in this format: Tuesday, June 21, 2016.",
-  correctOutput: '2'
+  correctOutput: ''
 },{
   id: '5',
   name: 'Task 5 (b)',
   content: 'var array2d = [\n    [1, "Cathy"]\n    [3, "Boa"],\n    [10, "Drew"],\n    [9, "Drew"],\n    [0, "Bob"],\n    ];',
   description: 'Given a 2D array, please sort them by the 2nd element (i.e. names) and then 1st element (i.e. numbers). \n\n\nYou output should like this:\n\n[\n    [3, "Boa"],\n    [0, "Bob"],\n    [1, "Cathy"],\n    [9, "Drew"],\n    [10, "Drew"]\n    ];',
-  correctOutput: '2'
+  correctOutput: '[[3, "Boa"],[0, "Bob"],[1, "Cathy"],[9, "Drew"],[10, "Drew"]]'
 },{
   id: '6',
   name: 'Task 6 (b)',
   content: "var obj = {\n\n'current_job_title': [{'engineer': 'front-end'}, {'staff': 'hr'}, {'ceo': 'personal-startup'}],\n'previous_company': { 'time': 1996, 'company_name':  'Facebook' },\n'name' : 'sam',\n'title': 'student'\n\n};",
   description: "Given an objects. Please write a function to count the number of all object property in it. ",
-  correctOutput: '2'
+  correctOutput: '9'
 },{
   id: '7',
   name: 'Task 7 (b)',
-  content: ' \n// test cases \n\n// lookUpNumberByProperty("Holmes", "lastName")\n//  returns : ["0487345643"]\n\n\n// lookUpNumberByProperty("Harry", "firstName")\n// ["0994372684", "unknown"]\n\n// lookUpNumberByProperty("222", "lastName")\n// []\n\nvar contacts = [\n    {\n        "firstName": "Akira",\n        "lastName": "Laine",\n        "number": "0543236543",\n    },\n    {\n        "firstName": "Harry",\n        "lastName": "Potter",\n        "number": "0994372684",\n    },\n    {\n        "firstName": "Sherlock",\n        "lastName": "Holmes",\n        "number": "0487345643",\n    },\n    {\n        "firstName": "Kristian",\n        "lastName": "Vos",\n        "number": "unknown",\n    }\n];\n\nfunction lookUpNumberByLastName(lastName){\n  // Only change code below this line\n  for (var i = 0; i < contacts.length; i++) {\n    if (contacts[i].lastName === lastName){\n        return contacts[i].number;\n     }\n  }\n}\n\nconsole.log ("Akira Laine\' phone number is "+ lookUpNumberByLastName("Laine"));',
+  content: ' \n// test cases \n\n// lookUpNumberByProperty("Holmes", "lastName")\n//  returns : ["0487345643"]\n\n\n// lookUpNumberByProperty("Harry", "firstName")\n// ["0994372684", "unknown"]\n\n// lookUpNumberByProperty("222", "lastName")\n// []\n\nvar contacts = [\n    {\n        "firstName": "Akira",\n        "lastName": "Laine",\n        "number": "0543236543",\n    },\n    {\n        "firstName": "Harry",\n        "lastName": "Potter",\n        "number": "0994372684",\n    },\n    {\n        "firstName": "Sherlock",\n        "lastName": "Holmes",\n        "number": "0487345643",\n    },\n    {\n        "firstName": "Kristian",\n        "lastName": "Vos",\n        "number": "unknown",\n    }\n];\n\nfunction lookUpNumberByLastName(lastName){\n  // Only change code below this line\n  for (var i = 0; i < contacts.length; i++) {\n    if (contacts[i].lastName === lastName){\n        return contacts[i].number;\n     }\n  }\n}\n\nconsole.log ("Akira Laine\' phone number is "+ lookUpNumberByLastName("Laine") \n\n//test case\nconsole.log (lookUpNumberByProperty("Laine", "lastName")););',
   description: "The following code allows you to search the phone number for a given last name in the database. Change the code so that it will look up a phone number by any property (not just last name) that is passed and refactor the example.",
-  correctOutput: '2'
+  correctOutput: '543236543'
 }
 
 ];
