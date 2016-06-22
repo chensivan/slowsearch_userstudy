@@ -57,14 +57,6 @@ function TestController($scope, $http, $timeout) {
 
   $scope.quiz = [
     {
-      "question": " (function(){  \n  return typeof arguments; \n })();",
-      "options": ["\"object\"", "\"array\"", "\"arguments\"", "\"undefined\""]
-    }, {
-      "question": " var f = function g(){ return 23; };   \n typeof g();",
-      "options": ["\"number\"", "\"undefined\"", "\"function\"", "Error"]
-    },
-
-    {
       "question": " <script type=\"text/javascript\">\n x=4+\"4\";\ndocument.write(x);\n</script>",
       "options": ["44", "8", "4", "Error output"]
     },
@@ -95,6 +87,13 @@ function TestController($scope, $http, $timeout) {
      {
       "question": " Consider the following code snippet\n const pi=3.14;\nvar pi=4;\nconsole.log(pi);\nWhat will be the output for the above code snippet?",
       "options": ["This will flash an error", "Prints 4", "Prints 3.14", "Ambiguity"]
+    },
+    {
+      "question": " (function(){  \n  return typeof arguments; \n })();",
+      "options": ["\"object\"", "\"array\"", "\"arguments\"", "\"undefined\""]
+    }, {
+      "question": " var f = function g(){ return 23; };   \n typeof g();",
+      "options": ["\"number\"", "\"undefined\"", "\"function\"", "Error"]
     }
 
   ]
@@ -160,6 +159,7 @@ function TestController($scope, $http, $timeout) {
       $scope.msg = "You have the right output! Press the next button to move on!";
     }
     else {
+      $scope.disableNext = true;
       $scope.msg = "Your output is wrong.";
     }
   };
@@ -341,14 +341,44 @@ function TestController($scope, $http, $timeout) {
   };
 
 
-//subjective tasks
-  $scope.taskAs = [{
-                      id: '1',
-                      name: 'Task 1 (a)',
-                      content: '',
-                      description: "You are given a variable that contains a text. \n\nvar task1 = 'I have 300 dollars in my pocket. Could you sell me that?';\n\nRemove all the digits, whitespace character and punctuations, and print the result in console."
-                    }
-]
+  //subjective tasks
+    $scope.taskAs = [{
+                        id: '1',
+                        name: 'Task 1 (a)',
+                        content: '',
+                        description: "You are given a variable that contains a text. \n\nvar task1 = 'I have 300 dollars in my pocket. Could you sell me that?';\n\nRemove all the digits, whitespace character and punctuations, and print the result in console."
+                      },{
+                        id: '2',
+                        name: 'Task 2 (a)',
+                        content: '',
+                        description: "Consider the following code snippet. for (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button')\n  btn.setAttribute('id',i);\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', function(){ \n      console.log(i); \n  });\n  document.body.appendChild(btn);\n}\n \nExplain what will the code print out when clicking button 4 and why? Can you rewrite it so that it does what you think it should do?\n"
+                      },{
+                        id: '3',
+                        name: 'Task 3(a)',
+                        content: '',
+                        description: 'Given the following javascript code:\n\nfunction countdown (num) {\n    for (var i = 0; i <= num; i += 1) {\n        setTimeout(function () {\n            alert(num - i);\n        }, i * 1000);\n    }\n}\n\ncountdown(5);\nThe desired result is a countdown from 5 to 0 using alert messages. Explain why the code only alerts -1, then fix the code so it works as expected.\n\n'
+                      },{
+                        id: '4',
+                        name: 'Task 4 (a)',
+                        content: '',
+                        description: 'Write Javascript code that converts a date formatted as M/D/YYYY to a format as YYYYMMD string.\n\nFor example, it should convert user entered date "12/31/2014" to "20141231". \n\nfunction formatDate(userDate) {\n  // format from M/D/YYYY to YYYYMMDD\n}\n\nconsole.log(formatDate("12/31/2014"));'
+                      },{
+                        id: '5',
+                        name: 'Task 5 (a)',
+                        content: '',
+                        description: 'Please write a function to sort an array of objects by one of their properties. Each object may have different property and the property could be string or number. \n\nFor example, given the following array, \n \nvar arrayOfPeople = [\n{name:"Rick", age: 30, place: 2},\n{name:"Alan", age: 25, place: 1},\n{name:"Joe", age: 40, place: 4},\n{name:"Dave", age: 35, place:3}\n];\n\nIf sorting by place, this function should print out:\n\n[\n{name:"Alan", age: 25, place: 1},\n{name:"Rick", age: 30, place: 2},\n{name:"Dave", age: 35, place:3},\n{name:"Joe", age: 40, place: 4}\n];'
+                      },{
+                        id: '6',
+                        name: 'Task 6 (a)',
+                        content: '',
+                        description: 'Rewrite the following code using jQuery library\n\n<script>\nfunction change(){\n    \n   var myNewTitle = document.getElementById("myTextField").value;\n   if( myNewTitle.length==0 ){\n       console.log("Write Some real Text please.");\n   return;\n   }\n   \n   var title = document.getElementById("title");\n   title.innerHTML = myNewTitle;\n    \n}\n</script>\n\n\n<h1 id="title">Javascript example no.2</h1>\n<input type="text" id="myTextField"/>\n<input type="submit" id="byBtn" value="Change" onclick="change()"/>\n\n'
+                      },{
+                        id: '7',
+                        name: 'Task 7 (a)',
+                        content: '',
+                        description: 'Giving the following JSON, try to rewrite it to an array format with each element having the pattern of {"firstName": "Akira", "lastName":"Laine", "number":"0543236543"}.\n\nvar contacts = {\n    "firstName": ["Akira", "Harry","Sherlock","Kristian"],\n    "lastName": ["Laine","Potter", "Holmes","Vos"],\n    "number": ["0543236543","0994372684","0487345643","unknown"]\n    };\n\n'
+                      }
+  ]
 
 
 //objective tasks
