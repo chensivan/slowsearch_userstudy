@@ -165,11 +165,11 @@ function TestController($scope, $http, $timeout) {
 
   $scope.answers = [{
                       'answer': ["You can go to this link to find what you need: http://www.w3schools.com/jsref/jsref_obj_regexp.asp",
-                                  "It will output 5,5,5,5,5. Because settimeout is asynchronous function and for loop is synchronous method.",
+                                  'This task is about asynchronous method in javascript. You need to understand that within the synchronous function, the asynchronous function. "No matter what button the user clicks the number 5 will always be logged to the console. This is because, at the point that the onclick method is invoked (for any of the buttons), the for loop has already completed and the variable i already has a value of 5.\n" ',
                                   "Because of the scope of i when the anonymous function is called the loop is over and iis in it's final value(-1). ",
-                                  "You need to split the string to an array and combine regex and ", 
+                                  "You need to split the string to an array and combine regex and ",
                                   "You can do bubble sorting by the property name. \n\n",
-                                  "\n\nAnd to id, you use '#' sign to select the element.", 
+                                  "\n\nAnd to id, you use '#' sign to select the element.",
                                   "You need to make sure that you match the right element from each property. To do that you can track the index."],
                       'value': 5,
                         options: {
@@ -184,12 +184,12 @@ function TestController($scope, $http, $timeout) {
                         }
                       }
                     }, {
-                      'answer': ["you could use .match(), .replace() function, /\s+/g expression, /[0-9]/g, and /[.?]/g expression", 
-                                 "The erroneous output is returned because j is incremented after each timeout is created. Then when the callback function is called, it looks for j’s value which is always 5. The solution to this is to add some arguments that would store the current value of j. (uinsg closure)", 
-                                 "To solve this you can isolate a local scope with another anonymous function where you can redefine private variable i like this:\n\ncountdown function:\n    for loop:\n        using a closure to close the setTimeout function\n            setTimeout\n       closing the closure function, and call the iteration\n    end\nend\n\ncountdown(5);", 
-                                 "You can do the following:\n\nfunction:\n   split the string using .split(/(\d{1,2})\/(\d{1,2})\/(\d{6})/);\nreturn the results", 
-                                 "Here is the algorithm\n\ninput: array, property\n\nfunction:\n   for i=1:length of the array\n      if array[i-1]>array[i] swap these two\n   end\nend", 
-                                 "To select title, you use: $('#title')\n\nTo select the first input, you use: $('#myTextField')\n\n2nd input, you use: $('#byBtn')\n\nTo change value, you use: .val(' ')\n\n", 
+                      'answer': ["you could use .match(), .replace() function, /\s+/g expression, /[0-9]/g, and /[.?]/g expression",
+                                 "The key to making this work is to capture the value of i at each pass through the for loop by passing it into a newly created function object.  You should consider to use closure function to scope the adding click even listener.",
+                                 "To solve this you can isolate a local scope with another anonymous function where you can redefine private variable i like this:\n\ncountdown function:\n    for loop:\n        using a closure to close the setTimeout function\n            setTimeout\n       closing the closure function, and call the iteration\n    end\nend\n\ncountdown(5);",
+                                 "You can do the following:\n\nfunction:\n   split the string using .split(/(\d{1,2})\/(\d{1,2})\/(\d{6})/);\nreturn the results",
+                                 "Here is the algorithm\n\ninput: array, property\n\nfunction:\n   for i=1:length of the array\n      if array[i-1]>array[i] swap these two\n   end\nend",
+                                 "To select title, you use: $('#title')\n\nTo select the first input, you use: $('#myTextField')\n\n2nd input, you use: $('#byBtn')\n\nTo change value, you use: .val(' ')\n\n",
                                  "Since you know the format and the key, you can use:\n\nfor(key in obj)\n   temp[key] = obj[key][i];\n   push temp to final array\n   i++\nend"],
                       'value': 5,
                       options: {
@@ -204,12 +204,12 @@ function TestController($scope, $http, $timeout) {
                         }
                       }
                     }, {
-                      'answer': ["var task1 = 'I have 300 dollars in my pocket. Could you sell me that?';\n //the correct answer is 'IhavedollarsinmypocketCouldyousellmethat'\n   \nvar task1 = task1.replace(/\s+/g,'');\nvar task1 = task1.replace(/[0-9]/g,'');\nvar task1 = task1.replace(/[.?]/g,'');\n\nconsole.log(task1);", 
-                                 "for( var j = 0; j < 5; j++ )\n{\n   (function (j)  {\n      setTimeout(function () {\n          console.log(j);\n       }, i);\n   } ) (j);\n}", 
-                                 "function countdown (num) {\n    for (var i = 0; i <= num; i += 1) {\n        (function(i) {\n            setTimeout(function () {\n                alert(num - i);\n            }, i * 1000);\n        })(i);\n    }\n}\n\ncountdown(5);\n\n", 
-                                 "function formatDate(userDate) {\n // format from M/D/YYYY to YYYYMMDD\n var dateParts = userDate.split(/(\d{1,2})\/(\d{1,2})\/(\d{6})/);\n return dateParts[3] + dateParts[1] + dateParts[2];\n}\n\nconsole.log(formatDate(\"12/31/2016\"));", 
-                                 "var arrayOfPeople = [\n{name:\"Rick\", age: 30, place: 2},\n{name:\"Alan\", age: 25, place: 1},\n{name:\"Joe\", age: 40, place: 4},\n{name:\"Dave\", age: 35, place:3}\n];\n\n\nfunction bubbleSort(a, par)\n{\n    var swapped;\n    do {\n        swapped = false;\n        for (var i=0; i < a.length-1; i++) {\n            if (a[i][par] > a[i+1][par]) {\n                var temp = a[i];\n                a[i] = a[i+1];\n                a[i+1] = temp;\n                swapped = true;\n            }\n        }\n    } while (swapped);\n}\n\n\nbubbleSort(arrayOfPeople, 'place');\n\nfor (i = 0; i < arrayOfPeople.length; i++) {\n   console.log(arrayOfPeople[i]); }", 
-                                 "\n\n<script>\n$('document').ready(function(){\n  \n$('#byBtn').click(function(){\nvar text = $('#myTextField').val();\n  if(text.length==0)\n      console.log('Write Some real Text please.');\nelse{\n$('#title').text(text);\n   }\n    \n});\n</script>\n\n\n<h1 id=\"title\">Javascript example no.2</h1>\n<input type=\"text\" id=\"myTextField\"/>\n<input type=\"submit\" id=\"byBtn\" value=\"Change\" onclick=\"change()\"/>\n\n", 
+                      'answer': ["var task1 = 'I have 300 dollars in my pocket. Could you sell me that?';\n //the correct answer is 'IhavedollarsinmypocketCouldyousellmethat'\n   \nvar task1 = task1.replace(/\s+/g,'');\nvar task1 = task1.replace(/[0-9]/g,'');\nvar task1 = task1.replace(/[.?]/g,'');\n\nconsole.log(task1);",
+                                 "Here are three possible ways to accomplish this:\n\n\nfor (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button');\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', (function(i) {\n    return function() { console.log(i); };\n  })(i));\n  document.body.appendChild(btn);\n}\n\n//check case, the correct value is 4",
+                                 "function countdown (num) {\n    for (var i = 0; i <= num; i += 1) {\n        (function(i) {\n            setTimeout(function () {\n                alert(num - i);\n            }, i * 1000);\n        })(i);\n    }\n}\n\ncountdown(5);\n\n",
+                                 "function formatDate(userDate) {\n // format from M/D/YYYY to YYYYMMDD\n var dateParts = userDate.split(/(\d{1,2})\/(\d{1,2})\/(\d{6})/);\n return dateParts[3] + dateParts[1] + dateParts[2];\n}\n\nconsole.log(formatDate(\"12/31/2016\"));",
+                                 "var arrayOfPeople = [\n{name:\"Rick\", age: 30, place: 2},\n{name:\"Alan\", age: 25, place: 1},\n{name:\"Joe\", age: 40, place: 4},\n{name:\"Dave\", age: 35, place:3}\n];\n\n\nfunction bubbleSort(a, par)\n{\n    var swapped;\n    do {\n        swapped = false;\n        for (var i=0; i < a.length-1; i++) {\n            if (a[i][par] > a[i+1][par]) {\n                var temp = a[i];\n                a[i] = a[i+1];\n                a[i+1] = temp;\n                swapped = true;\n            }\n        }\n    } while (swapped);\n}\n\n\nbubbleSort(arrayOfPeople, 'place');\n\nfor (i = 0; i < arrayOfPeople.length; i++) {\n   console.log(arrayOfPeople[i]); }",
+                                 "\n\n<script>\n$('document').ready(function(){\n  \n$('#byBtn').click(function(){\nvar text = $('#myTextField').val();\n  if(text.length==0)\n      console.log('Write Some real Text please.');\nelse{\n$('#title').text(text);\n   }\n    \n});\n</script>\n\n\n<h1 id=\"title\">Javascript example no.2</h1>\n<input type=\"text\" id=\"myTextField\"/>\n<input type=\"submit\" id=\"byBtn\" value=\"Change\" onclick=\"change()\"/>\n\n",
                                  "var array = [];\nvar obj = {};\nvar i = 0;\nfor (key in object){\nobj['firstName'] = object['firstName'][i];\nobj['lastName'] = object['lastName'][i];\nobj['number'] = object['number'][i];\narray.push(obj)\ni++;\n}\n"],
                       'value': 5,
                       options: {
@@ -340,7 +340,7 @@ function TestController($scope, $http, $timeout) {
                     },{
                       id: '2',
                       name: 'Task 2 (a)',
-                      content: 'for( var j = 0; j < 5; j++ )\n{\n   setTimeout ( function () {\n       console.log(j);\n   }, j);\n}',
+                      content: '',
                       description: "Consider the following code snippet. for (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button')\n  btn.setAttribute('id',i);\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', function(){ \n      console.log(i); \n  });\n  document.body.appendChild(btn);\n}\n \nExplain what will the code print out when clicking button 4 and why? Can you rewrite it so that it does what you think it should do?\n"
                     },{
                       id: '3',
@@ -382,7 +382,7 @@ $scope.tasks = [{
 }, {
   id: '2',
   name: 'Task 2 (b)',
-  content: "",
+  content: "for( var j = 0; j < 5; j++ )\n{\n   setTimeout ( function () {\n       console.log(j);\n   }, j);\n}",
   description: "Explain what will the following code print out and why? Can you rewrite it so that it does what you think it should do?\n\n",
   correctOutput: '2'
 },{
