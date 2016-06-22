@@ -259,7 +259,10 @@ function TestController($scope, $http, $timeout) {
     $scope.submit = function() {
 
       // debugger;
-      $http.post('http://slow-server-test.dataprocessingclub.org/c/1/task?uid='+id+'&no=1', 'true');
+      $http.get('http://slow-server-test.dataprocessingclub.org/c/1/task?uid='+id+'&no=1', 'true')
+      .success(function(data, status, headers, config){
+        console.log(data);
+      });;
 
 
       var taskSubAnswer = [$scope.answers[0].value, $scope.answers[1].value, $scope.answers[2].value];
@@ -331,7 +334,10 @@ function TestController($scope, $http, $timeout) {
     //$scope.showTask = !$scope.showTask;
 
     // debugger;
-    $http.post('http://slow-server-test.dataprocessingclub.org/c/1/task?uid='+id+'&no='+$scope.idCounter+'', 'true');
+    $http.get('http://slow-server-test.dataprocessingclub.org/c/1/task?uid='+id+'&no='+$scope.idCounter+'', 'true')
+    .success(function(data, status, headers, config){
+      console.log(data);
+    });
 
     $scope.disableSubmit = true;
     $scope.msg="";
@@ -424,7 +430,7 @@ $scope.tasks = [{
   name: 'Task 7 (b)',
   content: 'var contacts = [\n    {\n        "firstName": "Akira",\n        "lastName": "Laine",\n        "number": 0543236543,\n    },\n    {\n        "firstName": "Harry",\n        "lastName": "Potter",\n        "number": 0994372684,\n    },\n    {\n        "firstName": "Sherlock",\n        "lastName": "Holmes",\n        "number": 0487345643,\n    },\n    {\n        "firstName": "Kristian",\n        "lastName": "Vos",\n        "number": unknown,\n    }\n];\n\nfunction lookUpNumberByLastName(lastName){\n  // Only change code below this line\n  for (var i = 0; i < contacts.length; i++) {\n    if (contacts[i].lastName === lastName){\n        return contacts[i].number;\n     }\n  }\n}\n\nconsole.log (lookUpNumberByLastName("Laine"));\n\n//test case\n// lookUpNumberByProperty("Potter", "lastName")\n//  returns : 0994372684\n',
   description: "The following code allows you to search the phone number for a given last name in the database. Change the code so that it will look up a phone number by any property (not just last name) that is passed and refactor the example.",
-  correctOutput: 0543236543
+  correctOutput: "0543236543"
 }
 
 ];
