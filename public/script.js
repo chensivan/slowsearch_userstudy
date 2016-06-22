@@ -135,12 +135,24 @@ function TestController($scope, $http, $timeout) {
   $scope.run = function(a, b) {
 //    alert(b)
     //debugger;
+    if($scope.idCounter == 2){
+      document.getElementById("1").remove();
+      document.getElementById("2").remove();
+      document.getElementById("3").remove();
+      document.getElementById("4").remove();
+      document.getElementById("0").remove();
+    }
     eval(a)
     console.log = function(message) {
       $scope.consoleOutput = message;
 
     };
-      console.log($scope.consoleOutput);
+    console.log($scope.consoleOutput);
+
+   //remove the buttons that task 2 created
+
+
+
 
     if ($scope.consoleOutput == b) {
       $scope.disableNext = false;
@@ -313,8 +325,8 @@ function TestController($scope, $http, $timeout) {
                     },{
                       id: '2',
                       name: 'Task 2 (a)',
-                      content: '',
-                      description: 'Explain what will the following code print out and why? Can you rewrite it so that it does what you think it should do?\n\nfor( var j = 0; j < 5; j++ )\n{\n   setTimeout ( function () {\n       console.log(j);\n   }, j);\n}'
+                      content: 'for( var j = 0; j < 5; j++ )\n{\n   setTimeout ( function () {\n       console.log(j);\n   }, j);\n}',
+                      description: "Consider the following code snippet. for (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button')\n  btn.setAttribute('id',i);\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', function(){ \n      console.log(i); \n  });\n  document.body.appendChild(btn);\n}\n \nExplain what will the code print out when clicking button 4 and why? Can you rewrite it so that it does what you think it should do?\n"
                     },{
                       id: '3',
                       name: 'Task 3(a)',
@@ -355,8 +367,8 @@ $scope.tasks = [{
 }, {
   id: '2',
   name: 'Task 2 (b)',
-  content: "for (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button');\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', function(){ \n      console.log(i); \n  });\n  document.body.appendChild(btn);\n}",
-  description: "Consider the following code snippet. \nExplain what will the code print out when clicking button 4 and why? Can you rewrite it so that it does what you think it should do?\n",
+  content: "",
+  description: "Explain what will the following code print out and why? Can you rewrite it so that it does what you think it should do?\n\n",
   correctOutput: '2'
 },{
   id: '3',
