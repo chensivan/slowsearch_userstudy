@@ -60,8 +60,9 @@ Email: irbhsbs@umich.edu
 
 
                 <br>
+                <input type="checkbox" style="zoom: 2" ng-click="isToggled()">
                 <label>By ticking this box, you are agreeing to be in the study. Be sure that questions you have about the study have been answered and that you understand what you are being asked to do. You may contact the researcher if you think of a question later. You are free to leave the experiment at any time, and refusing to be in the experiment or stopping participation will involve no penalty or loss of benefits to which you are otherwise entitled.
-                    <input type="checkbox" ng-click="isToggled()">
+
                 </label>
                 <br>
                 <button class="btn btn-xs btn-primary" ng-disabled="disableSubmit" ng-click="submitConsent()">Continue</button>
@@ -71,13 +72,13 @@ Email: irbhsbs@umich.edu
             <!-- ********* Quiz ********** -->
 
             <div id="knowledgeEva" ng-show="showQuiz">
-                Please make sure you <b>select answer in each question</b> , as lack of answer is not checked and counts as failure. The final score is simply a number of wrong answers, less is better. Quiz requires Javascript to be enabled.
+                Please make sure you <b>select answer in each question</b>, as lack of answer is not checked and counts as failure. Quiz requires Javascript to be enabled. This is not to test your programming skill, but to let us know your background. Please do not use any tools while solving the quiz. You will have the same tasks no matter how you did in this quiz.
 
                 <div ng-repeat="(key,task) in quiz">
                     <h3>Task {{key+1}}</h3>
                     <h3>
-            <pre>{{task.question}}</pre>
-            </h3>
+                      <pre>{{task.question}}</pre>
+                    </h3>
                     <br />
                     <div ng-repeat="option in task.options">
                         <label>
@@ -99,18 +100,23 @@ Email: irbhsbs@umich.edu
 
                 <!-- ********* Subjective Tasks ********** -->
 
-                <div id="task(A)" ng-show="showTask">
+                <div id="task(A)" ng-show="!showSubjectTasks">
 
                     <div ng-repeat="taskA in taskAs" ng-show="taskA.id == idCounter">
                         <h2>{{taskA.name}}</h2>
                         <pre>{{taskA.description}}</pre>
-                        <p>Please take a look at the following three versions of answers. Drag the radio button to tell us how long are you willing to wait for that version of answer.</p>
+                        <p>Please take a look at the following 3 versions of answers. Drag the radio button to tell us: If you are solving this task, how long are you willing to wait for that version of answer.</p>
                     </div>
 
-                    <div id="answer" ng-repeat="answer in answers">
+                    <div id="answer" ng-repeat="answer in answers track by $index">
                       <p>
                         <div ng-repeat="(level, levels_content) in answer.answer" ng-show="level == (idCounter-1)">
-                            <pre>{{levels_content}}</pre>
+                            <h4 ng-show="$parent.$index==0">Basic Level</h4>
+                            <h4 ng-show="$parent.$index==1">Psedocode Level</h4>
+                            <h4 ng-show="$parent.$index==2">Copy&Paste Answer</h4>
+                            <p ng-hide="$parent.$index==2" style="border: 1px solid #000000;word-wrap: break-word;">{{levels_content}}</p>
+                            <pre ng-show="$parent.$index==2">{{levels_content}}</pre>
+
                         </div>
                         <div>
                             <rzslider rz-slider-model="answer.value" rz-slider-options="answer.options" ng-click="isClicked()"></rzslider>
@@ -119,7 +125,7 @@ Email: irbhsbs@umich.edu
                     </div>
                     <br>
 
-                    <div style="display: inline-block;">
+                    <div>
                       <button ng-click="submit()" class="btn btn-xs btn-success" ng-disabled="disableSubmit">Submit</button>
                     </div>
 
@@ -127,28 +133,48 @@ Email: irbhsbs@umich.edu
 
                 <!-- ********* Objective Tasks ********** -->
 
-                <div id="task(B)" ng-show="!showTask">
+                <!--  Task Instruction-->
+                <div ng-show="showinstruction" ng-include="'taskInstruction.html'">
+                </div>
+
+                <div id="task(B)" ng-show="showObjectiveTask">
                     <div ng-repeat="task in tasks" ng-if="task.id == idCounter">
+                      <!-- left column -->
+                      <div id="col1">
                         <h2>{{task.name}}</h2>
                         <br>
-                        <pre>{{task.description}}</pre>
+                        <p style="border: 1px solid #000000;word-wrap: break-word;">{{task.description}}</p>
                         <br>
 
                         <section id="editors">
                             <div class="ace_editor" id='task1' ui-ace="{onLoad:aceLoaded}" ng-model="task.content"></div>
-                            <button ng-click="run(task.content,task.correctOutput)" class="btn btn-xs btn-primary" type="button"> run </button>
+                            <button ng-click="run(task.content,task.correctOutput)" class="btn btn-xs btn-primary" type="button" uib-tooltip="Sometimes you have to click twice to check your answers. All tasks should end up with a console output."> run </button>
                             <div id="output">
-                                <h3>Your console.log is displayed below.</h3>
+                                <h3>Your console.log is displayed below.</h3>(you may have to click twice)
+
                                 <br> {{consoleOutput}}
                             </div>
                             <br> {{msg}}
                         </section>
+                      </div>
+
+                      <!-- right column -->
+
+                      <div id="col2">
+                        <button ng-show='!slowProgrammingButton' class="btn btn-xs btn-primary" style="float: right" ng-click="slowprogramming()" uib-tooltip="Click this button to see hints or answers. But you need to wait a few minutes.">{{buttonName}}</button>
+
+                        </br></br>
+                        <p ng-show="buttonName=='Psedocode Level'" style="border: 1px solid #000000;word-wrap: break-word;">{{task.basic}}</p>
+                        <p ng-show="buttonName=='Copy & Paste Level'" style="border: 1px solid #000000;word-wrap: break-word;">{{task.psedocode}}</p>
+                        <pre ng-show="slowProgrammingButton==true">{{task.correct}}</pre>
+
+                      </div>
                     </div>
 
+                    </br></br>
                     <!--   add tooltip-->
                     <!-- <div style="display: inline-block;" uib-tooltip="You can only proceed after getting the correct output!"> -->
-                    <div style="display: inline-block;">
-
+                    <div style="position: fixed; right: 100px; bottom: 30px;">
                       <button ng-click="nextTask()" class="btn btn-xs btn-primary" type="button" ng-disabled="disableNext"> Next </button>
                     </div>
 

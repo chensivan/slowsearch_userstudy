@@ -21,11 +21,24 @@ body {
 
 .ace_editor  {
   height : 300px;
-  max-width: 800px;
 }
 
+#task(B){
+  margin-top: -60px;
+}
 
+#col1 {
+    display: inline-block;
+    width:47%;
+    float: left;
+}
+
+#col2 {
+    display: inline-block;
+    width:47%;
+    float: right;
+}
 
 [disabled] {
     pointer-events: none;
-}   
+}
