@@ -24,20 +24,22 @@
             <div ng-show="showConsent">
 
                 <h2>How long are you willing to wait for better answers to a programming?</h2><br>
-                <p><b>Setup: </b>You will need to use Chrome to participate in this study. You will also need to install an extension on your Chrome for the purpose of enabling <i>slow programming</i> function. </p>
+                <!-- <p><b>Setup: </b>You will need to use Chrome to participate in this study. You will also need to install an extension on your Chrome for the purpose of enabling <i>slow programming</i> function. </p> -->
+
+                <b>What you need to do: </b>
                 <p>There are 3 parts in this study: 10 quizzes (part 1), 7 subjective programming tasks (part 2), 7 objective programming tasks (part 3).</p>
 
                 <b>Part 1 (7 min): </b>
                 <p>There are 10 Javascript tasks once you go to next page, and all of them are multiple choices. Please do not use other resources (e.g. your browser console) to help you, and your results will not affect later tasks and your incentives. </p>
 
                 <b>Part 2 (13 min): </b>
-                <p>There are 7 JavaScript tasks, and we will provide you three answers to each task. These three answers are all correct but in different level of quality (increasing order: basic level -> medium level -> copy and paste level). You will need to drag each given radio buttons to tell us how long you are willing to wait for each level of answers.</p>
+                <p>There are 7 JavaScript tasks, and we will provide you three answers to each task. These three answers are all correct but in different level of quality (increasing order: basic level -> medium level -> copy and paste level). You will need to drag each given radio button to tell us how long you are willing to wait for each level of answer.</p>
 
                 <b>Part 3 (40 min):</b>
                 <p>There are 7 JavaScript tasks, and you need to write code in the given editor to finish the task. You can check whether you have the right answer by clicking the given ‘Run’ button below the editor. System will show you whether your answer is right or not. You need to get the right answer to activate the ‘Next’ button to move on to your next task. </p>
                 <p>In part 3, you are allowed to use Google to retrieval information, and you can also use slow programming function to wait for better answers. Here is the link to the instruction of how to use the plugin: [link]</p>
 
-                <b>Why we are doing this research: </b>
+                <b>Why are we doing this research: </b>
                 <p>We are trying to understand for different types of programming tasks, how do programmers tradeoff between speed and accuracy. </p>
 
                 <b>Benefits of Participation: </b>
@@ -96,6 +98,9 @@ Email: irbhsbs@umich.edu
 
             <!-- ********* Tasks ********** -->
 
+            <div ng-show='subjectiveTaskInstruction' ng-include="'subjectiveTaskInstruction.html'">
+            </div>
+
             <div id="wrapper" ng-if="showWrapper">
 
                 <!-- ********* Subjective Tasks ********** -->
@@ -150,7 +155,7 @@ Email: irbhsbs@umich.edu
                             <div class="ace_editor" id='task1' ui-ace="{onLoad:aceLoaded}" ng-model="task.content"></div>
                             <button ng-click="run(task.content,task.correctOutput)" class="btn btn-xs btn-primary" type="button" uib-tooltip="Sometimes you have to click twice to check your answers. All tasks should end up with a console output."> run </button>
                             <div id="output">
-                                <h3>Your console.log is displayed below.</h3>(you may have to click twice)
+                                <h3>Your console.log is displayed below.</h3>
 
                                 <br> {{consoleOutput}}
                             </div>

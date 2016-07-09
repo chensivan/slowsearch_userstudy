@@ -244,51 +244,58 @@ function TestController($scope, $http, $timeout) {
     participant_data.quiz.quiz_answer = $scope.quizAnswer;
     participant_data.quiz['timestampe'] = timestampe.getTime();
     $scope.showQuiz = !$scope.showQuiz;
-    $scope.showWrapper = !$scope.showWrapper;
+    $scope.subjectiveTaskInstruction = !$scope.subjectiveTaskInstruction;
     $scope.disableSubmit = true;
   }
 
+  $scope.gotoSubTask = function(){
+    var timestampe = new Date();
+    participant_data.subjectiveInstructionButton = timestampe.getTime();
+    $scope.subjectiveTaskInstruction = !$scope.subjectiveTaskInstruction;
+    $scope.showWrapper = !$scope.showWrapper;
 
-    var taskACurrentId = 1;
+  }
 
-    $scope.submit = function() {
+  var taskACurrentId = 1;
 
-      // debugger;
-      // $http.get('http://slow-server-test.dataprocessingclub.org/c/1/task?uid='+id+'&no=1', 'true')
-      // .success(function(data, status, headers, config){
-      //   console.log(data);
-      // });;
+  $scope.submit = function() {
 
-
-      var taskSubAnswer = [$scope.answers[0].value, $scope.answers[1].value, $scope.answers[2].value];
-
-      var timestampe = new Date();
-
-      participant_data.subjectiveTask[$scope.idCounter] = [];
-      participant_data.subjectiveTask[$scope.idCounter] = taskSubAnswer;
-      participant_data.subjectiveTask[$scope.idCounter].push(timestampe.getTime());
-
-      //
-      // $http.post('/slowsearch', participant_data).success(function(response) {
-      //   console.log(response);
-      // });
-
-      // $http.put('/slowsearch/'+$scope.taskSubAnswer._id, $scope.taskSubAnswer.answers).success(function(response) {
-      //   console.log(response);
-      // });
-      if(taskACurrentId==$scope.taskAs.length){
-
-          $scope.showSubjectTasks = !$scope.showSubjectTasks;
-          $scope.showinstruction = !$scope.showinstruction;
-          $scope.idCounter =1;
-      }
-      else{
-          taskACurrentId++;
-          $scope.idCounter++;
-      }
+    // debugger;
+    // $http.get('http://slow-server-test.dataprocessingclub.org/c/1/task?uid='+id+'&no=1', 'true')
+    // .success(function(data, status, headers, config){
+    //   console.log(data);
+    // });;
 
 
-      $scope.disableSubmit = !$scope.disableSubmit;
+    var taskSubAnswer = [$scope.answers[0].value, $scope.answers[1].value, $scope.answers[2].value];
+
+    var timestampe = new Date();
+
+    participant_data.subjectiveTask[$scope.idCounter] = [];
+    participant_data.subjectiveTask[$scope.idCounter] = taskSubAnswer;
+    participant_data.subjectiveTask[$scope.idCounter].push(timestampe.getTime());
+
+    //
+    // $http.post('/slowsearch', participant_data).success(function(response) {
+    //   console.log(response);
+    // });
+
+    // $http.put('/slowsearch/'+$scope.taskSubAnswer._id, $scope.taskSubAnswer.answers).success(function(response) {
+    //   console.log(response);
+    // });
+    if(taskACurrentId==$scope.taskAs.length){
+
+        $scope.showSubjectTasks = !$scope.showSubjectTasks;
+        $scope.showinstruction = !$scope.showinstruction;
+        $scope.idCounter =1;
+    }
+    else{
+        taskACurrentId++;
+        $scope.idCounter++;
+    }
+
+
+    $scope.disableSubmit = !$scope.disableSubmit;
 
 
   };
@@ -345,7 +352,7 @@ function TestController($scope, $http, $timeout) {
 
   $scope.gotoActualTask = function(){
     var timestampe = new Date();
-    participant_data.instructionButton = timestampe.getTime();
+    participant_data.objectiveInstructionButton = timestampe.getTime();
     $scope.showObjectiveTask = !$scope.showObjectiveTask;
     $scope.showinstruction = !$scope.showinstruction;
   }
@@ -420,7 +427,7 @@ $scope.tasks = [{
   content: "var task1 = 'I have $300 in my left pocket and $200 in my right pocket that can buy 2 tickets.'; \n//You probably need to press run button twice in your 1st time.",
   description: "You are given a variable that contains a text. \n\nvar task1 = 'I have $300 in my left pocket and $200 in my right pocket that can buy 2 tickets.'\n\nWrite a function to replace dollar sign '$' in front of the numbers with the word 'dollars' after them. (e.g. $300 -> 300 dollars) Your answer should like this 'I have 300 dollars in my left pocket and 200 dollars in my right pocket that can buy 2 tickets.'",
   correctOutput: 'I have 300 dollars in my left pocket and 200 dollars in my right pocket that can buy 2 tickets.',
-  basic: 'You can break the string down to arrays and then doing array manipulation.',
+  basic: 'You can convert the string down to an array and manipulate the array.',
   psedocode:"You can use .split(' '), then find the array element that starts with '$' using charAt('$') and remove the dollar sign, then slice the word 'dollar' in after that element using .slice(index,0,'dollars'). Finally join the array back to string with .join(' ') and console log it out.",
   correct: "var task1 = 'I have $300 in my left pocket and $200 in my right pocket that can buy 2 tickets.'\n\nvar ans = task1.split(' ');\nfor(var i = 0; i < ans.length; i++){\n   if(ans[i].charAt(0)=='$'){\n       ans[i] = ans[i].substring(1,ans[i].length)\n       ans.splice(i+1,0,'dollars')\n   }\n}\n\nconsole.log(ans.join(' '))"
 }, {
