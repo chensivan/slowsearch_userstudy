@@ -62,42 +62,42 @@ function TestController($scope, $http, $timeout) {
 
   $scope.quiz = [
     {
-      "question": " <script type=\"text/javascript\">\n x=4+\"4\";\ndocument.write(x);\n</script>",
+      "question": "<script type=\"text/javascript\">\n x=4+\"4\";\ndocument.write(x);\n</script>",
       "options": ["44", "8", "4", "Error output"]
     },
      {
-      "question": " <script type=\"text/javascript\">\nvar s = \"9123456 or 80000?\";\nvar pattern = /\d{4}/;\nvar output = s.match(pattern);\ndocument.write(output);\n</script>",
+      "question": "<script type=\"text/javascript\">\nvar s = \"9123456 or 80000?\";\nvar pattern = /\d{4}/;\nvar output = s.match(pattern);\ndocument.write(output);\n</script>",
       "options": ["9123", "91234", "80000", "None of the above"]
     },
      {
-      "question": " Consider the following code snippet\nfunction printprops(o) \n{\n    for(var p in o)\n      console.log(p + \": \" + o[p] + \"\n\");\n}\n What will the above code snippet result ?",
+      "question": "Consider the following code snippet:\n\nfunction printprops(o) \n{\n    for(var p in o)\n      console.log(p + \": \" + o[p] + \" \");\n}\n\n What will the above code snippet result ?",
       "options": ["Prints the contents of each property of o", "Returns undefined", "Both a and b", "None of the mentioned"]
     },
      {
-      "question": " What is the code to print hello one second from now?",
+      "question": "What is the code to print hello one second from now?",
       "options": ["setTimeout(function() { console.log(\"Hello World\"); }, 1000);", "setTimeout(function() { 1000, console.log(\"Hello World\"); });", "setTimeout(function(1000) { console.log(\"Hello World\"); });", "setTimeout(function() { console.log(\"Hello World\"); });"]
     },
      {
-      "question": " Which of the following is an equivalent replacement of $(document).ready(f)?",
+      "question": "Which of the following is an equivalent replacement of $(document).ready(f)?",
       "options": ["jQuery(f)", "$(f)", "#(f)", "None of the mentioned"]
     },
      {
-      "question": " Which of the following is used for parsing JSON text?",
+      "question": "Which of the following is used for parsing JSON text?",
       "options": ["jQuery.each()", "jQuery.parseJSON()", "jQuery.noConflict()", "None of the mentioned"]
     },
      {
-      "question": " Consider the following code snippet :\n var book = {\n\"main title\": \"JavaScript\",\n \'sub-title': \"The Definitive Guide\",\n\"for\": \"all audiences\",\n author: { \nfirstname: \"David\", \nsurname: \"Flanagan\" }};\nIn the above snippet, firstname and surname are",
+      "question": "Consider the following code snippet:\n\nvar book = {\n\n\"main title\": \"JavaScript\",\n\"sub-title\": \"The Definitive Guide\",\n\"for\": \"all audiences\",\n\"author\": { \n   firstname: \"David\", \n    surname: \"Flanagan\" \n}};\n\nIn the above snippet, firstname and surname are",
       "options": ["properties", " property values", "property names", "objects"]
     },
      {
-      "question": " Consider the following code snippet\n const pi=3.14;\nvar pi=4;\nconsole.log(pi);\nWhat will be the output for the above code snippet?",
+      "question": "Consider the following code snippet:\n\nconst pi=3.14;\nvar pi=4;\nconsole.log(pi);\n\nWhat will be the output for the above code snippet?",
       "options": ["This will flash an error", "Prints 4", "Prints 3.14", "Ambiguity"]
     },
     {
-      "question": " (function(){  \n  return typeof arguments; \n })();",
+      "question": "What will the following code return\n\n(function(){  \n  return typeof arguments; \n })();",
       "options": ["\"object\"", "\"array\"", "\"arguments\"", "\"undefined\""]
     }, {
-      "question": " var f = function g(){ return 23; };   \n typeof g();",
+      "question": "What is the output of the following code:\n\nvar f = function g(){ return 23; };   \ntypeof g();",
       "options": ["\"number\"", "\"undefined\"", "\"function\"", "Error"]
     }
 
@@ -169,7 +169,7 @@ function TestController($scope, $http, $timeout) {
                       'answer': ["You can go to this link to find what you need: \n\nhttp://www.w3schools.com/jsref/jsref_obj_regexp.asp",
                                   'This task is about asynchronous method in javascript. You need to understand that within the synchronous function, the asynchronous function. "No matter what button the user clicks the number 5 will always be logged to the console. This is because, at the point that the onclick method is invoked (for any of the buttons), the for loop has already completed and the variable i already has a value of 5.\n" ',
                                   "Because of the scope of i when the anonymous function is called the loop is over and iis in it's final value(-1). ",
-                                  "You need to split the string to an array and combine regex and ",
+                                  "First, you need to split the string to an array. Then you can do regex manipulation on the array",
                                   "You can do bubble sorting by the property name. \n\n",
                                   "To select id, you use '#' sign to select the element.",
                                   "You need to make sure that you match the right element from each property. To do that you can track the index."],
@@ -375,7 +375,7 @@ function TestController($scope, $http, $timeout) {
       $timeout(function() {
         $scope.levelButton = false;
         $scope.buttonName = 'Psedocode Level';
-      }, 1000);
+      }, 30000);
 
     }else if($scope.buttonName == 'Psedocode Level'){
       var timestampe = new Date();
@@ -385,10 +385,9 @@ function TestController($scope, $http, $timeout) {
       $timeout(function() {
         $scope.levelButton = false;
         $scope.buttonName = 'Copy & Paste Level';
-      }, 1000);
+      }, 30000);
 
     }else {
-      $scope.buttonName = 'Basic Level';
       var timestampe = new Date();
       participant_data.objectiveTask[$scope.idCounter].correct = timestampe.getTime();
       $scope.levelButton = true;
@@ -396,7 +395,7 @@ function TestController($scope, $http, $timeout) {
       $timeout(function() {
         $scope.levelButton = false;
         $scope.slowProgrammingButton = !$scope.slowProgrammingButton;
-      }, 1000);
+      }, 30000);
     }
 
   }
@@ -437,7 +436,7 @@ function TestController($scope, $http, $timeout) {
                         id: '7',
                         name: 'Task 7 (a)',
                         content: '',
-                        description: 'Giving the following JSON, try to rewrite it to an array format with each element having the pattern of {"firstName": "Akira", "lastName":"Laine", "number":"0543236543"}.\n\nvar contacts = {\n    "firstName": ["Akira", "Harry","Sherlock","Kristian"],\n    "lastName": ["Laine","Potter", "Holmes","Vos"],\n    "number": ["0543236543","0994372684","0487345643","unknown"]\n    };\n\n'
+                        description: 'Giving the following JSON, try to rewrite it to an array format with each element having the pattern of {"firstName": "Akira", "lastName":"Laine", "number":"0543236543"}.\n\nvar contacts = {\n    "firstName": ["Akira", "Harry","Sherlock","Kristian"],\n    "lastName": ["Laine","Potter", "Holmes","Vos"],\n    "number": ["0543236543","0994372684","0487345643","0123321122"]\n    };\n\n'
                       }
   ]
 
