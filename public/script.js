@@ -375,7 +375,7 @@ function TestController($scope, $http, $timeout) {
       $timeout(function() {
         $scope.levelButton = false;
         $scope.buttonName = 'Psedocode Level';
-      }, 30000);
+      }, 1000);
 
     }else if($scope.buttonName == 'Psedocode Level'){
       var timestampe = new Date();
@@ -385,7 +385,7 @@ function TestController($scope, $http, $timeout) {
       $timeout(function() {
         $scope.levelButton = false;
         $scope.buttonName = 'Copy & Paste Level';
-      }, 30000);
+      }, 1000);
 
     }else {
       $scope.buttonName = 'Basic Level';
@@ -396,7 +396,7 @@ function TestController($scope, $http, $timeout) {
       $timeout(function() {
         $scope.levelButton = false;
         $scope.slowProgrammingButton = !$scope.slowProgrammingButton;
-      }, 30000);
+      }, 1000);
     }
 
   }
