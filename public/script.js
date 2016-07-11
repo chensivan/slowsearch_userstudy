@@ -9,6 +9,7 @@ var participant_data = {
                           objectiveTask: {}
                         };
 
+
 myApp.controller('TestController', ['$scope','$http', TestController]);
 
 
@@ -25,7 +26,7 @@ function TestController($scope, $http, $timeout) {
   $scope.counter = 0;
   $scope.buttonName = "Basic Level";
 
-    $scope.buttonHovered = false;
+  $scope.buttonHovered = false;
 
   //assessment
   $scope.color = {
@@ -36,10 +37,16 @@ function TestController($scope, $http, $timeout) {
     "value": "green"
   };
 
+  window.onbeforeunload = function(event) {
+    $http.post('/slowsearch', participant_data).success(function(response) {
+      console.log(response);
+    });
+    event.returnValue = "Do you really want to leave?";
+  };
 
-    $scope.disabled = function() {
-  if($scope.addInviteesDisabled) { return false;}
-}
+  $scope.disabled = function() {
+    if($scope.addInviteesDisabled) { return false;}
+  }
 
   $scope.isClicked = function() {
     $scope.disableSubmit = false;
@@ -220,9 +227,6 @@ function TestController($scope, $http, $timeout) {
                       }
                     }];
 
-
-  //subjective answers
-
   $scope.isClicked = function() {
     $scope.disableSubmit = false;
   }
@@ -327,8 +331,10 @@ function TestController($scope, $http, $timeout) {
 
 
     if($scope.idCounter==7){//if all tasks are complete
+      $scope.confirmation = participant_data._id;
       $scope.showWrapper = !$scope.showWrapper;
       $scope.finalpage = !$scope.finalpage;
+      window.onbeforeunload = function () {};
       $http.post('/slowsearch', participant_data).success(function(response) {
         console.log(response);
       });
