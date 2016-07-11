@@ -10,7 +10,7 @@ var participant_data = {
                         };
 
 
-myApp.controller('TestController', ['$scope','$http', TestController]);
+myApp.controller('TestController', ['$scope','$http', '$timeout', TestController]);
 
 
 
@@ -367,20 +367,36 @@ function TestController($scope, $http, $timeout) {
     $scope.level1 = !$scope.level1;
 
     if($scope.buttonName == 'Basic Level'){
-      $scope.buttonName = 'Psedocode Level';
-      participant_data.objectiveTask[$scope.idCounter] = {};
       var timestampe = new Date();
+      participant_data.objectiveTask[$scope.idCounter] = {};
       participant_data.objectiveTask[$scope.idCounter].basic = timestampe.getTime();
+      $scope.levelButton = true;
+
+      $timeout(function() {
+        $scope.levelButton = false;
+        $scope.buttonName = 'Psedocode Level';
+      }, 30000);
 
     }else if($scope.buttonName == 'Psedocode Level'){
-      $scope.buttonName = 'Copy & Paste Level';
       var timestampe = new Date();
       participant_data.objectiveTask[$scope.idCounter].psedocode = timestampe.getTime();
+      $scope.levelButton = true;
+
+      $timeout(function() {
+        $scope.levelButton = false;
+        $scope.buttonName = 'Copy & Paste Level';
+      }, 30000);
+
     }else {
       $scope.buttonName = 'Basic Level';
       var timestampe = new Date();
       participant_data.objectiveTask[$scope.idCounter].correct = timestampe.getTime();
-      $scope.slowProgrammingButton = !$scope.slowProgrammingButton;
+      $scope.levelButton = true;
+
+      $timeout(function() {
+        $scope.levelButton = false;
+        $scope.slowProgrammingButton = !$scope.slowProgrammingButton;
+      }, 30000);
     }
 
   }
