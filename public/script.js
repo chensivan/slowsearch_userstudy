@@ -6,7 +6,15 @@ var participant_data = {
                             quiz_answer: []
                           },
                           subjectiveTask: {},
-                          objectiveTask: {}
+                          objectiveTask: {
+                            "1":{},
+                            "2":{},
+                            "3":{},
+                            "4":{},
+                            "5":{},
+                            "6":{},
+                            "7":{}
+                          }
                         };
 
 
@@ -74,7 +82,7 @@ function TestController($scope, $http, $timeout) {
       "options": ["Prints the contents of each property of o", "Returns undefined", "Both a and b", "None of the mentioned"]
     },
      {
-      "question": "What is the code to print hello one second from now?",
+      "question": "What is the code to print \'Hello World\' one second from now?",
       "options": ["setTimeout(function() { console.log(\"Hello World\"); }, 1000);", "setTimeout(function() { 1000, console.log(\"Hello World\"); });", "setTimeout(function(1000) { console.log(\"Hello World\"); });", "setTimeout(function() { console.log(\"Hello World\"); });"]
     },
      {
@@ -207,7 +215,7 @@ function TestController($scope, $http, $timeout) {
                       }
                     }, {
                       'answer': ["var task1 = 'I have 300 dollars in my pocket. Could you sell me that?';\n //the correct answer is 'IhavedollarsinmypocketCouldyousellmethat'\n   \nvar task1 = task1.replace(/\s+/g,'');\nvar task1 = task1.replace(/[0-9]/g,'');\nvar task1 = task1.replace(/[.?]/g,'');\n\nconsole.log(task1);",
-                                 "Here are three possible ways to accomplish this:\n\n\nfor (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button');\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', (function(i) {\n    return function() { console.log(i); };\n  })(i));\n  document.body.appendChild(btn);\n}\n\n//check case, the correct value is 4",
+                                 "Here is a way to accomplish this:\n\nfor (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button');\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', (function(i) {\n    return function() { console.log(i); };\n  })(i));\n  document.body.appendChild(btn);\n}\n\n//check case, the correct value is 4",
                                  "function countdown (num) {\n    for (var i = 0; i <= num; i += 1) {\n        (function(i) {\n            setTimeout(function () {\n                alert(num - i);\n            }, i * 1000);\n        })(i);\n    }\n}\n\ncountdown(5);\n\n",
                                  "function formatDate(userDate) {\n // format from M/D/YYYY to YYYYMMDD\n var dateParts = userDate.split(/(\d{1,2})\/(\d{1,2})\/(\d{6})/);\n return dateParts[3] + dateParts[1] + dateParts[2];\n}\n\nconsole.log(formatDate(\"12/31/2016\"));",
                                  "var arrayOfPeople = [\n{name:\"Rick\", age: 30, place: 2},\n{name:\"Alan\", age: 25, place: 1},\n{name:\"Joe\", age: 40, place: 4},\n{name:\"Dave\", age: 35, place:3}\n];\n\n\nfunction bubbleSort(a, par)\n{\n    var swapped;\n    do {\n        swapped = false;\n        for (var i=0; i < a.length-1; i++) {\n            if (a[i][par] > a[i+1][par]) {\n                var temp = a[i];\n                a[i] = a[i+1];\n                a[i+1] = temp;\n                swapped = true;\n            }\n        }\n    } while (swapped);\n}\n\n\nbubbleSort(arrayOfPeople, 'place');\n\nfor (i = 0; i < arrayOfPeople.length; i++) {\n   console.log(arrayOfPeople[i]); }",
@@ -368,34 +376,37 @@ function TestController($scope, $http, $timeout) {
 
     if($scope.buttonName == 'Basic Level'){
       var timestampe = new Date();
-      participant_data.objectiveTask[$scope.idCounter] = {};
       participant_data.objectiveTask[$scope.idCounter].basic = timestampe.getTime();
       $scope.levelButton = true;
-
+      $scope.loading = true;
       $timeout(function() {
+        $scope.loading = false;
         $scope.levelButton = false;
         $scope.buttonName = 'Psedocode Level';
-      }, 30000);
+      }, 3000);
 
     }else if($scope.buttonName == 'Psedocode Level'){
       var timestampe = new Date();
       participant_data.objectiveTask[$scope.idCounter].psedocode = timestampe.getTime();
       $scope.levelButton = true;
-
+      $scope.loading = true;
       $timeout(function() {
+        $scope.loading = false;
         $scope.levelButton = false;
         $scope.buttonName = 'Copy & Paste Level';
-      }, 30000);
+      }, 3000);
 
     }else {
       var timestampe = new Date();
       participant_data.objectiveTask[$scope.idCounter].correct = timestampe.getTime();
       $scope.levelButton = true;
-
+      $scope.loading = true;
       $timeout(function() {
+        $scope.loading = false;
         $scope.levelButton = false;
         $scope.slowProgrammingButton = !$scope.slowProgrammingButton;
-      }, 30000);
+        $scope.buttonName = 'Basic Level';
+      }, 3000);
     }
 
   }
@@ -411,7 +422,7 @@ function TestController($scope, $http, $timeout) {
                         id: '2',
                         name: 'Task 2 (a)',
                         content: '',
-                        description: "Consider the following code snippet. for (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button')\n  btn.setAttribute('id',i);\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', function(){ \n      console.log(i); \n  });\n  document.body.appendChild(btn);\n}\n \nExplain what will the code print out when clicking button 4 and why? Can you rewrite it so that it does what you think it should do?\n"
+                        description: "Consider the following code snippet\n\nfor (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button')\n  btn.setAttribute('id',i);\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', function(){ \n      console.log(i); \n  });\n  document.body.appendChild(btn);\n}\n \nWe want the effect that when clicking any button, it prints the associated id. For example, if clicking button 4, it will console log 4. But it always prints out 5. Do you know why? Can you rewrite it so that it does what you think it should do?\n"
                       },{
                         id: '3',
                         name: 'Task 3(a)',
@@ -421,7 +432,7 @@ function TestController($scope, $http, $timeout) {
                         id: '4',
                         name: 'Task 4 (a)',
                         content: '',
-                        description: 'Write Javascript code that converts a date formatted as M/D/YYYY to a format as YYYYMMD string.\n\nFor example, it should convert user entered date "12/31/2014" to "20141231". \n\nfunction formatDate(userDate) {\n  // format from M/D/YYYY to YYYYMMDD\n}\n\nconsole.log(formatDate("12/31/2014"));'
+                        description: 'Write Javascript code that converts a date formatted as MM/DD/YYYY to a format as YYYYMMD string.\n\nFor example, it should convert user entered date "12/31/2014" to "20141231". \n\nfunction formatDate(userDate) {\n  // format from MM/DD/YYYY to YYYYMMDD\n}\n\nconsole.log(formatDate("12/31/2014"));'
                       },{
                         id: '5',
                         name: 'Task 5 (a)',
@@ -431,7 +442,7 @@ function TestController($scope, $http, $timeout) {
                         id: '6',
                         name: 'Task 6 (a)',
                         content: '',
-                        description: 'Rewrite the following code using jQuery library\n\n<script>\nfunction change(){\n    \n   var myNewTitle = document.getElementById("myTextField").value;\n   if( myNewTitle.length==0 ){\n       console.log("Write Some real Text please.");\n   return;\n   }\n   \n   var title = document.getElementById("title");\n   title.innerHTML = myNewTitle;\n    \n}\n</script>\n\n\n<h1 id="title">Javascript example no.2</h1>\n<input type="text" id="myTextField"/>\n<input type="submit" id="byBtn" value="Change" onclick="change()"/>\n\n'
+                        description: 'Rewrite the following code using jQuery library\n\n<script>\nfunction change(){\n    \n   var myNewTitle = document.getElementById("myTextField").value;\n   if( myNewTitle.length==0 ){\n       console.log("Write Some real Text please.");\n       return;\n   }\n   \n   var title = document.getElementById("title");\n   title.innerHTML = myNewTitle;\n    \n}\n</script>\n\n\n<h1 id="title">Javascript example no.2</h1>\n<input type="text" id="myTextField"/>\n<input type="submit" id="byBtn" value="Change" onclick="change()"/>\n\n'
                       },{
                         id: '7',
                         name: 'Task 7 (a)',
@@ -449,16 +460,16 @@ $scope.tasks = [{
   description: "You are given a variable that contains a text. \n\nvar task1 = 'I have $300 in my left pocket and $200 in my right pocket that can buy 2 tickets.'\n\nWrite a function to replace dollar sign '$' in front of the numbers with the word 'dollars' after them. (e.g. $300 -> 300 dollars) Your answer should like this 'I have 300 dollars in my left pocket and 200 dollars in my right pocket that can buy 2 tickets.'",
   correctOutput: 'I have 300 dollars in my left pocket and 200 dollars in my right pocket that can buy 2 tickets.',
   basic: 'You can convert the string down to an array and manipulate the array.',
-  psedocode:"You can use .split(' '), then find the array element that starts with '$' using charAt('$') and remove the dollar sign, then slice the word 'dollar' in after that element using .slice(index,0,'dollars'). Finally join the array back to string with .join(' ') and console log it out.",
+  psedocode:"You can use .split(' '), then find the array element that starts with '$' using charAt('$') and remove the dollar sign, then splice the word 'dollar' in after that element using .splice(index,0,'dollars'). Finally join the array back to string with .join(' ') and console log it out.",
   correct: "var task1 = 'I have $300 in my left pocket and $200 in my right pocket that can buy 2 tickets.'\n\nvar ans = task1.split(' ');\nfor(var i = 0; i < ans.length; i++){\n   if(ans[i].charAt(0)=='$'){\n       ans[i] = ans[i].substring(1,ans[i].length)\n       ans.splice(i+1,0,'dollars')\n   }\n}\n\nconsole.log(ans.join(' '))"
 }, {
   id: '2',
   name: 'Task 2 (b)',
   content: "var a = [];\nfor( var j = 0; j < 5; j++ )\n{\n   setTimeout ( function () {\n       a.push(j)\n       console.log(a);\n   }, j);\n}",
-  description: "Think about what will the following code print out and why. Please rewrite it so that it does what you think it should do.\n\n",
+  description: "The following code is supposed to print out [0,1,2,3,4]. Please rewrite it so that the code prints out the desired value. Please do not remove setTimeout function.\n\n",
   correctOutput: [0,1,2,3,4],
   basic: 'It will output 5,5,5,5,5. Because settimeout is asynchronous function and for loop is synchronous method.',
-  psedocode: 'The erroneous output is returned because j is incremented after each timeout is created. Then when the callback function is called, it looks for j’s value which is always 5. The solution to this is to add some arguments that would store the current value of j. (uinsg closure)',
+  psedocode: 'The erroneous output is returned because j is incremented after each timeout is created. Then when the callback function is called, it looks for j’s value which is always 5. The solution to this is to add some arguments that would store the current value of j. (using closure)',
   correct: 'var a = [];\n\nfor( var j = 0; j < 5; j++ )\n{\n   (function (j)  {\n      setTimeout(function () {\n          a.push(j)\n          console.log(a);\n       }, j);\n   }) (j);\n}\n\n'
 },{
   id: '3',

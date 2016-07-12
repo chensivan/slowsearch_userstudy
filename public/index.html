@@ -108,7 +108,7 @@ Email: irbhsbs@umich.edu
 
                     <div ng-repeat="taskA in taskAs" ng-show="taskA.id == idCounter">
                         <h2>{{taskA.name}} (out of 7)</h2>
-                        <pre>{{taskA.description}}</pre>
+                        <pre style="white-space: pre-wrap;">{{taskA.description}}</pre>
                         <p>Please take a look at the following 3 versions of answers. Drag the radio button to tell us: If you are solving this task, how long are you willing to wait for that version of answer.</p>
                     </div>
 
@@ -165,6 +165,8 @@ Email: irbhsbs@umich.edu
                       <!-- right column -->
 
                       <div id="col2">
+                        <img style="width:45px; height:45px" src="load.gif" ng-show='loading'>
+
                         <button ng-show='!slowProgrammingButton' class="btn btn-xs btn-primary" style="float: right" ng-click="slowprogramming()" uib-tooltip="Click this button to see hints or answers. But you need to wait a few minutes."  ng-disabled='levelButton'>{{buttonName}}</button>
 
                         </br></br>
