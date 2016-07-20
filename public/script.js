@@ -33,7 +33,7 @@ function TestController($scope, $http, $timeout) {
   $scope.disableNext = true;
   $scope.counter = 0;
   $scope.buttonName = "Basic Level";
-
+  var timer;
   $scope.buttonHovered = false;
 
   //assessment
@@ -46,9 +46,11 @@ function TestController($scope, $http, $timeout) {
   };
 
   window.onbeforeunload = function(event) {
-    $http.post('/slowsearch', participant_data).success(function(response) {
-      console.log(response);
-    });
+    debugger;
+    // console.log(participant_data);
+    // $http.post('/slowsearch', participant_data).success(function(response) {
+    //   console.log(response);
+    // });
     event.returnValue = "Do you really want to leave?";
   };
 
@@ -277,7 +279,7 @@ function TestController($scope, $http, $timeout) {
     // .success(function(data, status, headers, config){
     //   console.log(data);
     // });;
-
+    debugger;
 
     var taskSubAnswer = [$scope.answers[0].value, $scope.answers[1].value, $scope.answers[2].value];
 
@@ -328,7 +330,11 @@ function TestController($scope, $http, $timeout) {
   $scope.nextTask = function() {
 
     $scope.consoleOutput = "";
-    $scope.slowProgrammingButton = !$scope.slowProgrammingButton;
+    $scope.buttonName = 'Basic Level';
+    $scope.slowProgrammingButton = false;
+    $scope.levelButton = false;
+    $scope.loading = false;
+    $timeout.cancel(timer);
 
     var timestampe = new Date();
     var task_sub_index = 'task'+$scope.idCounter+'b';
@@ -379,34 +385,33 @@ function TestController($scope, $http, $timeout) {
       participant_data.objectiveTask[$scope.idCounter].basic = timestampe.getTime();
       $scope.levelButton = true;
       $scope.loading = true;
-      $timeout(function() {
+      timer = $timeout(function() {
         $scope.loading = false;
         $scope.levelButton = false;
         $scope.buttonName = 'Psedocode Level';
-      }, 3000);
+      }, 30000);
 
     }else if($scope.buttonName == 'Psedocode Level'){
       var timestampe = new Date();
       participant_data.objectiveTask[$scope.idCounter].psedocode = timestampe.getTime();
       $scope.levelButton = true;
       $scope.loading = true;
-      $timeout(function() {
+      timer = $timeout(function() {
         $scope.loading = false;
         $scope.levelButton = false;
         $scope.buttonName = 'Copy & Paste Level';
-      }, 3000);
+      }, 60000);
 
     }else {
       var timestampe = new Date();
       participant_data.objectiveTask[$scope.idCounter].correct = timestampe.getTime();
       $scope.levelButton = true;
       $scope.loading = true;
-      $timeout(function() {
+      timer = $timeout(function() {
         $scope.loading = false;
         $scope.levelButton = false;
-        $scope.slowProgrammingButton = !$scope.slowProgrammingButton;
-        $scope.buttonName = 'Basic Level';
-      }, 3000);
+        $scope.slowProgrammingButton = true;
+      }, 60000);
     }
 
   }
@@ -492,7 +497,7 @@ $scope.tasks = [{
 },{
   id: '5',
   name: 'Task 5 (b)',
-  content: 'var arrays = [\n    [1, "Cathy"]\n    [3, "Boa"],\n    [10, "Drew"],\n    [9, "Drew"],\n    [0, "Bob"],\n    ];\n\n\n',
+  content: 'var arrays = [\n    [1, "Cathy"],\n    [3, "Boa"],\n    [10, "Drew"],\n    [9, "Drew"],\n    [0, "Bob"],\n    ];\n\n\n',
   description: 'Given a 2D array, please sort them by the 2nd element (i.e. names) and then 1st element (i.e. numbers). \n\n\nYou output should like this:\n\n[\n    [3, "Boa"],\n    [0, "Bob"],\n    [1, "Cathy"],\n    [9, "Drew"],\n    [10, "Drew"]\n    ];',
   correctOutput: [[3, "Boa"],[0, "Bob"],[1, "Cathy"],[9, "Drew"],[10, "Drew"]],
   basic: 'You can use .sort function do define two return cases, 1st being the 1st element in the subarray, 2nd being the 2nd element in the subarray.',
@@ -510,12 +515,12 @@ $scope.tasks = [{
 },{
   id: '7',
   name: 'Task 7 (b)',
-  content: 'var contacts = [\n    {\n        "firstName": "Akira",\n        "lastName": "Laine",\n        "number": 0543236543,\n    },\n    {\n        "firstName": "Harry",\n        "lastName": "Potter",\n        "number": 0994372684,\n    },\n    {\n        "firstName": "Sherlock",\n        "lastName": "Holmes",\n        "number": 0487345643,\n    },\n    {\n        "firstName": "Kristian",\n        "lastName": "Vos",\n        "number": unknown,\n    }\n];\n\nfunction lookUpNumberByLastName(lastName){\n  // Only change code below this line\n  for (var i = 0; i < contacts.length; i++) {\n    if (contacts[i].lastName === lastName){\n        return contacts[i].number;\n     }\n  }\n}\n\nconsole.log (lookUpNumberByLastName("Laine"));\n\n//test case\n// lookUpNumberByProperty("Potter", "lastName")\n//  returns : 0994372684\n',
-  description: "The following code allows you to search the phone number for a given last name in the database. Change the code so that it will look up a phone number by any property (not just last name) that is passed and refactor the example.",
+  content: 'var contacts = [\n    {\n        "firstName": "Akira",\n        "lastName": "Laine",\n        "number": "0543236543",\n    },\n    {\n        "firstName": "Harry",\n        "lastName": "Potter",\n        "number": "0994372684",\n    },\n    {\n        "firstName": "Sherlock",\n        "lastName": "Holmes",\n        "number": "0487345643",\n    },\n    {\n        "firstName": "Kristian",\n        "lastName": "Vos",\n        "number": "03134234213",\n    }\n];\n\nfunction lookUpNumberByLastName(lastName){\n  // Only change code below this line\n  for (var i = 0; i < contacts.length; i++) {\n    if (contacts[i].lastName === lastName){\n        return contacts[i].number;\n     }\n  }\n}\n\nconsole.log (lookUpNumberByLastName("Laine"));\n\n//test case\n// lookUpNumberByProperty("Laine", "lastName")\n//  returns : 0543236543\n',
+  description: "The following code allows you to search the phone number for a given last name in the database. Change the code so that it will look up a phone number by any property (not just last name) that is passed and refactor the example. Please check Akira Laine's number as the final test case. ",
   correctOutput: "0543236543",
   basic: 'Square bracket notation in JavaScript will let you use random string to access property of an json object. Return an array whenever you find the matching element. \n',
   psedocode: 'You can create a function with 2 inputs. Then loop through the array and check if the property is there and if the value of the property equals to the input value. If it is, push it to the array.',
-  correct: 'var contacts = [\n    {\n        "firstName": "Akira",\n        "lastName": "Laine",\n        "number": "0543236543",\n    },\n    {\n        "firstName": "Harry",\n        "lastName": "Potter",\n        "number": "0994372684",\n    },\n    {\n        "firstName": "Sherlock",\n        "lastName": "Holmes",\n        "number": "0487345643",\n    },\n    {\n        "firstName": "Kristian",\n        "lastName": "Vos",\n        "number": "unknown",\n    }\n];\n\nfunction lookUpNumberByProperty(value, prop){\n  // Only change code below this line\n  var arr = [];\n  for (var i = 0; i < contacts.length; i++) {\n    if (contacts[i].hasOwnProperty(prop) && contacts[i][prop] === value) {\n       return contacts[i].number\n    }\n  }\n}\n\nconsole.log (lookUpNumberByProperty("Laine", "lastName"));'
+  correct: 'var contacts = [\n    {\n        "firstName": "Akira",\n        "lastName": "Laine",\n        "number": "0543236543",\n    },\n    {\n        "firstName": "Harry",\n        "lastName": "Potter",\n        "number": "0994372684",\n    },\n    {\n        "firstName": "Sherlock",\n        "lastName": "Holmes",\n        "number": "0487345643",\n    },\n    {\n        "firstName": "Kristian",\n        "lastName": "Vos",\n        "number": "03134234213",\n    }\n];\n\nfunction lookUpNumberByProperty(value, prop){\n  // Only change code below this line\n  var arr = [];\n  for (var i = 0; i < contacts.length; i++) {\n    if (contacts[i].hasOwnProperty(prop) && contacts[i][prop] === value) {\n       return contacts[i].number\n    }\n  }\n}\n\nconsole.log (lookUpNumberByProperty("Laine", "lastName"));'
 }
 
 ];
