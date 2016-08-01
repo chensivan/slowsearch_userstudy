@@ -1,21 +1,38 @@
 body {
-  margin-left: 150px;
-  margin-right: 150px;
-  margin-top: 100px;
-  margin-bottom: 100px;
+  max-width:1200px;
+  margin-top: 20px;
+  margin-left:10%;
+  margin-right:10%;
+  font-size:14pt;
 }
 
+.main-content{
+  width: 96%;
+}
+
+.answer-form-part2{
+  width: 90%;
+  border: solid 1px;
+  background-color: #eee;
+  line-height: 1.4em;
+  font-family: monospace;
+  font-size: 0.9em;
+  padding: 2% 2% 2% 4%;
+}
 .btn.btn-xs{
   font-size: 19px
 }
 
-#answer {
+.rzslider{
+  width:80%;
+}
+
+.taskA-answer {
     border-radius: 25px;
     border: 2px solid #73AD21;
     padding: 10px;
-    float: left;
     margin: 10px;
-    width: 31%;
+    width: 100%;
     height: auto;
 }
 

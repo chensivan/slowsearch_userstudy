@@ -1,0 +1,24 @@
+<div id="knowledgeEva" >
+    Please solve the following quiz. For each question, select an answer of what each javascript code block will generate or answer to the question included. No answer will count as failure. Please do not use any tools (Google Search/ Javascript Console) while solving the quiz.
+<br>
+<br>
+    This is not to test your programming skill, but to let us know your background. You will have the same tasks no matter how you did in this quiz.
+
+    <div ng-repeat="(key,task) in quiz">
+        <h3>Task {{key+1}}</h3>
+          <div>{{task.question}}</div>
+          <br />
+        <pre ng-show="task.code">{{task.code}}</pre>
+        <div ng-repeat="option in task.options">
+          <input type="radio" name="{{task.option}}" ng-model="quizAnswer.question[$parent.key]" value="{{option}}" checked="false" /> &nbsp;&nbsp;{{option}}
+        </div>
+        <br />
+        <br />
+    </div>
+
+    <!-- <div style="display: inline-block;" uib-tooltip="Make sure you do all the questions before submit!"> -->
+    <div style="display: inline-block;">
+      <input type="button" class="btn btn-xs btn-primary" value="Submit" ng-click="submitQuiz()">
+    </div>
+
+</div>
