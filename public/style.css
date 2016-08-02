@@ -19,6 +19,69 @@ body {
   font-size: 0.9em;
   padding: 2% 2% 2% 4%;
 }
+
+.part3-question-form{
+  width: 100%;
+  border: solid 1px;
+  background-color: #eee;
+  line-height: 1.2em;
+  font-family: monospace;
+  font-size: 0.8em;
+  padding: 2% 2% 2% 2%;
+}
+
+.task-testcases{
+    float:left;
+    width:100%;
+}
+.console-out{
+  width: 100%;
+  font-size: 0.8em;
+  height: 150px;
+  font-family: monospace;
+}
+
+.Table
+{
+    display: table;
+    width:90%;
+    font-family:monospace;
+    font-size:16px;
+    margin:20px 20px 20px 20px;
+}
+.Title
+{
+    display: table-caption;
+    text-align: center;
+    font-weight: bold;
+    font-size: larger;
+}
+.Heading
+{
+    display: table-row;
+    font-weight: bold;
+    text-align: center;
+}
+.Row
+{
+    display: table-row;
+}
+.Cell
+{
+    display: table-cell;
+    border: solid 1px #777;
+    border-width: thin;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.leftmost-cell
+{
+    background-color:#eee;
+    width:200px;
+    text-align: center;
+}
+
 .btn.btn-xs{
   font-size: 19px
 }
@@ -46,13 +109,13 @@ body {
 
 #col1 {
     display: inline-block;
-    width:47%;
+    width:58%;
     float: left;
 }
 
 #col2 {
     display: inline-block;
-    width:47%;
+    width:40%;
     float: right;
 }
 

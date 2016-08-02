@@ -54,7 +54,7 @@ app.config(function($routeProvider) {
 app.controller('mainController', function($scope) {
 
   // create a message to display in our view
-  $scope.message = 'Everyone come and see how good I look!';
+  $scope.message = 'N/A';
   var id = Math.random().toString(36).substring(7);
 
 
@@ -148,7 +148,6 @@ var part2Controller = function($scope, $http, $timeout, $location){
     }
   };
 
-  var taskACurrentId = 0;
 
   $scope.idCounter = 0;
   $scope.taskValue =  4;
@@ -183,7 +182,6 @@ var part2Controller = function($scope, $http, $timeout, $location){
     }
   };
 
-
   $scope.continueToAnswer = function(){
     $scope.showAnswers = true;
   }
@@ -214,12 +212,15 @@ var part2Controller = function($scope, $http, $timeout, $location){
     // $http.put('/slowsearch/'+$scope.taskSubAnswer._id, $scope.taskSubAnswer.answers).success(function(response) {
     //   console.log(response);
     // });
-    taskACurrentId++;
+
     $scope.idCounter++;
-    $scope.showAnswers = !$scope.showAnswers;
 
-    $scope.disableSubmit = !$scope.disableSubmit;
-
+    if ($scope.idCounter == 7){
+      $location.path("part3");
+    }else{
+      $scope.showAnswers = !$scope.showAnswers;
+      $scope.disableSubmit = !$scope.disableSubmit;
+    }
     window.scrollTo(0,0);
 
   };
@@ -228,6 +229,167 @@ var part2Controller = function($scope, $http, $timeout, $location){
 
 var part3Controller = function($scope, $http, $timeout, $location){
   window.scrollTo(0,0);
+  $scope.showinstruction = true;
+  $scope.levelButton = false;
+  $scope.slowProgrammingDisabled = false;
+
+  $scope.tasks = part3_questions;
+  $scope.idCounter = 1;
+  $scope.disableNext = true;
+  $scope.level = -1;
+  $scope.gotoActualTask = function(){
+    $scope.showinstruction = false;
+  };
+
+  $scope.aceLoaded = function(_editor){
+      _editor.setTheme("ace/theme/twilight");
+      _editor.getSession().setMode("ace/mode/javascript");
+      _editor.focus();
+  }
+
+  $scope.aceOption = {
+    theme: 'tomorrow_night_eighties',
+    mode: 'html',
+    useWrapMode : true
+  };
+
+  var custom_console_log = function(message) {
+    $scope.consoleOutput += message;
+    $scope.consoleOutput += "\n";
+  };
+
+
+ $scope.run = function(userContent, taskIndex) {
+    $scope.consoleOutput = '';
+    var result;
+    try {
+      var temp_handle = console.log;
+      console.log = custom_console_log;
+      $scope.currentOutput = eval(userContent);
+      console.log = temp_handle;
+    } catch (e) {
+      custom_console_log(e.message);
+    }
+    var aggResult = true;
+    for (var i=0; i< $scope.tasks[taskIndex].testCase.length; i++){
+      try {
+        $scope.tasks[taskIndex].testCase[i].output = eval(userContent + "\n" + $scope.tasks[taskIndex].testCase[i].code);
+      } catch (e) {
+        $scope.tasks[taskIndex].testCase[i].output = e.message;
+      }
+      $scope.tasks[taskIndex].testCase[i].match = JSON.stringify($scope.tasks[taskIndex].testCase[i].answer) == JSON.stringify($scope.tasks[taskIndex].testCase[i].output);
+      aggResult = aggResult & $scope.tasks[taskIndex].testCase[i].match
+    }
+
+    if (aggResult){
+      $scope.disableNext = false;
+    }else{
+      $scope.disableNext = true;
+    }
+    /*
+    if($scope.idCounter==4){
+      var now = new Date();
+      var days = new Array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
+      var months = new Array('January','February','March','April','May','June','July','August','September','October','November','December');
+      var date = ((now.getDate()<10) ? "0" : "")+ now.getDate();
+
+      correctAnswer =  days[now.getDay()] + ", " +
+              months[now.getMonth()] + " " +
+              date + ", 2016";
+    }
+
+    if (JSON.stringify($scope.currentOutput) == JSON.stringify(correctAnswer)) {
+      $scope.disableNext = false;
+      $scope.message = "Correct!";
+    }
+    else {
+      $scope.disableNext = true;
+      $scope.message = "Incorrect!";
+    }*/
+  };
+
+  $scope.nextTask = function() {
+
+    $scope.consoleOutput = "";
+    $scope.slowProgrammingDisabled = false;
+    $scope.levelButton = false;
+    $scope.loading = false;
+    $timeout.cancel(timer);
+    $scope.level = -1;
+
+
+    var timestamp = new Date();
+    var task_sub_index = 'task'+$scope.idCounter+'b';
+
+    $scope.participant_data.objectiveTask[$scope.idCounter].content = $scope.tasks[$scope.idCounter-1].content;
+    $scope.participant_data.objectiveTask[$scope.idCounter].finishTime = timestamp.getTime();
+
+
+
+    if($scope.idCounter==7){//if all tasks are complete
+     $scope.confirmation = $scope.participant_data._id;
+     $scope.showWrapper = !$scope.showWrapper;
+     $scope.finalpage = !$scope.finalpage;
+     window.onbeforeunload = function () {};
+     $http.post('/slowsearch', $scope.participant_data).success(function(response) {
+       console.log(response);
+     });
+    }
+
+    $scope.idCounter++;
+    //$scope.showTask = !$scope.showTask;
+
+    // debugger;
+    // $http.get('http://slow-server-test.dataprocessingclub.org/c/1/task?uid='+id+'&no='+$scope.idCounter+'', 'true')
+    // .success(function(data, status, headers, config){
+    //   console.log(data);
+    // });
+
+    $scope.disableSubmit = true;
+    $scope.msg="";
+
+    $scope.disableNext = !$scope.disableNext;
+  };
+
+  $scope.slowprogramming = function(){
+
+    if($scope.level == -1){
+      var timestamp = new Date();
+      $scope.participant_data.objectiveTask[$scope.idCounter].basic = timestamp.getTime();
+      $scope.levelButton = true;
+      $scope.loading = true;
+      timer = $timeout(function() {
+        $scope.loading = false;
+        $scope.level++;
+        $scope.levelButton = false;
+      }, 1000);
+
+    }else if($scope.level == 0){
+      var timestamp = new Date();
+      $scope.participant_data.objectiveTask[$scope.idCounter].psedocode = timestamp.getTime();
+      $scope.levelButton = true;
+      $scope.loading = true;
+      timer = $timeout(function() {
+        $scope.loading = false;
+        $scope.level++;
+        $scope.levelButton = false;
+      }, 1000);
+
+    }else if($scope.level == 1){
+      var timestamp = new Date();
+      $scope.participant_data.objectiveTask[$scope.idCounter].correct = timestamp.getTime();
+      $scope.levelButton = true;
+      $scope.loading = true;
+      timer = $timeout(function() {
+        $scope.loading = false;
+        $scope.level++;
+        $scope.levelButton = false;
+
+        $scope.slowProgrammingDisabled = true;
+      }, 1000);
+    }
+  }
+
 };
 
 

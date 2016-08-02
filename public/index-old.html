@@ -170,12 +170,12 @@ Email: irbhsbs@umich.edu
                       <div id="col2">
                         <img style="width:45px; height:45px" src="load.gif" ng-show='loading'>
 
-                        <button ng-show='!slowProgrammingButton' class="btn btn-xs btn-primary" style="float: right" ng-click="slowprogramming()" uib-tooltip="Click this button to see hints or answers. But you need to wait a few minutes."  ng-disabled='levelButton'>{{buttonName}}</button>
+                        <button ng-show='!slowProgrammingDisabled' class="btn btn-xs btn-primary" style="float: right" ng-click="slowprogramming()" uib-tooltip="Click this button to see hints or answers. But you need to wait a few minutes."  ng-disabled='levelButton'>{{buttonName}}</button>
 
                         </br></br>
                         <p ng-show="buttonName=='Psedocode Level'" style="border: 1px solid #000000;word-wrap: break-word;">{{task.basic}}</p>
                         <p ng-show="buttonName=='Copy & Paste Level'" style="border: 1px solid #000000;word-wrap: break-word;">{{task.psedocode}}</p>
-                        <pre ng-show="slowProgrammingButton==true">{{task.correct}}</pre>
+                        <pre ng-show="slowProgrammingDisabled==true">{{task.correct}}</pre>
 
                       </div>
                     </div>

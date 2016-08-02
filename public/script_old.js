@@ -256,17 +256,17 @@ function TestController($scope, $http, $timeout) {
     // $http.post('/slowsearch', $scope.quizAnswer).success(function(response) {
     //   console.log(response);
     // });
-    var timestampe = new Date();
+    var timestamp = new Date();
     participant_data.quiz.quiz_answer = $scope.quizAnswer;
-    participant_data.quiz['timestampe'] = timestampe.getTime();
+    participant_data.quiz['timestamp'] = timestamp.getTime();
     $scope.showQuiz = !$scope.showQuiz;
     $scope.subjectiveTaskInstruction = !$scope.subjectiveTaskInstruction;
     $scope.disableSubmit = true;
   }
 
   $scope.gotoSubTask = function(){
-    var timestampe = new Date();
-    participant_data.subjectiveInstructionButton = timestampe.getTime();
+    var timestamp = new Date();
+    participant_data.subjectiveInstructionButton = timestamp.getTime();
     $scope.subjectiveTaskInstruction = !$scope.subjectiveTaskInstruction;
     $scope.showWrapper = !$scope.showWrapper;
 
@@ -285,11 +285,11 @@ function TestController($scope, $http, $timeout) {
 
     var taskSubAnswer = [$scope.answers[0].value, $scope.answers[1].value, $scope.answers[2].value];
 
-    var timestampe = new Date();
+    var timestamp = new Date();
 
     participant_data.subjectiveTask[$scope.idCounter] = [];
     participant_data.subjectiveTask[$scope.idCounter] = taskSubAnswer;
-    participant_data.subjectiveTask[$scope.idCounter].push(timestampe.getTime());
+    participant_data.subjectiveTask[$scope.idCounter].push(timestamp.getTime());
 
     //
     // $http.post('/slowsearch', participant_data).success(function(response) {
@@ -333,16 +333,16 @@ function TestController($scope, $http, $timeout) {
 
     $scope.consoleOutput = "";
     $scope.buttonName = 'Basic Level';
-    $scope.slowProgrammingButton = false;
+    $scope.slowProgrammingDisabled = false;
     $scope.levelButton = false;
     $scope.loading = false;
     $timeout.cancel(timer);
 
-    var timestampe = new Date();
+    var timestamp = new Date();
     var task_sub_index = 'task'+$scope.idCounter+'b';
 
     participant_data.objectiveTask[$scope.idCounter].content = $scope.tasks[$scope.idCounter-1].content;
-    participant_data.objectiveTask[$scope.idCounter].finishTime = timestampe.getTime();
+    participant_data.objectiveTask[$scope.idCounter].finishTime = timestamp.getTime();
 
 
 
@@ -373,8 +373,8 @@ function TestController($scope, $http, $timeout) {
   };
 
   $scope.gotoActualTask = function(){
-    var timestampe = new Date();
-    participant_data.objectiveInstructionButton = timestampe.getTime();
+    var timestamp = new Date();
+    participant_data.objectiveInstructionButton = timestamp.getTime();
     $scope.showObjectiveTask = !$scope.showObjectiveTask;
     $scope.showinstruction = !$scope.showinstruction;
   }
@@ -383,8 +383,8 @@ function TestController($scope, $http, $timeout) {
     $scope.level1 = !$scope.level1;
 
     if($scope.buttonName == 'Basic Level'){
-      var timestampe = new Date();
-      participant_data.objectiveTask[$scope.idCounter].basic = timestampe.getTime();
+      var timestamp = new Date();
+      participant_data.objectiveTask[$scope.idCounter].basic = timestamp.getTime();
       $scope.levelButton = true;
       $scope.loading = true;
       timer = $timeout(function() {
@@ -394,8 +394,8 @@ function TestController($scope, $http, $timeout) {
       }, 30000);
 
     }else if($scope.buttonName == 'Psedocode Level'){
-      var timestampe = new Date();
-      participant_data.objectiveTask[$scope.idCounter].psedocode = timestampe.getTime();
+      var timestamp = new Date();
+      participant_data.objectiveTask[$scope.idCounter].psedocode = timestamp.getTime();
       $scope.levelButton = true;
       $scope.loading = true;
       timer = $timeout(function() {
@@ -405,14 +405,14 @@ function TestController($scope, $http, $timeout) {
       }, 60000);
 
     }else {
-      var timestampe = new Date();
-      participant_data.objectiveTask[$scope.idCounter].correct = timestampe.getTime();
+      var timestamp = new Date();
+      participant_data.objectiveTask[$scope.idCounter].correct = timestamp.getTime();
       $scope.levelButton = true;
       $scope.loading = true;
       timer = $timeout(function() {
         $scope.loading = false;
         $scope.levelButton = false;
-        $scope.slowProgrammingButton = true;
+        $scope.slowProgrammingDisabled = true;
       }, 60000);
     }
 
