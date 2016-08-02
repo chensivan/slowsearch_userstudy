@@ -170,7 +170,7 @@ part3_questions = [{
   name: 'Task 2 (b)',
   content: "var a = [];\nfor( var j = 0; j < 5; j++ )\n{\n   setTimeout ( function () {\n       a.push(j)\n       console.log(a);\n   }, j);\n}",
   description: "The following code is supposed to print out [0,1,2,3,4]. Please rewrite it so that the code prints out the desired value. Please do not remove setTimeout function.\n\n",
-  correctOutput: [0,1,2,3,4],
+  testCase: [{code: "replaceDollarSign(input)", answer:'I have 300 dollars in my left pocket and 200 dollars in my right pocket.', output:"", match:false},{code:'replaceDollarSign("$421")', answer:"421 dollars", output:"", match:false}],
   basic: 'It will output 5,5,5,5,5. Because settimeout is asynchronous function and for loop is synchronous method.',
   psedocode: 'The erroneous output is returned because j is incremented after each timeout is created. Then when the callback function is called, it looks for j’s value which is always 5. The solution to this is to add some arguments that would store the current value of j. (using closure)',
   correct: 'var a = [];\n\nfor( var j = 0; j < 5; j++ )\n{\n   (function (j)  {\n      setTimeout(function () {\n          a.push(j)\n          console.log(a);\n       }, j);\n   }) (j);\n}\n\n'

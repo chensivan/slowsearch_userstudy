@@ -17,13 +17,13 @@
           <section id="editors">
               <div class="ace_editor" id='task1' ui-ace="{onLoad:aceLoaded}" ng-model="task.content">
               </div>
-              <div>
-                <br>
-                <button ng-click="run(task.content, taskIndex)" class="btn btn-xs btn-primary" type="button" uib-tooltip="We run the following test cases by default."> Run </button>
-              </div>
+
               <div>
                   <h3>Console Output: </h3>
                   <textarea class = "console-out">{{consoleOutput}}</textarea>
+              </div>
+              <div class = "right">
+                <button ng-click="run(task.content, taskIndex)" class="btn btn-xs btn-primary" type="button" uib-tooltip="We run the following test cases by default."> Run </button>
               </div>
             </section>
         </div>
@@ -31,68 +31,65 @@
         <!-- right column -->
 
         <div id="col2">
-          <span ng-show = "level>=0">Level {{(level + 1)}} answer</span>
+          <span ng-show = "level>=0">Level {{(level + 1)}} Answer</span>
           <img style="width:45px; height:45px" src="load.gif" ng-show='loading'>
           <button ng-hide='slowProgrammingDisabled' class="btn btn-xs btn-primary" style="float: right" ng-click="slowprogramming()" uib-tooltip="Click this button to see hints or answers. But you need to wait a few minutes." ng-disabled='levelButton'>Ask for Help!</button>
           <br/><br/>
-          <div class = 'part3-question-form' ng-show="level==0" style="border: 1px solid #000000;word-wrap: break-word;">{{task.basic}}</div>
-          <div class = 'part3-question-form' ng-show="level==1" style="border: 1px solid #000000;word-wrap: break-word;">{{task.psedocode}}</div>
-          <pre class = 'part3-question-form' ng-show="level==2">{{task.correct}}</pre>
+          <div class = 'part3-question-form' ng-show="level>=0" style="border: 1px solid #000000;word-wrap: break-word;">{{task.basic}}</div>
+          <div class = 'part3-question-form' ng-show="level>=1" style="border: 1px solid #000000;word-wrap: break-word;">{{task.psedocode}}</div>
+          <pre class = 'part3-question-form' ng-show="level>=2">{{task.correct}}</pre>
         </div>
       </div>
 
       <div class = "task-testcases">
         <h3> Test Cases</h3>
+
         <div class="Table" ng-repeat = "case in task.testCase">
           <div class="Row">
               <div class="Cell leftmost-cell">
-                  <p>Test Case</p>
+                  <span>Test Case</span>
               </div>
               <div class="Cell">
-                  <p>{{case.code}}</p>
+                  <span>{{case.code}}</span>
               </div>
           </div>
           <div class="Row">
               <div class="Cell leftmost-cell">
-                  <p>Answer</p>
+                  <span>Answer</span>
               </div>
               <div class="Cell">
-                  <p>{{case.answer}}</p>
+                  <span>{{case.answer}}</span>
               </div>
           </div>
           <div class="Row">
               <div class="Cell leftmost-cell">
-                  <p>Output</p>
+                  <span>Output</span>
               </div>
               <div class="Cell">
-                  <p>{{case.output}}</p>
+                  <span>{{case.output}}</span>
               </div>
           </div>
           <div class="Row">
               <div class="Cell leftmost-cell">
-                  <p>Match</p>
+                  <span>Match</span>
               </div>
               <div class="Cell">
-                  <p>{{case.match}}</p>
+                  <span>{{case.match}}</span>
               </div>
           </div>
         </div>
-      <!--
-        <div ng-repeat = "case in task.testCase">
-          <div>Test Case : {{case.code}}</div>
-          <div>Correct Output : {{case.answer}}</div>
-          <div>Current Answer : {{case.output}}</div>
-          <div>Result : {{case.match}}</div>
-        </div>-->
+        <div uib-tooltip="You can proceed to the next task when test cases above are passed."  style="float:right;">
+          <button ng-click="nextTask()" class="btn btn-xs btn-primary" type="button" ng-disabled="disableNext"> Next Task </button>
+        </div>
+        <br/>
+        <br/>
+        <br/>
       </div>
     </div>
 
     <br/></br/>
     <!--   add tooltip-->
     <!-- <div style="display: inline-block;" uib-tooltip="You can only proceed after getting the correct output!"> -->
-    <div style="position: fixed; right: 100px; bottom: 30px;">
-      <button ng-click="nextTask()" class="btn btn-xs btn-primary" type="button" ng-disabled="disableNext"> Next </button>
-    </div>
 
     <!-- <button ng-click="run()" class="btn btn-xs btn-primary pull-right" type="button"> run </button> -->
 </div>

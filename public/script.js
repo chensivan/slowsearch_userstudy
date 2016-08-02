@@ -228,6 +228,9 @@ var part2Controller = function($scope, $http, $timeout, $location){
 };
 
 var part3Controller = function($scope, $http, $timeout, $location){
+  var temp_handle = console.log;
+  console.log = custom_console_log;
+
   window.scrollTo(0,0);
   $scope.showinstruction = true;
   $scope.levelButton = false;
@@ -263,17 +266,14 @@ var part3Controller = function($scope, $http, $timeout, $location){
     $scope.consoleOutput = '';
     var result;
     try {
-      var temp_handle = console.log;
-      console.log = custom_console_log;
       $scope.currentOutput = eval(userContent);
-      console.log = temp_handle;
     } catch (e) {
       custom_console_log(e.message);
     }
     var aggResult = true;
     for (var i=0; i< $scope.tasks[taskIndex].testCase.length; i++){
       try {
-        $scope.tasks[taskIndex].testCase[i].output = eval(userContent + "\n" + $scope.tasks[taskIndex].testCase[i].code);
+        $scope.tasks[taskIndex].testCase[i].output = eval(userContent + "\ncustom_console_log('test case ' + " + i+ "'\n')" + $scope.tasks[taskIndex].testCase[i].code);
       } catch (e) {
         $scope.tasks[taskIndex].testCase[i].output = e.message;
       }
