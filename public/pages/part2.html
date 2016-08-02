@@ -1,0 +1,72 @@
+<!-- ********* Tasks ********** -->
+
+<div ng-show='subjectiveTaskInstruction' ng-include="'subjectiveTaskInstruction.html'">
+</div>
+
+<div id="wrapper" ng-show="!subjectiveTaskInstruction">
+
+    <!-- ********* Subjective Tasks ********** -->
+
+    <div id="task(A)">
+
+        <div ng-repeat="taskA in taskAs track by $index" ng-show="taskA.id == idCounter+1" ng-init = "task_index = $index">
+
+            <h2>{{taskA.name}} (out of 7)</h2>
+            <p>Please read the following question and think of how to solve the problem. </p>
+
+            <pre style="white-space: pre-wrap;">{{taskA.description}}</pre>
+
+            <div ng-show = "!showAnswers">
+
+              <div style="display: inline-block;" ng-show = "!showAnswers">
+                Do you need to search online content to solve this problem?
+                <br/><br/>
+                <rzslider rz-slider-model="searchSlider.value" rz-slider-options="searchSlider.options" ng-click="searchSliderChanged()"></rzslider>
+              </div>
+
+              <br/><br/>
+              <br/><br/>
+
+              <button class="btn btn-xs btn-primary" ng-click = "continueToAnswer()">Continue</button>
+            </div>
+            <div ng-show = "showAnswers">
+              <br/><br/>
+
+              <p>Please take a look at the following 3 versions of answers. Drag the slider to indicate the amount of time that <strong> you are willing to wait for the specific answer.</strong></p>
+              <br/><br/>
+              <div ng-repeat="answer in taskA.answers" ng-init = "level_index = $index">
+                <h3 ng-show="$index==0">Level 1 Answer</h3>
+                <h3 ng-show="$index==1">Level 2 Answer</h3>
+                <h3 ng-show="$index==2">Level 3 Answer</h3>
+                   <br/><br/>
+                   <ul class = "answer-form-part2" >
+                     <li ng-repeat="item in getAccAnswer( task_index, level_index)" ng-init = "level_index = $index">
+                       <span ng-show="$index<=1">
+                         {{item}}
+                       </span>
+                       <span ng-show="$index==2">
+                         code
+                       </span>
+                       <br>
+                       <pre ng-show="$index==2">{{item}}</pre>
+                     </li>
+                   </ul>
+
+
+                  <div>
+                    <br/>
+                    <p>I am willing to wait {{answer.value | minsToMinSeconds}}</p>
+                      <rzslider rz-slider-model="answer.value" rz-slider-options="sliderOptions" ng-click="waitSliderChanged()"></rzslider>
+                  </div>
+                  <br/><br/>
+              </div>
+            <div>
+
+        </div>
+
+
+          <button ng-click="submit()" class="btn btn-xs btn-success" ng-disabled="disableSubmit">Submit</button>
+        </div>
+      </div>
+
+    </div>
