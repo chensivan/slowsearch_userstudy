@@ -227,7 +227,15 @@ var part2Controller = function($scope, $http, $timeout, $location){
 
 };
 
+
+
 var part3Controller = function($scope, $http, $timeout, $location){
+  $scope.consoleOutput = '';
+
+  var custom_console_log = function(message) {
+    $scope.consoleOutput += message;
+    $scope.consoleOutput += "\n";
+  };
   var temp_handle = console.log;
   console.log = custom_console_log;
 
@@ -256,10 +264,6 @@ var part3Controller = function($scope, $http, $timeout, $location){
     useWrapMode : true
   };
 
-  var custom_console_log = function(message) {
-    $scope.consoleOutput += message;
-    $scope.consoleOutput += "\n";
-  };
 
 
  $scope.run = function(userContent, taskIndex) {
@@ -273,7 +277,7 @@ var part3Controller = function($scope, $http, $timeout, $location){
     var aggResult = true;
     for (var i=0; i< $scope.tasks[taskIndex].testCase.length; i++){
       try {
-        $scope.tasks[taskIndex].testCase[i].output = eval(userContent + "\ncustom_console_log('test case ' + " + i+ "'\n')" + $scope.tasks[taskIndex].testCase[i].code);
+        $scope.tasks[taskIndex].testCase[i].output = eval(userContent + "\nconsole.log('test case ' + " + (i+1)+ "+' running...');\n" + $scope.tasks[taskIndex].testCase[i].code);
       } catch (e) {
         $scope.tasks[taskIndex].testCase[i].output = e.message;
       }

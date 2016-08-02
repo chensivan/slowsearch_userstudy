@@ -47,7 +47,7 @@
         <div class="Table" ng-repeat = "case in task.testCase">
           <div class="Row">
               <div class="Cell leftmost-cell">
-                  <span>Test Case</span>
+                  <span>Test Case {{$index + 1}}</span>
               </div>
               <div class="Cell">
                   <span>{{case.code}}</span>
