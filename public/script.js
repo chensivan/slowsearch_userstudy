@@ -20,8 +20,6 @@ var participant_data = {
 
 myApp.controller('TestController', ['$scope','$http', '$timeout', TestController]);
 
-
-
 function TestController($scope, $http, $timeout) {
 
   $scope.showWrapper = false;
@@ -166,8 +164,7 @@ function TestController($scope, $http, $timeout) {
     if (JSON.stringify($scope.consoleOutput) == JSON.stringify(correctAnswer)) {
       $scope.disableNext = false;
       $scope.msg = "You have the right output! Press the next button to move on!";
-    }
-    else {
+    }else {
       $scope.disableNext = true;
       $scope.msg = "Your output is wrong.";
     }
