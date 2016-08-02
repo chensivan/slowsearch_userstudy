@@ -46,6 +46,18 @@ app.config(function($routeProvider) {
   .when('/part3', {
       templateUrl : 'pages/part3.html',
       controller  : 'part3Controller'
+  })
+
+  // route for the contact page
+  .when('/part2/:id', {
+      templateUrl : 'pages/part2.html',
+      controller  : 'part2Controller'
+  })
+
+  // route for the contact page
+  .when('/part3/:id', {
+      templateUrl : 'pages/part3.html',
+      controller  : 'part3Controller'
   });
 });
 
@@ -95,21 +107,25 @@ var consentController = function($scope, $http, $timeout, $location){
 
 };
 
-var part1Controller = function($scope, $http, $timeout, $location){
+var part1Controller = function($scope,  $http, $timeout, $location){
   $scope.quiz = part1_quiz;
 
   window.scrollTo(0,0);
 
 };
 
-var part2Controller = function($scope, $http, $timeout, $location){
+var part2Controller = function($scope,$http, $timeout, $location, $routeParams  ){
   window.scrollTo(0,0);
 
   $scope.subjectiveTaskInstruction = true;
   $scope.showAnswers = false;
   $scope.disableSubmit = true;
-  $scope.totaltext = "testing2";
+  $scope.idCounter = 0;
 
+  if($routeParams.id){
+    $scope.subjectiveTaskInstruction = false;
+    $scope.idCounter = parseInt($routeParams.id)-1;
+  }
 
   $scope.gotoSubTask = function(){
     var timestamp = new Date();
@@ -127,10 +143,7 @@ var part2Controller = function($scope, $http, $timeout, $location){
 
     var list  = [];
     for (var i=0; i<= levelIndex; i++){
-
       list.push($scope.taskAs[taskIndex].answers[i].text.trim());
-
-    //  string += "\n linebreak \n";
     }
 
     return list;
@@ -149,7 +162,6 @@ var part2Controller = function($scope, $http, $timeout, $location){
   };
 
 
-  $scope.idCounter = 0;
   $scope.taskValue =  4;
 
   $scope.searchSliderChanged = function(a,b,c){
@@ -229,23 +241,35 @@ var part2Controller = function($scope, $http, $timeout, $location){
 
 
 
-var part3Controller = function($scope, $http, $timeout, $location){
+var part3Controller = function($scope, $http, $timeout, $location, $routeParams){
   $scope.consoleOutput = '';
+  $scope.lastOutput = null;
+  $scope.idCounter = 1;
+  $scope.showinstruction = true;
 
-  var custom_console_log = function(message) {
-    $scope.consoleOutput += message;
+  if($routeParams.id){
+    $scope.showinstruction = false;
+    $scope.idCounter = parseInt($routeParams.id);
+  }
+
+  var custom_console_log = function(message, raw) {
+    if(raw){
+      $scope.consoleOutput += message;
+    }else{
+      $scope.consoleOutput += JSON.stringify(message);
+    }
+
     $scope.consoleOutput += "\n";
+    $scope.lastOutput = message;
   };
   var temp_handle = console.log;
   console.log = custom_console_log;
 
   window.scrollTo(0,0);
-  $scope.showinstruction = true;
   $scope.levelButton = false;
   $scope.slowProgrammingDisabled = false;
 
   $scope.tasks = part3_questions;
-  $scope.idCounter = 1;
   $scope.disableNext = true;
   $scope.level = -1;
   $scope.gotoActualTask = function(){
@@ -275,14 +299,18 @@ var part3Controller = function($scope, $http, $timeout, $location){
       custom_console_log(e.message);
     }
     var aggResult = true;
-    for (var i=0; i< $scope.tasks[taskIndex].testCase.length; i++){
+    for (var ss_index=0; ss_index< $scope.tasks[taskIndex].testCase.length; ss_index++){
       try {
-        $scope.tasks[taskIndex].testCase[i].output = eval(userContent + "\nconsole.log('test case ' + " + (i+1)+ "+' running...');\n" + $scope.tasks[taskIndex].testCase[i].code);
+        $scope.tasks[taskIndex].testCase[ss_index].output = eval("custom_console_log('test case ' + " + (ss_index+1)+ "+' running...', true);\n" + userContent + "\n" + $scope.tasks[taskIndex].testCase[ss_index].code );
+        if($scope.tasks[taskIndex].testCase[ss_index].output === undefined){
+          $scope.tasks[taskIndex].testCase[ss_index].output = $scope.lastOutput;
+        }
       } catch (e) {
-        $scope.tasks[taskIndex].testCase[i].output = e.message;
+        $scope.tasks[taskIndex].testCase[ss_index].output = e.message;
       }
-      $scope.tasks[taskIndex].testCase[i].match = JSON.stringify($scope.tasks[taskIndex].testCase[i].answer) == JSON.stringify($scope.tasks[taskIndex].testCase[i].output);
-      aggResult = aggResult & $scope.tasks[taskIndex].testCase[i].match
+      // check the return value
+      $scope.tasks[taskIndex].testCase[ss_index].match = JSON.stringify($scope.tasks[taskIndex].testCase[ss_index].answer) == JSON.stringify($scope.tasks[taskIndex].testCase[ss_index].output);
+      aggResult = aggResult & $scope.tasks[taskIndex].testCase[ss_index].match
     }
 
     if (aggResult){
@@ -318,9 +346,10 @@ var part3Controller = function($scope, $http, $timeout, $location){
     $scope.slowProgrammingDisabled = false;
     $scope.levelButton = false;
     $scope.loading = false;
-    $timeout.cancel(timer);
+    if(timer){
+        $timeout.cancel(timer);
+    }
     $scope.level = -1;
-
 
     var timestamp = new Date();
     var task_sub_index = 'task'+$scope.idCounter+'b';
@@ -328,26 +357,14 @@ var part3Controller = function($scope, $http, $timeout, $location){
     $scope.participant_data.objectiveTask[$scope.idCounter].content = $scope.tasks[$scope.idCounter-1].content;
     $scope.participant_data.objectiveTask[$scope.idCounter].finishTime = timestamp.getTime();
 
-
-
     if($scope.idCounter==7){//if all tasks are complete
-     $scope.confirmation = $scope.participant_data._id;
-     $scope.showWrapper = !$scope.showWrapper;
-     $scope.finalpage = !$scope.finalpage;
-     window.onbeforeunload = function () {};
+     window.onbeforeunload = null;
      $http.post('/slowsearch', $scope.participant_data).success(function(response) {
-       console.log(response);
+       alert("Thank you for your particiaption!");
      });
     }
 
     $scope.idCounter++;
-    //$scope.showTask = !$scope.showTask;
-
-    // debugger;
-    // $http.get('http://slow-server-test.dataprocessingclub.org/c/1/task?uid='+id+'&no='+$scope.idCounter+'', 'true')
-    // .success(function(data, status, headers, config){
-    //   console.log(data);
-    // });
 
     $scope.disableSubmit = true;
     $scope.msg="";
@@ -401,9 +418,9 @@ app.controller('consentController', ['$scope','$http', '$timeout', '$location', 
 
 app.controller('part1Controller', ['$scope','$http', '$timeout', '$location', part1Controller]);
 
-app.controller('part2Controller', ['$scope','$http', '$timeout', '$location', part2Controller]);
+app.controller('part2Controller', ['$scope','$http', '$timeout', '$location', '$routeParams',  part2Controller]);
 
-app.controller('part3Controller', ['$scope','$http', '$timeout', '$location', part3Controller]);
+app.controller('part3Controller', ['$scope','$http', '$timeout', '$location', '$routeParams',  part3Controller]);
 
 
 

@@ -40,7 +40,6 @@
           <pre class = 'part3-question-form' ng-show="level>=2">{{task.correct}}</pre>
         </div>
       </div>
-
       <div class = "task-testcases">
         <h3> Test Cases</h3>
 
@@ -71,10 +70,13 @@
           </div>
           <div class="Row">
               <div class="Cell leftmost-cell">
-                  <span>Match</span>
+                  <span>Result</span>
               </div>
-              <div class="Cell">
-                  <span>{{case.match}}</span>
+              <div class="Cell" ng-show="case.match">
+                  <span style="color:green;"><strong>PASSED</strong></span>
+              </div>
+              <div class="Cell" ng-show="!case.match">
+                  <span style="color:red;"><strong>FAILED</strong><span>
               </div>
           </div>
         </div>

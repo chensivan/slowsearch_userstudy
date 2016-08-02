@@ -170,55 +170,56 @@ part3_questions = [{
   name: 'Task 2 (b)',
   content: "var a = [];\nfor( var j = 0; j < 5; j++ )\n{\n   setTimeout ( function () {\n       a.push(j)\n       console.log(a);\n   }, j);\n}",
   description: "The following code is supposed to print out [0,1,2,3,4]. Please rewrite it so that the code prints out the desired value. Please do not remove setTimeout function.\n\n",
-  testCase: [{code: "replaceDollarSign(input)", answer:'I have 300 dollars in my left pocket and 200 dollars in my right pocket.', output:"", match:false},{code:'replaceDollarSign("$421")', answer:"421 dollars", output:"", match:false}],
+  testCase: [{code: "NEED TO CHANGE THE TASK", answer:'I have 300 dollars in my left pocket and 200 dollars in my right pocket.', output:"", match:true},{code:'replaceDollarSign("$421")', answer:"421 dollars", output:"", match:true}],
   basic: 'It will output 5,5,5,5,5. Because settimeout is asynchronous function and for loop is synchronous method.',
   psedocode: 'The erroneous output is returned because j is incremented after each timeout is created. Then when the callback function is called, it looks for j’s value which is always 5. The solution to this is to add some arguments that would store the current value of j. (using closure)',
   correct: 'var a = [];\n\nfor( var j = 0; j < 5; j++ )\n{\n   (function (j)  {\n      setTimeout(function () {\n          a.push(j)\n          console.log(a);\n       }, j);\n   }) (j);\n}\n\n'
 },{
   id: '3',
   name: 'Task 3 (b)',
-  content: "var a = [],\n    funcs = [];\nfor (var i = 0; i < 3; i++) {          // let's create 3 functions\n    funcs[i] = function() {            // and store them in funcs\n        a.push(i); // each should log its value.\n    };\n}\nfor (var j = 0; j < 3; j++) {\n    funcs[j]();                        // and now let\'s run each one to see\n}\n\nconsole.log(a)\n\n",
-  description: "The desire output is 0,1,2. Please correct this code to achieve the desired output.",
-  correctOutput: [0,1,2],
+  content: "function test(num){\r\n    \r\n    var a = [],\r\n    funcs = [];\r\n    for (var i = 0; i < num; i++) {          \/\/ let\'s create 3 functions\r\n    funcs[i] = function() {            \/\/ and store them in funcs\r\n        a.push(i); \/\/ each should log its value.\r\n    };\r\n    }\r\n    for (var j = 0; j < num; j++) {\r\n        funcs[j]();                        \/\/ and now let\'s run each one to see\r\n    }\r\n    \r\n    return a;\r\n}",
+  description: "The desired return value of test(3) is [0,1,2]. Please correct this code to achieve the correct output.",
+  testCase: [{code: "test(3)", answer:[0,1,2], output:"", match:false}, {code: "test(5)", answer:[0,1,2,3,4], output:"", match:false}],
   basic: 'Well, the problem is that the variable i, within each of your anonymous functions, is bound to the same variable outside of the function.',
   psedocode: 'What you want to do is bind the variable within each function to a separate (using .bind(), unchanging value outside of the function.',
-  correct:'var a = [],\n    funcs = [];\n\nfunction log(x) {\n    a.push(x);\n}\n\nfor (var i = 0; i < 3; i++) {\n    funcs[i] = log.bind(this, i);\n}\n\nfor (var j = 0; j < 3; j++) {\n    funcs[j]();\n}\n\n\nconsole.log(a)'
+  correct:'function test(num){\r\n    var a = [],\r\n    funcs = [];\r\n\r\n    function log(x) {\r\n        a.push(x);\r\n    }\r\n    \r\n    for (var i = 0; i < num; i++) {\r\n        funcs[i] = log.bind(this, i);\r\n    }\r\n    \r\n    for (var j = 0; j < num; j++) {\r\n        funcs[j]();\r\n    }\r\n    return a;\r\n}\r\n\r\n'
 },{
   id: '4',
   name: 'Task 4 (b)',
-  content: "function dateoutput(){\nvar today;\n//you code\n\nconsole.log(today)  //should be a string\n}\n\n",
+  content: "function datenow(time){\n\tvar today;\n\t//your code goes here\n\tconsole.log(today)  //should be a string\n}\n\n",
   description: "Write Javascript code to display the current date in this format: Tuesday, June 21, 2016.",
-  correctOutput: '',
+  testCase: [{code: "NEED TO CHANGE THE TASK", answer:[0,1,2], output:"", match:true}, {code: "datenow()", answer:[0,1,2,3,4], output:"", match:true}],
   basic: 'You need to defind array to store the names of 7 days in a week, and 12 months in a year. Then you need to find out which day, month, and year it is. ',
   psedocode: 'You can use .getDay(), getMonth(), and getYear() to find out each value. But for year, you have to convert it to 4 digits using (year < 1000) ? year + 1900 : year;\n\nTHe final answer is a string and you need to combine these 3 values split by comma. ',
   correct: 'var now = new Date();\n\nvar days = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");\n\nvar months = new Array("January","February","March","April","May","June","July","August","September","October","November","December");\n\nvar date = ((now.getDate()<10) ? "0" : "")+ now.getDate();\n\nfunction fourdigits(number)        {\n        return (number < 1000) ? number + 1900 : number;\n                                                                }\ntoday =  days[now.getDay()] + ", " +\n         months[now.getMonth()] + " " +\n         date + ", " +\n         (fourdigits(now.getYear())) ;\n\nconsole.log(today)'
 },{
   id: '5',
   name: 'Task 5 (b)',
-  content: 'var arrays = [\n    [1, "Cathy"],\n    [3, "Boa"],\n    [10, "Drew"],\n    [9, "Drew"],\n    [0, "Bob"],\n    ];\n\n\n',
-  description: 'Given a 2D array, please sort them by the 2nd element (i.e. names) and then 1st element (i.e. numbers). \n\n\nYou output should like this:\n\n[\n    [3, "Boa"],\n    [0, "Bob"],\n    [1, "Cathy"],\n    [9, "Drew"],\n    [10, "Drew"]\n    ];',
-  correctOutput: [[3, "Boa"],[0, "Bob"],[1, "Cathy"],[9, "Drew"],[10, "Drew"]],
+  content: 'var arr1 = [\r\n    [1, \"Cathy\"],\r\n    [2, \"Pat\"],\r\n    [3, \"David\"],\r\n    [4, \"Walt\"],\r\n    [5, \"George\"],\r\n];\r\n    \r\nvar arr2 = [\r\n    [1, \"Jason\"],\r\n    [3, \"Bob\"],\r\n    [10, \"Drew\"],\r\n    [9, \"Katie\"],\r\n    [0, \"April\"],\r\n];\r\n    \r\nfunction sortArray(arr){\r\n    \/\/ your code goes here \r\n    return arr;\r\n}\r\n',
+  description: 'Given a 2D array, please sort them by the 2nd element (i.e. names) and then 1st element (i.e. numbers). \n\n\nFor example, if the input array is [[1,"c"],[3,"b"],[2,"a"]], arraySort() should return [[2,"a"],[3,"b"],[1,"c"]]',
+  testCase: [{code: "sortArray(arr1)", answer:[[1,"Cathy"],[3,"David"],[5,"George"],[2,"Pat"],[4,"Walt"]], output:"", match:false}, {code: "sortArray(arr2)", answer:[[0,"April"],[3,"Bob"],[10,"Drew"],[1,"Jason"],[9,"Katie"]], output:"", match:false}],
   basic: 'You can use .sort function do define two return cases, 1st being the 1st element in the subarray, 2nd being the 2nd element in the subarray.',
   psedocode: 'The algorithm is like this:\n\nif(a1 == b1)\n   return a0<b0? -1: a0>b0? 1:0;\nend\n\nreturn a1-b1;',
-  correct: 'var arrays = [\n    [1, "Cathy"],\n    [3, "Boa"],\n    [10, "Drew"],\n    [9, "Drew"],\n    [0, "Bob"],\n    ];\n    \narrays.sort(function(a, b)\n{\n    var x = a[1].toLowerCase(),\n        y = b[1].toLowerCase();\n    if(x === y)\n    {\n       return a[0] - b[0];\n    }\n    \n     return x < y ? -1 : x > y ? 1 : 0;\n    \n});\n\nconsole.log(arrays)'
+  correct: 'var arr1 = [\r\n    [1, \"Cathy\"],\r\n    [2, \"Pat\"],\r\n    [3, \"David\"],\r\n    [4, \"Walt\"],\r\n    [5, \"George\"],\r\n];\r\n    \r\nvar arr2 = [\r\n    [1, \"Jason\"],\r\n    [3, \"Bob\"],\r\n    [10, \"Drew\"],\r\n    [9, \"Katie\"],\r\n    [0, \"April\"],\r\n];\r\n\r\nfunction sortArray(arr){\r\n    arr.sort(function(a, b)\r\n    {\r\n        var x = a[1].toLowerCase(),\r\n            y = b[1].toLowerCase();\r\n        if(x === y)\r\n        {\r\n           return a[0] - b[0];\r\n        }\r\n        \r\n         return x < y ? -1 : x > y ? 1 : 0;\r\n        \r\n    });\r\n    return arr;\r\n}\r\n'
 },{
   id: '6',
   name: 'Task 6 (b)',
-  content: "var obj = {\n\n'current_job_title': [{'engineer': 'front-end'}, {'staff': 'hr'}, {'ceo': 'personal-startup'}],\n'previous_company': { 'time': 1996, 'company_name':  'Facebook' },\n'name' : 'sam',\n'title': 'student'\n\n};",
-  description: "Given an objects. Please write a function to count the number of all object property in it. ",
-  correctOutput: 9,
+  content: "var obj = {\r\n    \"current_job_title\": [{\"engineer\": \"front-end\"}, {\"staff\": \"hr\"}, {\"ceo\": \"personal-startup\"}],\r\n    \"previous_company\": { \"time\": 1996, \"company_name\":  \"Facebook\" },\r\n    \"name\" : \"sam\",\r\n    \"title\": \"student\"\r\n};\r\n\r\nfunction array_object (obj){\r\n\r\n    var size = 0;\r\n    return size;\r\n}\r\n",
+  description: "Given an object, please write a function to count the number of all object property in it.",
+  testCase: [{code: "array_object({1:'hello'})", answer:1, output:null, match:false}, {code: "array_object(obj)", answer:9, output:null, match:false}],
   basic: 'You need to be careful here because you have a mixed of array and object. You should detect array and object.',
   psedocode: 'Define a function to check if the current array element is an object or array (Array.isArray(array_name). Then if it is an object, loop through all properties and do this process again till there is no more sub entre. You can use recursive to check all the subentres.',
-  correct: 'function array_object (obj){\n\n  var size = 0, \n      key;\n  for (key in obj) {\n    if (obj.hasOwnProperty(key)){\n      debugger;\n      if (!Array.isArray(obj))\n      {console.log(key);\n\n      size++;}\n      if(typeof(obj[key])=="object"){\n        size+=array_object(obj[key]);\n      }\n    } \n  }\n    \n  return size;\n}\n\nvar obj = {\n"current_job_title": [{"engineer": "front-end"}, {"staff": "hr"}, {"ceo": "personal-startup"}],\n"previous_company": { "time": 1996, "company_name":  "Facebook" },\n"name" : "sam",\n"title": "student"\n};\n\nconsole.log(array_object(obj));'
+  correct: 'var obj = {\r\n    \"current_job_title\": [{\"engineer\": \"front-end\"}, {\"staff\": \"hr\"}, {\"ceo\": \"personal-startup\"}],\r\n    \"previous_company\": { \"time\": 1996, \"company_name\":  \"Facebook\" },\r\n    \"name\" : \"sam\",\r\n    \"title\": \"student\"\r\n};\r\n\r\nfunction array_object (obj){\r\n\r\n    var size = 0, key;\r\n    \r\n    for (key in obj) {\r\n        if (obj.hasOwnProperty(key)){\r\n            if (!Array.isArray(obj)){\r\n                size++;\r\n            }\r\n            if(typeof(obj[key])==\"object\"){\r\n                size+=array_object(obj[key]);\r\n            }\r\n        } \r\n    }\r\n    \r\n    return size;\r\n}\r\n'
 },{
   id: '7',
   name: 'Task 7 (b)',
-  content: 'var contacts = [\n    {\n        "firstName": "Akira",\n        "lastName": "Laine",\n        "number": "0543236543",\n    },\n    {\n        "firstName": "Harry",\n        "lastName": "Potter",\n        "number": "0994372684",\n    },\n    {\n        "firstName": "Sherlock",\n        "lastName": "Holmes",\n        "number": "0487345643",\n    },\n    {\n        "firstName": "Kristian",\n        "lastName": "Vos",\n        "number": "03134234213",\n    }\n];\n\nfunction lookUpNumberByLastName(lastName){\n  // Only change code below this line\n  for (var i = 0; i < contacts.length; i++) {\n    if (contacts[i].lastName === lastName){\n        return contacts[i].number;\n     }\n  }\n}\n\nconsole.log (lookUpNumberByLastName("Laine"));\n\n//test case\n// lookUpNumberByProperty("Laine", "lastName")\n//  returns : 0543236543\n',
+  content: 'var contacts = [\n    {\n        "firstName": "Akira",\n        "lastName": "Laine",\n        "number": "0543236543",\n    },\n    {\n        "firstName": "Harry",\n        "lastName": "Potter",\n        "number": "0994372684",\n    },\n    {\n        "firstName": "Sherlock",\n        "lastName": "Holmes",\n        "number": "0487345643",\n    },\n    {\n        "firstName": "Kristian",\n        "lastName": "Vos",\n        "number": "03134234213",\n    }\n];\n\nfunction lookUpNumberByLastName(lastName){\n  // Only change code below this line\n  for (var i = 0; i < contacts.length; i++) {\n    if (contacts[i].lastName === lastName){\n        return contacts[i].number;\n     }\n  }\n}\n\n',
   description: "The following code allows you to search the phone number for a given last name in the database. Change the code so that it will look up a phone number by any property (not just last name) that is passed and refactor the example. Please check Akira Laine's number as the final test case. ",
-  correctOutput: "0543236543",
+  testCase: [{code: 'lookUpNumberByProperty("Laine", "lastName")', answer:'0543236543', output:null, match:false},
+  {code: 'lookUpNumberByProperty("Kristian", "firstName")', answer:'03134234213', output:null, match:false}],
   basic: 'Square bracket notation in JavaScript will let you use random string to access property of an json object. Return an array whenever you find the matching element. \n',
   psedocode: 'You can create a function with 2 inputs. Then loop through the array and check if the property is there and if the value of the property equals to the input value. If it is, push it to the array.',
-  correct: 'var contacts = [\n    {\n        "firstName": "Akira",\n        "lastName": "Laine",\n        "number": "0543236543",\n    },\n    {\n        "firstName": "Harry",\n        "lastName": "Potter",\n        "number": "0994372684",\n    },\n    {\n        "firstName": "Sherlock",\n        "lastName": "Holmes",\n        "number": "0487345643",\n    },\n    {\n        "firstName": "Kristian",\n        "lastName": "Vos",\n        "number": "03134234213",\n    }\n];\n\nfunction lookUpNumberByProperty(value, prop){\n  // Only change code below this line\n  var arr = [];\n  for (var i = 0; i < contacts.length; i++) {\n    if (contacts[i].hasOwnProperty(prop) && contacts[i][prop] === value) {\n       return contacts[i].number\n    }\n  }\n}\n\nconsole.log (lookUpNumberByProperty("Laine", "lastName"));'
+  correct: 'var contacts = [\n    {\n        "firstName": "Akira",\n        "lastName": "Laine",\n        "number": "0543236543",\n    },\n    {\n        "firstName": "Harry",\n        "lastName": "Potter",\n        "number": "0994372684",\n    },\n    {\n        "firstName": "Sherlock",\n        "lastName": "Holmes",\n        "number": "0487345643",\n    },\n    {\n        "firstName": "Kristian",\n        "lastName": "Vos",\n        "number": "03134234213",\n    }\n];\n\nfunction lookUpNumberByProperty(value, prop){\n  // Only change code below this line\n  var arr = [];\n  for (var i = 0; i < contacts.length; i++) {\n    if (contacts[i].hasOwnProperty(prop) && contacts[i][prop] === value) {\n       return contacts[i].number\n    }\n  }\n}\n\n'
 }
 
 ];
