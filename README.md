@@ -9,21 +9,10 @@ Install the Node modules and web packages with
     bower install
 
 
-then make sure MongoDB is running with
+then run MongoDB anywhere in your terminal
 
     mongod
 
-from your MongoDB directory, and then run the code with
+then run the code with
 
     node server
-
-You might see a message that says,
-
-    Error: Module did not self-register.]
-    js-bson: Failed to load c++ bson extension, using pure JS version
-
-Don't worry about this; the code will still work.
-
-<h3>Have fun!</h3>
-
-If you have any questions, feel free to leave a comment and I will try to help if I can!
