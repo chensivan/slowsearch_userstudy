@@ -1,6 +1,7 @@
 <!-- ********* Tasks ********** -->
 
-<div ng-show='subjectiveTaskInstruction' ng-include="'subjectiveTaskInstruction.html'">
+<div ng-controller='part2Controller'>
+  <div ng-show='subjectiveTaskInstruction' ng-include="'subjectiveTaskInstruction.html'">
 </div>
 
 <div id="wrapper" ng-show="!subjectiveTaskInstruction">
@@ -70,3 +71,5 @@
       </div>
 
     </div>
+  </div>
+</div>

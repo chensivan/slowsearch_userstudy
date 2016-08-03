@@ -1,5 +1,3 @@
-// MEAN Stack RESTful API Tutorial - Contact List App
-
 var express = require('express');
 var app = express();
 
@@ -62,5 +60,5 @@ app.put('/slowsearch/:id', function (req, res) {
   );
 });
 
-app.listen(4000);
-console.log("Server running on port 4000");
+app.listen(8000);
+console.log("Server running on port 8000");
