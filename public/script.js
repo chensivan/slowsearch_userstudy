@@ -484,7 +484,6 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
       _editor.focus();
   }
 
-
   $scope.run = function(userContent) {
      $scope.consoleOutput = '';
      var result;
@@ -497,8 +496,9 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
      if(!$scope.task.testCase) return;
      for (var ss_index=0; ss_index< $scope.task.testCase.length; ss_index++){
        try {
-         var answer = eval($scope.task.testCase[ss_index].output) ;
+         var answer = eval($scope.task.testCase[ss_index].answer) ;
          $scope.task.testCase[ss_index].output= eval("custom_console_log('test case ' + " + (ss_index+1)+ "+' running...', true);\n" + userContent + "\n" + $scope.task.testCase[ss_index].code );
+
          if($scope.task.testCase[ss_index].output === undefined){
            $scope.task.testCase[ss_index].output = eval($scope.lastOutput);
          }
@@ -507,7 +507,7 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
        }
 
        // check the return value
-       $scope.task.testCase[ss_index].match = JSON.stringify($scope.task.testCase[ss_index].answer) == JSON.stringify($scope.task.testCase[ss_index].output);
+       $scope.task.testCase[ss_index].match = JSON.stringify(answer) == JSON.stringify($scope.task.testCase[ss_index].output);
        aggResult = aggResult & $scope.task.testCase[ss_index].match
      }
 
