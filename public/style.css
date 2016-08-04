@@ -31,8 +31,42 @@ body {
   margin-top: 3px;
 }
 
+pre {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+.editable-wrap {
+  display: inline-block;
+  white-space: nowrap;
+  margin: 0;
+  width: 100%;  //
+}
+.editable-wrap .editable-controls, .editable-wrap .editable-error {
+  margin-bottom: 0;
+  width: 100%;
+}
+.editable-wrap .editable-controls>select {
+    margin-bottom: 0;
+}
+.editable-wrap .editable-controls>input, .editable-wrap .editable-controls>textarea {
+  margin-bottom: 0;
+  width: -moz-calc(100% - 76px);
+  width: -webkit-calc(100% - 76px);
+  width: calc(100% - 76px);
+}
+
+.margin-div {
+    margin: 20px 10px 0px 10px;
+}
+
 .right{
   float:right;
+}
+.left{
+  float:left;
 }
 .task-testcases{
     float:left;

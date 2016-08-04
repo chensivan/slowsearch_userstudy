@@ -1,0 +1,141 @@
+<!--  Task Instruction-->
+<div ng-show = "showTaskSelection">
+    <button ng-click="createNewTask()" class=" btn btn-primary"> Create a new task </button>
+    &nbsp;&nbsp;&nbsp;
+    <span class="dropdown">
+      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">  Select Task
+      <span class="caret"></span></button>
+      <ul id = "task-dropdown" class="dropdown-menu">
+      </ul>
+    </span>
+</div>
+
+<div ng-show = "!showTaskSelection">
+  <div class = "margin-div">
+      <h3>Task Name : <a href="#" editable-text="task.name">{{ task.name || "empty" }}</a></h3>
+  </div>
+  <div class = "margin-div">
+    <h3>Task Description:</h3>
+  </div>
+  <div>
+    <a href="#" editable-textarea="task.description" e-rows="7" e-cols="40">
+      <pre>{{ task.description || 'no description' }}</pre>
+    </a>
+  </div>
+
+
+  <div class = "margin-div">
+    <h3>Complete Answer. </h3>
+  </div>
+  <div>
+    <a href="#" editable-textarea="task.completeAnswer" e-rows="7" e-cols="40">
+      <pre>{{ task.completeAnswer || 'Compose an answer that covers all three level answers' }}</pre>
+    </a>
+  </div>
+
+  <div class = "margin-div">
+    <h3>Level 1 Answer. </h3>
+  </div>
+  <div>
+    <a href="#" editable-textarea="task.level1" e-rows="7" e-cols="40">
+      <pre>{{ task.level1 || 'Summarize the copmlete answer in less than two lines.' }}</pre>
+    </a>
+  </div>
+
+  <div class = "margin-div">
+    <h3>Level 2 Answer. </h3>
+  </div>
+  <div>
+    <a href="#" editable-textarea="task.level2" e-rows="7" e-cols="40">
+      <pre>{{ task.level2 || 'Summarize the copmlete answer in less than seven lines.' }}</pre>
+    </a>
+  </div>
+  <div class = "margin-div">
+    <div class="row">
+        <div class="col-md-6">
+          <div>
+          <h3>Starter code</h3>
+          </div>
+          <div class="ace_editor" id='task1' ui-ace="{onLoad:aceLoaded}" ng-model="task.startercode">
+          </div>
+          <div class = "margin-div right">
+            <button ng-click="run(task.startercode)" class="btn btn-xs btn-primary" type="button" uib-tooltip="We run the following test cases by default.">Run</button>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div>
+          <h3>Level 3 Answer (Correct Code)</h3>
+          </div>
+          <div class="ace_editor" id='correc-tanswer' ui-ace="{onLoad:aceLoaded}" ng-model="task.code">
+          </div>
+          <div class = "margin-div right">
+            <button ng-click="run(task.code)" class="btn btn-xs btn-primary" type="button" uib-tooltip="We run the following test cases by default.">Run</button>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div>
+      <h3>Console Output: </h3>
+      <textarea class = "console-out">{{consoleOutput}}</textarea>
+  </div>
+
+  <div class = "task-testcases">
+    <h3> Test Cases     <button ng-click="addTestCase()" class="btn btn-xs btn-primary" type="button" > Add a test case </button>
+</h3>
+
+    <div class="Table" ng-repeat = "case in task.testCase">
+      <div class="Row">
+          <div class="Cell leftmost-cell">
+              <span>Test Case {{$index + 1}}</span>
+          </div>
+          <div class="Cell">
+              <a href="#" editable-text="case.code">{{ case.code || "empty" }}</a>
+          </div>
+      </div>
+      <div class="Row">
+          <div class="Cell leftmost-cell">
+              <span>Answer</span>
+          </div>
+          <div class="Cell">
+              <a href="#" editable-text="case.answer ">{{ case.answer || "empty" }}</a>
+          </div>
+      </div>
+      <div class="Row">
+          <div class="Cell leftmost-cell">
+              <span>Output</span>
+          </div>
+          <div class="Cell">
+              <span>{{case.output}}</span>
+          </div>
+      </div>
+      <div class="Row">
+          <div class="Cell leftmost-cell">
+              <span>Result</span>
+          </div>
+          <div class="Cell" ng-show="case.match">
+              <span style="color:green;"><strong>PASSED</strong></span>
+          </div>
+          <div class="Cell" ng-show="!case.match">
+              <span style="color:red;"><strong>FAILED</strong><span>
+          </div>
+      </div>
+    </div>
+
+  </div>
+  <div ng-show="!newTask" uib-tooltip="You can update the task when test cases above are passed."  style="float:right;">
+    <button ng-click="update()" class="btn btn-xs btn-primary" type="button" ng-disabled= "!updateEnabled"> Update </button>
+    <br/>
+    <br/>
+    <br/>
+  </div>
+
+  <div ng-show="newTask" uib-tooltip="You can update the task when test cases above are passed."  style="float:right;">
+    <button ng-click="update()" class="btn btn-xs btn-primary" type="button" ng-disabled= "!updateEnabled"> Create </button>
+    <button ng-click="remove()" class="btn btn-xs btn-primary" type="button" > Cancel </button>
+    <br/>
+    <br/>
+    <br/>
+  </div>
+
+
+</div>

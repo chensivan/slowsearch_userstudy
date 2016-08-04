@@ -2,8 +2,11 @@
 
 // create the module and name it scotchApp
     // also include ngRoute for all our routing needs
-var app = angular.module('app', ['rzModule', 'ui.ace','ui.bootstrap', 'ngRoute']);
+var app = angular.module('app', ['rzModule', 'ui.ace','ui.bootstrap', 'ngRoute', "xeditable"]);
 
+app.run(function(editableOptions) {
+  editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+});
 
 app.filter('minsToMinSeconds', [function() {
     return function(value) {
@@ -58,7 +61,18 @@ app.config(function($routeProvider) {
   .when('/part3/:id', {
       templateUrl : 'pages/part3.html',
       controller  : 'part3Controller'
+  })
+
+  .when('/task', {
+      templateUrl : 'pages/task.html',
+      controller  : 'taskController'
+  })
+
+  .when('/task/:taskid', {
+      templateUrl : 'pages/task.html',
+      controller  : 'taskController'
   });
+
 });
 
 
@@ -288,8 +302,6 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
     useWrapMode : true
   };
 
-
-
  $scope.run = function(userContent, taskIndex) {
     $scope.consoleOutput = '';
     var result;
@@ -318,26 +330,6 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
     }else{
       $scope.disableNext = true;
     }
-    /*
-    if($scope.idCounter==4){
-      var now = new Date();
-      var days = new Array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
-      var months = new Array('January','February','March','April','May','June','July','August','September','October','November','December');
-      var date = ((now.getDate()<10) ? "0" : "")+ now.getDate();
-
-      correctAnswer =  days[now.getDay()] + ", " +
-              months[now.getMonth()] + " " +
-              date + ", 2016";
-    }
-
-    if (JSON.stringify($scope.currentOutput) == JSON.stringify(correctAnswer)) {
-      $scope.disableNext = false;
-      $scope.message = "Correct!";
-    }
-    else {
-      $scope.disableNext = true;
-      $scope.message = "Incorrect!";
-    }*/
   };
 
   $scope.nextTask = function() {
@@ -414,6 +406,146 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
 };
 
 
+var taskController = function($scope, $http, $timeout, $location, $routeParams){
+  $scope.message = "hello";
+  $scope.taskid = $routeParams.taskid;
+  $scope.consoleOutput = 'console.log message in starter code will appear here.';
+  $scope.showTaskSelection = true;
+  $scope.updateEnabled = false;
+  $scope.newTask = false;
+  if($scope.taskid){
+    $http.get("gettask/" + $scope.taskid)
+    .then(function(response) {
+
+      if(response.data.length>1){
+        console.error("more than one task returned: investigate this!");
+        alert("Look at the console!");
+        return;
+      }
+      $scope.task = response.data[0];
+      $scope.showTaskSelection = false;
+
+    });
+  }else{
+    $http.get("gettasks")
+    .then(function(response) {
+      response.data.forEach(function(item){
+        $("#task-dropdown").append("<li><a href=\"#task/"+item.id+"\">"+item.name+"</a></li>");
+      });
+    });
+  }
+
+  $scope.createNewTask = function(){
+    $http.get("createtask")
+    .then(function(response) {
+      $scope.task = response.data;
+      $scope.showTaskSelection = false;
+      $scope.newTask = true;
+    });
+  }
+
+  $scope.addTestCase = function(){
+    if(!$scope.task.testCase)
+      $scope.task.testCase = [];
+    $scope.task.testCase.push(
+      {
+        code:"",
+        answer:"",
+        output:"",
+        match: false
+      }
+    );
+  };
+
+  var custom_console_log = function(message, raw) {
+    if(raw){
+      $scope.consoleOutput += message;
+    }else{
+      $scope.consoleOutput += JSON.stringify(message);
+    }
+    $scope.consoleOutput += "\n";
+  };
+  console.log = custom_console_log;
+
+  $scope.aceLoaded = function(_editor){
+      _editor.setTheme("ace/theme/twilight");
+      _editor.getSession().setMode("ace/mode/javascript");
+      _editor.focus();
+  }
+
+  $scope.runStarter = function(content){
+
+    $scope.starterConsoleOutput = '';
+    var result;
+    try {
+      eval(content);
+    } catch (e) {
+      custom_starter_console_log(e.message);
+    }
+
+  };
+
+  $scope.run = function(userContent) {
+     $scope.consoleOutput = '';
+     var result;
+     try {
+       $scope.currentOutput = eval(userContent);
+     } catch (e) {
+       custom_console_log(e.message);
+     }
+     var aggResult = true;
+     if(!$scope.task.testCase) return;
+     for (var ss_index=0; ss_index< $scope.task.testCase.length; ss_index++){
+       try {
+         $scope.task.testCase[ss_index].output = eval("custom_console_log('test case ' + " + (ss_index+1)+ "+' running...', true);\n" + userContent + "\n" + $scope.task.testCase[ss_index].code );
+         if($scope.task.testCase[ss_index].output === undefined){
+           $scope.task.testCase[ss_index].output = $scope.lastOutput;
+         }
+       } catch (e) {
+         $scope.task.testCase[ss_index].output = e.message;
+       }
+
+       if(typeof $scope.task.testCase[ss_index].output == "number"){
+        $scope.task.testCase[ss_index].answer = parseFloat($scope.task.testCase[ss_index].answer);
+       }
+       // check the return value
+       $scope.task.testCase[ss_index].match = JSON.stringify($scope.task.testCase[ss_index].answer) == JSON.stringify($scope.task.testCase[ss_index].output);
+       aggResult = aggResult & $scope.task.testCase[ss_index].match
+     }
+
+     if (aggResult){
+       $scope.updateEnabled = true;
+     }else{
+       $scope.updateEnabled = false;
+     }
+
+   };
+   $scope.remove = function(){
+     console.log($scope.task);
+     $http.post('/taskremove', $scope.task).success(function(response) {
+        console.log("response", response);
+       location.reload();
+     });
+   };
+
+   $scope.update = function(){
+     console.log("update pressed");
+     for (var ss_index=0; ss_index< $scope.task.testCase.length; ss_index++){
+       $scope.task.testCase[ss_index].output = "";
+       $scope.task.testCase[ss_index].match = false;
+     }
+
+
+     $http.post('/taskupdate', $scope.task).success(function(response) {
+       alert("Thank you for your update!");
+       console.log(JSON.stringify(response));
+       location.reload();
+     });
+   }
+}
+
+
+
 app.controller('consentController', ['$scope','$http', '$timeout', '$location', consentController]);
 
 app.controller('part1Controller', ['$scope','$http', '$timeout', '$location', part1Controller]);
@@ -421,6 +553,8 @@ app.controller('part1Controller', ['$scope','$http', '$timeout', '$location', pa
 app.controller('part2Controller', ['$scope','$http', '$timeout', '$location', '$routeParams',  part2Controller]);
 
 app.controller('part3Controller', ['$scope','$http', '$timeout', '$location', '$routeParams',  part3Controller]);
+
+app.controller('taskController', ['$scope','$http', '$timeout', '$location', '$routeParams',  taskController]);
 
 
 
