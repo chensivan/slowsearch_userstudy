@@ -413,7 +413,7 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
   $scope.showTaskSelection = true;
   $scope.updateEnabled = false;
   $scope.newTask = false;
-  
+
   $scope.pTypes = [
     {name:"Memory Aids", desc:"Participants sought a specific function name."},
     {name:"Explanatory Requests", desc:"Participants sought examples or explanations of their code."},
@@ -484,17 +484,6 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
       _editor.focus();
   }
 
-  $scope.runStarter = function(content){
-
-    $scope.starterConsoleOutput = '';
-    var result;
-    try {
-      eval(content);
-    } catch (e) {
-      custom_starter_console_log(e.message);
-    }
-
-  };
 
   $scope.run = function(userContent) {
      $scope.consoleOutput = '';
@@ -508,17 +497,15 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
      if(!$scope.task.testCase) return;
      for (var ss_index=0; ss_index< $scope.task.testCase.length; ss_index++){
        try {
-         $scope.task.testCase[ss_index].output = eval("custom_console_log('test case ' + " + (ss_index+1)+ "+' running...', true);\n" + userContent + "\n" + $scope.task.testCase[ss_index].code );
+         var answer = eval($scope.task.testCase[ss_index].output) ;
+         $scope.task.testCase[ss_index].output= eval("custom_console_log('test case ' + " + (ss_index+1)+ "+' running...', true);\n" + userContent + "\n" + $scope.task.testCase[ss_index].code );
          if($scope.task.testCase[ss_index].output === undefined){
-           $scope.task.testCase[ss_index].output = $scope.lastOutput;
+           $scope.task.testCase[ss_index].output = eval($scope.lastOutput);
          }
        } catch (e) {
          $scope.task.testCase[ss_index].output = e.message;
        }
 
-       if(typeof $scope.task.testCase[ss_index].output == "number"){
-        $scope.task.testCase[ss_index].answer = parseFloat($scope.task.testCase[ss_index].answer);
-       }
        // check the return value
        $scope.task.testCase[ss_index].match = JSON.stringify($scope.task.testCase[ss_index].answer) == JSON.stringify($scope.task.testCase[ss_index].output);
        aggResult = aggResult & $scope.task.testCase[ss_index].match
