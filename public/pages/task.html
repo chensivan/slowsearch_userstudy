@@ -15,6 +15,18 @@
       <h3>Task Name : <a href="#" editable-text="task.name">{{ task.name || "empty" }}</a></h3>
   </div>
   <div class = "margin-div">
+    <h3>  Programming Question Type </h3>
+    <select ng-model = 'task.ptype' ng-options="x.name for x in pTypes">
+      <option value="" disabled selected>Select to change the question type.</option>
+    </select>
+    <div class = "part3-question-form">
+      Selected Type: {{task.ptype.name}}
+      <br/>
+      Description : {{task.ptype.desc}}
+    </div>
+
+  </div>
+  <div class = "margin-div">
     <h3>Task Description:</h3>
   </div>
   <div>

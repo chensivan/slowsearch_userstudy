@@ -413,6 +413,17 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
   $scope.showTaskSelection = true;
   $scope.updateEnabled = false;
   $scope.newTask = false;
+  
+  $scope.pTypes = [
+    {name:"Memory Aids", desc:"Participants sought a specific function name."},
+    {name:"Explanatory Requests", desc:"Participants sought examples or explanations of their code."},
+    {name:"High-Level Strategic Guidance", desc:"Participants sought best ways to approach problems."},
+    {name:"Code Requests", desc:"Participants sought specific pieces of code,"},
+    {name:"Bug Fixing", desc:"Participants sought specific solutions to program errors."},
+    {name:"Code Refactoring", desc:"Participants asked for code improvements."},
+    {name:"Effort-Saving Requests", desc:" Participants handed off tasks to save time and effort"},
+  ];
+
   if($scope.taskid){
     $http.get("gettask/" + $scope.taskid)
     .then(function(response) {
