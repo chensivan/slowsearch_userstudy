@@ -262,7 +262,7 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
     $scope.updateData(function(){
       console.log("updateData Successful");
       window.scrollTo(0,0);
-
+      $scope.searchSlider.value = 3;
       if ($scope.idCounter == 7){
         $location.path("part3/1/");
       }else{
