@@ -615,8 +615,8 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
      for (var ss_index=0; ss_index< $scope.task.testCase.length; ss_index++){
        $scope.task.testCase[ss_index].output = "";
        $scope.task.testCase[ss_index].match = false;
+       $scope.task.testCase[ss_index].answer = eval($scope.task.testCase[ss_index].answer) ;
      }
-     $scope.task.testCase[ss_index].answer = eval($scope.task.testCase[ss_index].answer) ;
 
      $scope.task.level1time = parseInt($scope.task.level1time);
      $scope.task.level2time = parseInt($scope.task.level2time);
