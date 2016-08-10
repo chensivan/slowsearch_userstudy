@@ -31,6 +31,18 @@ body {
   margin-top: 3px;
 }
 
+
+.part3-answer-form{
+  width: 100%;
+  border: solid 1px;
+  background-color: #eee;
+  line-height: 1.2em;
+  font-family: serif;;
+  font-size: 0.75em;
+  padding: 2% 2% 2% 2%;
+  margin-top: 3px;
+}
+
 pre {
     white-space: pre-wrap;       /* Since CSS 2.1 */
     white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */

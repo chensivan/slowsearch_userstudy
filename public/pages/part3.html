@@ -34,13 +34,17 @@
       <!-- right column -->
 
       <div id="col2">
-        <span ng-show = "level>=0">Level {{(level + 1)}} Answer</span>
-        <img style="width:45px; height:45px" src="load.gif" ng-show='loading'>
-        <button ng-hide='slowProgrammingDisabled' class="btn btn-xs btn-primary" style="float: right" ng-click="slowprogramming()" uib-tooltip="Click this button to see hints or answers. But you need to wait a few minutes." ng-disabled='levelButton'>Ask for Help!</button>
+        <span ng-show = "!levelButton && level>=0">Level {{(level + 1)}} Answer</span>
+        <span ng-show = "levelButton">Writing an answer</span>
+        <img style="width:45px" src="typingindicator.gif" ng-show='loading'>
+        <button ng-show='level==-1 && !slowProgrammingDisabled' class="btn btn-xs btn-primary" style="float: right" ng-click="slowprogramming()" uib-tooltip="Click this button to see hints or answers. But you need to wait a few minutes." ng-disabled='levelButton'>
+          Ask for Help!</button>
+        <button ng-show='level>=0 && !slowProgrammingDisabled' class="btn btn-xs btn-primary" style="float: right" ng-click="slowprogramming()" uib-tooltip="Click this button to see hints or answers. But you need to wait a few minutes." ng-disabled='levelButton'>
+            Ask for More Help!</button>
         <br/><br/>
-        <div class = 'part3-question-form' ng-show="level>=0" style="border: 1px solid #000000;word-wrap: break-word;">{{task.level1}}</div>
-        <div class = 'part3-question-form' ng-show="level>=1" style="border: 1px solid #000000;word-wrap: break-word;">{{task.level2}}</div>
-        <pre class = 'part3-question-form' ng-show="level>=2">{{task.code}}</pre>
+        <pre class = 'part3-answer-form' ng-show="level>=0" style="border: 1px solid #000000;word-wrap: break-word;">{{task.level1}}</pre>
+        <pre class = 'part3-answer-form' ng-show="level>=1" style="border: 1px solid #000000;word-wrap: break-word;">{{task.level2}}</pre>
+        <pre class = 'part3-answer-form' ng-show="level>=2">{{task.code}}</pre>
       </div>
     </div>
     <div class = "task-testcases">
