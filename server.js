@@ -109,7 +109,7 @@ app.delete('/slowsearch/:id', function (req, res) {
 app.get('/slowsearch/:id', function (req, res) {
   var id = req.params.id;
   console.log(id);
-  db.slowsearch.findOne({_id: id)}, function (err, doc) {
+  db.slowsearch.findOne({_id: id}, function (err, doc) {
     res.json(doc);
   });
 });
