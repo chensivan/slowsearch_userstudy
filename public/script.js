@@ -564,7 +564,7 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
     try {
       var evaluated = eval($scope.task.testCase[caseIndex].answer);
     } catch (e) {
-      custom_console_log("Answer has an error:", e.message);
+      return ("Answer has an error:" +  e.message);
     }
     return typeof evaluated;
   };
