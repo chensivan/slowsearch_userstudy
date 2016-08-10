@@ -168,7 +168,7 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
 
   $scope.gotoSubTask = function(){
     var timestamp = new Date();
-    $scope.participant_data.subjectiveInstructionButton = timestamp.getTime();
+    $scope.participant_data["startTime"] = timestamp.getTime();
     $scope.subjectiveTaskInstruction = !$scope.subjectiveTaskInstruction;
   }
 
@@ -252,6 +252,7 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
     var timestamp = new Date();
 
     $scope.participant_data.subjectiveTask[$scope.idCounter] = {};
+    $scope.participant_data.subjectiveTask[$scope.idCounter]["search"] = $scope.searchSlider.value;
     $scope.participant_data.subjectiveTask[$scope.idCounter]["level1"] = $scope.taskAs[$scope.idCounter].answers[0].value;
     $scope.participant_data.subjectiveTask[$scope.idCounter]["level2"] = $scope.taskAs[$scope.idCounter].answers[1].value;
     $scope.participant_data.subjectiveTask[$scope.idCounter]["level3"] = $scope.taskAs[$scope.idCounter].answers[2].value;
@@ -260,13 +261,14 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
     $scope.idCounter++;
     $scope.updateData(function(){
       console.log("updateData Successful");
+      window.scrollTo(0,0);
+
       if ($scope.idCounter == 7){
         $location.path("part3/1/");
       }else{
         $scope.showAnswers = !$scope.showAnswers;
         $scope.disableSubmit = !$scope.disableSubmit;
       }
-      window.scrollTo(0,0);
     });
   };
 };
@@ -274,7 +276,6 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
 var part3Controller = function($scope, $http, $timeout, $location, $routeParams){
   $scope.consoleOutput = '';
   $scope.lastOutput = null;
-  $scope.idCounter = 1;
   $scope.showinstruction = false;
   $scope.taskid = 0;
   $scope.startTime = (new Date()).getTime();
@@ -393,9 +394,9 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
     $scope.level = -1;
 
     var timestamp = new Date();
-    $scope.participant_data.objectiveTask[$scope.idCounter].content = $scope.task.startercode;
-    $scope.participant_data.objectiveTask[$scope.idCounter].startTime =$scope.startTime;
-    $scope.participant_data.objectiveTask[$scope.idCounter].finishTime =$scope.endTime;
+    $scope.participant_data.objectiveTask[$scope.taskid].content = $scope.task.startercode;
+    $scope.participant_data.objectiveTask[$scope.taskid].startTime =$scope.startTime;
+    $scope.participant_data.objectiveTask[$scope.taskid].finishTime =$scope.endTime;
 
     $scope.updateData(function(){
        window.onbeforeunload = null;
@@ -412,7 +413,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
 
     if($scope.level == -1){
       var timestamp = new Date();
-      $scope.participant_data.objectiveTask[$scope.idCounter].basic = timestamp.getTime();
+      $scope.participant_data.objectiveTask[$scope.taskid].level1time = timestamp.getTime();
       $scope.levelButton = true;
       $scope.loading = true;
       if(!$scope.task.level1time)$scope.task.level1time = 1;
@@ -424,7 +425,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
 
     }else if($scope.level == 0){
       var timestamp = new Date();
-      $scope.participant_data.objectiveTask[$scope.idCounter].psedocode = timestamp.getTime();
+      $scope.participant_data.objectiveTask[$scope.taskid].level2 = timestamp.getTime();
       $scope.levelButton = true;
       $scope.loading = true;
       if(!$scope.task.level2time)$scope.task.level2time = 1;
@@ -437,7 +438,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
 
     }else if($scope.level == 1){
       var timestamp = new Date();
-      $scope.participant_data.objectiveTask[$scope.idCounter].correct = timestamp.getTime();
+      $scope.participant_data.objectiveTask[$scope.taskid].level3 = timestamp.getTime();
       $scope.levelButton = true;
       $scope.loading = true;
       if(!$scope.task.level3time)$scope.task.level3time = 1;
