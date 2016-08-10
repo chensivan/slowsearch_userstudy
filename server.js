@@ -25,7 +25,7 @@ app.get('/slowsearch', function (req, res) {
 app.get('/gettasks', function (req, res) {
   console.log('I received a GET request re: tasks');
 
-  db.tasks.find({}, {id:true, name:true}, function (err, docs) {
+  db.tasks.find({}, {id:true, name:true, selected:true, selectedid: true}, function (err, docs) {
     res.json(docs);
   });
 });
@@ -34,14 +34,25 @@ app.get('/gettask/:taskid', function (req, res) {
   console.log('I received a GET request re: tasks');
   var task_id = parseInt(req.params.taskid);
 
+  db.tasks.find({selectedid:task_id},{}, function (err, docs) {
+    res.json(docs);
+  });
+});
+
+app.get('/gettaskid/:id', function (req, res) {
+  console.log('I received a GET request re: tasks');
+  var task_id = parseInt(req.params.id);
+
   db.tasks.find({id:task_id},{}, function (err, docs) {
     res.json(docs);
   });
 });
 
 app.post('/slowsearch', function (req, res) {
-  console.log(req.body);
-  db.slowsearch.insert(req.body, function(err, doc) {
+  console.log("I received slowsearch post request:  ");
+  db.slowsearch.update({_id: req.body._id}, {$set: req.body}, {upsert: true}, function(err, doc) {
+    console.log("Error:", err);
+    console.log("Doc:", doc);
     res.json(doc);
   });
 });
@@ -70,16 +81,17 @@ app.post('/taskremove', function (req, res) {
 
 
 app.post('/taskupdate', function (req, res) {
-  console.log("task update added: ", req.body.id);
+  console.log("task update added: ", req.body);
   var _id = req.body._id;
-  delete req.body._id;
+  var update = req.body.update;
+  delete update._id;
   db.tasks.findAndModify(
     {
       query: {_id: mongojs.ObjectId(_id)},
-      update: {$set: req.body}
+      update: {$set: update}
     }, function (err, doc) {
       console.log("err:", err);
-      console.log("doc:", doc);
+    //  console.log("doc:", doc);
       res.json(doc);
     }
   );

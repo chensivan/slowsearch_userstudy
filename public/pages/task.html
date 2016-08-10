@@ -1,13 +1,31 @@
 <!--  Task Instruction-->
 <div ng-show = "showTaskSelection">
+  <div>
+    <h3> Task Creation </h3>
+    (Total {{tasks.length}} tasks available)
     <button ng-click="createNewTask()" class=" btn btn-primary"> Create a new task </button>
     &nbsp;&nbsp;&nbsp;
     <span class="dropdown">
       <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">  Select Task
       <span class="caret"></span></button>
       <ul id = "task-dropdown" class="dropdown-menu">
+        <li ng-repeat = "task in tasks">
+          <a href="#task/{{task.id}}">{{task.name}}</a>
+        </li>
       </ul>
     </span>
+  </div>
+  <div>
+    <h3> Part3 task selection </h3>
+    <div ng-repeat = "task in tasks">
+      <label >
+        <input type="checkbox" ng-model="task.selected" ng-checked = "task.selected">
+        {{task.name}}
+      </label>
+    </div>
+    <button ng-click="updateTaskSet()" class=" btn btn-primary"> Choose up to 7 tasks for part3.</button>
+  </div>
+
 </div>
 
 <div ng-show = "!showTaskSelection">
@@ -46,7 +64,7 @@
   </div>
 
   <div class = "margin-div">
-    <h3>Level 1 Answer. </h3>
+    <h3>Level 1 Answer.</h3></h3> <a href="#" editable-text="task.level1time">{{ task.level1time || "Answer Interval : Type the interval time here in " }} seconds</a>
   </div>
   <div>
     <a href="#" editable-textarea="task.level1" e-rows="7" e-cols="40">
@@ -55,7 +73,7 @@
   </div>
 
   <div class = "margin-div">
-    <h3>Level 2 Answer. </h3>
+    <h3>Level 2 Answer.</h3> <a href="#" editable-text="task.level2time">{{ task.level2time || "Answer Interval : Type the interval time here in" }} seconds</a>
   </div>
   <div>
     <a href="#" editable-textarea="task.level2" e-rows="7" e-cols="40">
@@ -76,7 +94,7 @@
         </div>
         <div class="col-md-6">
           <div>
-          <h3>Level 3 Answer (Correct Code)</h3>
+          <h3>Level 3 Answer (Correct Code)</h3> <a href="#" editable-text="task.level3time">{{ task.level3time || "Answer Interval : Type the interval time here in " }} seconds</a>
           </div>
           <div class="ace_editor" id='correc-tanswer' ui-ace="{onLoad:aceLoaded}" ng-model="task.code">
           </div>
@@ -109,7 +127,7 @@
               <span>Answer</span>
           </div>
           <div class="Cell">
-              <a href="#" editable-text="case.answer ">{{ case.answer || "empty" }}</a>
+              <a href="#" editable-text="case.answer ">{{ case.answer || "empty" }} (type:{{typeofAnswer($index)}})</a>
           </div>
       </div>
       <div class="Row">
@@ -117,7 +135,7 @@
               <span>Output</span>
           </div>
           <div class="Cell">
-              <span>{{case.output}}</span>
+              <span>{{case.output}} (type:{{typeofOutput($index)}})</span>
           </div>
       </div>
       <div class="Row">
