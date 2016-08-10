@@ -124,7 +124,7 @@
       </div>
       <div class="Row">
           <div class="Cell leftmost-cell">
-              <span>Answer</span>
+              <span>Correct Answer is ... </span>
           </div>
           <div class="Cell">
               <a href="#" editable-text="case.answer ">{{ case.answer || "empty" }} (type:{{typeofAnswer($index)}})</a>
@@ -132,7 +132,7 @@
       </div>
       <div class="Row">
           <div class="Cell leftmost-cell">
-              <span>Output</span>
+              <span>Your code returns ... </span>
           </div>
           <div class="Cell">
               <span>{{case.output}} (type:{{typeofOutput($index)}})</span>
@@ -148,6 +148,15 @@
           <div class="Cell" ng-show="!case.match">
               <span style="color:red;"><strong>FAILED</strong><span>
           </div>
+      </div>
+      <div class="Row">
+          <div class="Cell leftmost-cell">
+              <span>Delete?</span>
+          </div>
+          <div class="Cell">
+            <button ng-click="deleteTestCase($index)" class="btn btn-xs btn-primary" type="button" > Delete this test case </button>
+          </div>
+
       </div>
     </div>
 

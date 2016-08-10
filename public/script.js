@@ -531,6 +531,10 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
       $scope.newTask = true;
     });
   }
+  
+  $scope.deleteTestCase = function(index){
+    $scope.task.testCase.splice(index, 1);
+  };
 
   $scope.addTestCase = function(){
     if(!$scope.task.testCase)
