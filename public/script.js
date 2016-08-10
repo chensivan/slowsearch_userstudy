@@ -82,7 +82,7 @@ app.controller('mainController', ['$scope','$http','$location', function($scope,
   // create a message to display in our view
   $scope.message = 'N/A';
   var id = Math.random().toString(36).substring(7);
-
+  $scope._id = id;
   $scope.studymode = false;
 
   $scope.participant_data = {
@@ -318,8 +318,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
     }else if (response.data.length == 0){
       window.onbeforeunload = null;
       $scope.thankyou = true;
-
-      alert("Thank you for your particiaption!");
+      alert("Thank you for your particiaption!" , $scope._id);
     }
     $scope.task = response.data[0];
   });

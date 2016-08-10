@@ -101,7 +101,7 @@ app.post('/taskupdate', function (req, res) {
 app.delete('/slowsearch/:id', function (req, res) {
   var id = req.params.id;
 
-  db.slowsearch.remove({_id: mongojs.ObjectId(id)}, function (err, doc) {
+  db.slowsearch.remove({_id: id}, function (err, doc) {
     res.json(doc);
   });
 });
@@ -109,7 +109,7 @@ app.delete('/slowsearch/:id', function (req, res) {
 app.get('/slowsearch/:id', function (req, res) {
   var id = req.params.id;
   console.log(id);
-  db.slowsearch.findOne({_id: mongojs.ObjectId(id)}, function (err, doc) {
+  db.slowsearch.findOne({_id: id)}, function (err, doc) {
     res.json(doc);
   });
 });
