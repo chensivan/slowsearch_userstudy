@@ -79,7 +79,7 @@ part1_quiz = [
   }
 
 ];
-var defaultValue = 5;
+var defaultValue = 0;
 
 part2_questions = [
   {
@@ -88,9 +88,9 @@ part2_questions = [
     content: '',
     description: "You are given a variable that contains a text. \n\nvar task1 = 'I have 300 dollars in my pocket. Could you sell me that?';\n\nRemove all the digits, whitespace character and punctuations, and print the result in console.",
     answers:[
-      {text:"You can go to this link to find what you need: \n\nhttp://www.w3schools.com/jsref/jsref_obj_regexp.asp", value:defaultValue},
-      {text:"You could use .match(), .replace() function, /\s+/g expression, /[0-9]/g, and /[.?]/g expression", value:defaultValue},
-      {text:"var task1 = 'I have 300 dollars in my pocket. Could you sell me that?';\n //the correct answer is 'IhavedollarsinmypocketCouldyousellmethat'\n   \nvar task1 = task1.replace(/\s+/g,'');\nvar task1 = task1.replace(/[0-9]/g,'');\nvar task1 = task1.replace(/[.?]/g,'');\n\nconsole.log(task1);", value:defaultValue}
+      {text:"You can go to this link to find what you need: \n\nhttp://www.w3schools.com/jsref/jsref_obj_regexp.asp", value:defaultValue,  expectedTime : 0},
+      {text:"You could use .match(), .replace() function, /\s+/g expression, /[0-9]/g, and /[.?]/g expression", value:defaultValue, expectedTime : 0},
+      {text:"var task1 = 'I have 300 dollars in my pocket. Could you sell me that?';\n //the correct answer is 'IhavedollarsinmypocketCouldyousellmethat'\n   \nvar task1 = task1.replace(/\s+/g,'');\nvar task1 = task1.replace(/[0-9]/g,'');\nvar task1 = task1.replace(/[.?]/g,'');\n\nconsole.log(task1);", value:defaultValue, expectedTime : 0}
     ]
       },{
     id: '2',

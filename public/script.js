@@ -176,8 +176,8 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
 
   $scope.testhtml = function(test){
     return "<strong>I'm string, "+test+"</strong>";
-
   }
+
   $scope.getAccAnswer = function(taskIndex, levelIndex){
 
     var list  = [];
@@ -187,10 +187,11 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
 
     return list;
   }
+
   $scope.sliderOptions =   {
     step: 0.001666666666667,
     floor: 0,
-    ceil: 10,
+    ceil: 20,
     precision: 2,
     ticksValuesTooltip: function(v) {
       return 'Tooltip for ' + v;
@@ -200,12 +201,30 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
     }
   };
 
+  $scope.timeSliderOptions = {
+    step: 1,
+    floor: 0,
+    ceil: 60,
+    precision: 1,
+    ticksValuesTooltip: function(v) {
+      return 'Tooltip for ' + v;
+    },
+    translate: function(value) {
+      return value;
+    }
+  }
 
   $scope.taskValue =  4;
 
   $scope.searchSliderChanged = function(a,b,c){
-    console.log(a,b,c);
-  };
+      console.log(a,b,c);
+    };
+
+
+
+    $scope.howLongSliderChanged = function(a,b,c){
+      console.log(a,b,c);
+    };
 
   $scope.waitSliderChanged = function(a,b,c){
     $scope.disableSubmit = false;
@@ -224,6 +243,21 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
         {value: 5, legend: 'Definitely'}
       ],
       showTicksValues: true,
+      ticksValuesTooltip: function(v) {
+        return 'Tooltip for ' + v;
+      },
+      translate: function(value) {
+        return value;
+      }
+    }
+  };
+
+  $scope.howLongSlider = {
+    value:0,
+    options:{
+      step: 1,
+      floor: 0,
+      ceil: 60,
       ticksValuesTooltip: function(v) {
         return 'Tooltip for ' + v;
       },
@@ -253,9 +287,14 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
 
     $scope.participant_data.subjectiveTask[$scope.idCounter] = {};
     $scope.participant_data.subjectiveTask[$scope.idCounter]["search"] = $scope.searchSlider.value;
+    $scope.participant_data.subjectiveTask[$scope.idCounter]["howLong"] = $scope.howLongSlider.value
     $scope.participant_data.subjectiveTask[$scope.idCounter]["level1"] = $scope.taskAs[$scope.idCounter].answers[0].value;
     $scope.participant_data.subjectiveTask[$scope.idCounter]["level2"] = $scope.taskAs[$scope.idCounter].answers[1].value;
     $scope.participant_data.subjectiveTask[$scope.idCounter]["level3"] = $scope.taskAs[$scope.idCounter].answers[2].value;
+    $scope.participant_data.subjectiveTask[$scope.idCounter]["howLongLevel1"] = $scope.taskAs[$scope.idCounter].answers[0].expectedTime;
+    $scope.participant_data.subjectiveTask[$scope.idCounter]["howLongLevel2"] = $scope.taskAs[$scope.idCounter].answers[1].expectedTime;
+    $scope.participant_data.subjectiveTask[$scope.idCounter]["howLongLevel3"] = $scope.taskAs[$scope.idCounter].answers[2].expectedTime;
+
     $scope.participant_data.subjectiveTask[$scope.idCounter]["submitTime"] = timestamp.getTime();
 
     $scope.idCounter++;
@@ -275,6 +314,7 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
 
 var part3Controller = function($scope, $http, $timeout, $location, $routeParams){
   $scope.consoleOutput = '';
+  $scope.runlog = [];
   $scope.lastOutput = null;
   $scope.showinstruction = false;
   $scope.taskid = 0;
@@ -352,6 +392,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
     return typeof $scope.task.testCase[caseIndex].output;
   };
  $scope.run = function(userContent) {
+    var log = {time: (new Date()).getTime(), match:0};
     $scope.consoleOutput = '';
     var result;
     try {
@@ -372,14 +413,22 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
       // check the return value
       $scope.task.testCase[ss_index].match = JSON.stringify($scope.task.testCase[ss_index].answer) == JSON.stringify($scope.task.testCase[ss_index].output);
       aggResult = aggResult & $scope.task.testCase[ss_index].match
+      if($scope.task.testCase[ss_index].match ){
+        log.match++;
+      }
     }
-
+    log.match /= $scope.task.testCase.length;
+    $scope.runlog.push(log);
     if (aggResult){
       $scope.disableNext = false;
     }else{
       $scope.disableNext = true;
     }
   };
+
+  $scope.stringify = function (a){
+    return JSON.stringify(a);
+  }
 
   $scope.nextTask = function() {
     $scope.endTime = (new Date()).getTime();
@@ -397,6 +446,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
     $scope.participant_data.objectiveTask[$scope.taskid].content = $scope.task.startercode;
     $scope.participant_data.objectiveTask[$scope.taskid].startTime =$scope.startTime;
     $scope.participant_data.objectiveTask[$scope.taskid].finishTime =$scope.endTime;
+    $scope.participant_data.objectiveTask[$scope.taskid].runlog = $scope.runlog;
 
     $scope.updateData(function(){
        window.onbeforeunload = null;
@@ -531,7 +581,7 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
       $scope.newTask = true;
     });
   }
-  
+
   $scope.deleteTestCase = function(index){
     $scope.task.testCase.splice(index, 1);
   };

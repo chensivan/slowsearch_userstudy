@@ -22,7 +22,19 @@
                 Do you need to search online content to solve this problem?
                 <br/><br/>
                 <rzslider rz-slider-model="searchSlider.value" rz-slider-options="searchSlider.options" ng-click="searchSliderChanged()"></rzslider>
+                <br/><br/>
+                <br/><br/>
+
               </div>
+
+              <div style="display: inline-block;" ng-show = "!showAnswers">
+                How long do you think it will take for you to solve the problem on your own (with access to Internet)?
+                <br/><br/>
+                I think it will take {{howLongSlider.value | minsToMinSeconds}}.
+                <br/><br/>
+                <rzslider rz-slider-model="howLongSlider.value" rz-slider-options="howLongSlider.options" ng-click="howLongSliderChanged()"></rzslider>
+              </div>
+
 
               <br/><br/>
               <br/><br/>
@@ -32,7 +44,7 @@
             <div ng-show = "showAnswers">
               <br/><br/>
 
-              <p>Please take a look at the following 3 versions of answers. Drag the slider to indicate the amount of time that <strong> you are willing to wait for the specific answer.</strong></p>
+              <p>Please take a look at the following 3 versions of answers. Imagin there is a programmer who can help you solve the problem. Read each answer and indicate <strong>how long you are willing to wait for the particular answer provided by the helper. </strong></p>
               <br/><br/>
               <div ng-repeat="answer in taskA.answers" ng-init = "level_index = $index">
                 <h3 ng-show="$index==0">Level 1 Answer</h3>
@@ -53,11 +65,17 @@
                    </ul>
 
 
-                  <div>
-                    <br/>
-                    <p>I am willing to wait {{answer.value | minsToMinSeconds}}</p>
-                      <rzslider rz-slider-model="answer.value" rz-slider-options="sliderOptions" ng-click="waitSliderChanged()"></rzslider>
-                  </div>
+                   <div>
+                     <br/>
+                     <p>I am willing to wait {{answer.value | minsToMinSeconds}} for this particular answer.</p>
+                       <rzslider rz-slider-model="answer.value" rz-slider-options="sliderOptions" ng-click="waitSliderChanged()"></rzslider>
+                   </div>
+
+                   <div>
+                     <br/>
+                     <p>From the moment which I have the answer above, I can solve this problem in {{answer.expectedTime | minsToMinSeconds}}.</p>
+                       <rzslider rz-slider-model="answer.expectedTime" rz-slider-options="timeSliderOptions" ng-click="waitSliderChanged()"></rzslider>
+                   </div>
                   <br/><br/>
               </div>
             <div>

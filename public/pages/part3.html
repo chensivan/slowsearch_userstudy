@@ -64,7 +64,7 @@
               <span>Correct Answer is ... </span>
             </div>
             <div class="Cell">
-                <span>{{case.answer}} (type:{{typeofAnswer($index)}})</span>
+                <span>{{stringify(case.answer)}} (type:{{typeofAnswer($index)}})</span>
             </div>
         </div>
         <div class="Row">
@@ -72,7 +72,7 @@
                 <span>Your code returns</span>
             </div>
             <div class="Cell">
-                <span>{{case.output}} (type:{{typeofOutput($index)}})</span>
+                <span>{{stringify(case.output)}} (type:{{typeofOutput($index)}})</span>
             </div>
         </div>
         <div class="Row">
