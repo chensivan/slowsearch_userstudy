@@ -2,6 +2,8 @@
 
 // TODO slider initial value NaN
 
+
+var DEFAULT_DELAY = 5;
 // create the module and name it scotchApp
     // also include ngRoute for all our routing needs
 var app = angular.module('app', ['rzModule', 'ui.ace','ui.bootstrap', 'ngRoute', "xeditable"]);
@@ -334,6 +336,15 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
   $scope.showinstruction = false;
   $scope.taskid = 0;
   $scope.startTime = (new Date()).getTime();
+
+  if($scope.timer){
+    $timeout.cancel($scope.timer);
+  }
+
+  if($scope.updateProgressBar){
+    $interval.cancel($scope.updateProgressBar);
+  }
+
   if($routeParams.id){
 
     $scope.taskid = parseInt($routeParams.id);
@@ -452,10 +463,12 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
     $scope.slowProgrammingDisabled = false;
     $scope.levelButton = false;
     $scope.loading = false;
-    if(timer){
-      $timeout.cancel(timer);
-      $interval.cancel(updateProgressBar);
+    if($scope.timer){
+      $timeout.cancel($scope.timer);
+    }
 
+    if($scope.updateProgressBar){
+      $interval.cancel($scope.updateProgressBar);
     }
     $scope.level = -1;
 
@@ -483,19 +496,19 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
       $scope.participant_data.objectiveTask[$scope.taskid].level1time = timestamp.getTime();
       $scope.levelButton = true;
       $scope.loading = true;
-      if(!$scope.task.level1time)$scope.task.level1time = 1;
-      timer = $timeout(function() {
+      if(!$scope.task.level1time)$scope.task.level1time = DEFAULT_DELAY;
+      $scope.timer = $timeout(function() {
         $scope.loading = false;
         $scope.level++;
         $scope.levelButton = false;
-        $interval.cancel(updateProgressBar);
+        $interval.cancel($scope.updateProgressBar);
       }, $scope.task.level1time * 1000);
 
       $(".progress-bar").attr("aria-valuenow",0);
       $(".progress-bar").text("0% Complete");
       $(".progress-bar").attr("style", "width:0%;");
 
-      updateProgressBar = $interval(function() {
+      $scope.updateProgressBar = $interval(function() {
         var progress = parseInt($(".progress-bar").attr("aria-valuenow"));
         progress++;
         $(".progress-bar").attr("aria-valuenow", progress);
@@ -508,13 +521,13 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
       $scope.participant_data.objectiveTask[$scope.taskid].level2 = timestamp.getTime();
       $scope.levelButton = true;
       $scope.loading = true;
-      if(!$scope.task.level2time)$scope.task.level2time = 1;
+      if(!$scope.task.level2time)$scope.task.level2time = DEFAULT_DELAY;
 
-      timer = $timeout(function() {
+      $scope.timer = $timeout(function() {
         $scope.loading = false;
         $scope.level++;
         $scope.levelButton = false;
-        $interval.cancel(updateProgressBar);
+        $interval.cancel($scope.updateProgressBar);
 
       }, $scope.task.level2time * 1000);
 
@@ -522,7 +535,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
       $(".progress-bar").text("0% Complete");
       $(".progress-bar").attr("style", "width:0%;");
 
-      updateProgressBar = $interval(function() {
+      $scope.updateProgressBar = $interval(function() {
         var progress = parseInt($(".progress-bar").attr("aria-valuenow"));
         progress++;
         $(".progress-bar").attr("aria-valuenow", progress);
@@ -535,15 +548,15 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
       $scope.participant_data.objectiveTask[$scope.taskid].level3 = timestamp.getTime();
       $scope.levelButton = true;
       $scope.loading = true;
-      if(!$scope.task.level3time)$scope.task.level3time = 1;
+      if(!$scope.task.level3time)$scope.task.level3time = DEFAULT_DELAY;
 
-      timer = $timeout(function() {
+      $scope.timer = $timeout(function() {
         $scope.loading = false;
         $scope.level++;
         $scope.levelButton = false;
 
         $scope.slowProgrammingDisabled = true;
-        $interval.cancel(updateProgressBar);
+        $interval.cancel($scope.updateProgressBar);
 
       }, $scope.task.level3time * 1000);
 
@@ -551,7 +564,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
       $(".progress-bar").text("0% Complete");
       $(".progress-bar").attr("style", "width:0%;");
 
-      updateProgressBar = $interval(function() {
+      $scope.updateProgressBar = $interval(function() {
         var progress = parseInt($(".progress-bar").attr("aria-valuenow"));
         progress++;
         $(".progress-bar").attr("aria-valuenow", progress);
