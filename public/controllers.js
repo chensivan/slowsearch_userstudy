@@ -1,5 +1,7 @@
 // script.js
 
+// TODO slider initial value NaN
+
 // create the module and name it scotchApp
     // also include ngRoute for all our routing needs
 var app = angular.module('app', ['rzModule', 'ui.ace','ui.bootstrap', 'ngRoute', "xeditable"]);
@@ -23,7 +25,7 @@ app.config(function($routeProvider) {
   $routeProvider
 
   // route for the home page
-  .when('/study', {
+  .when('/study/:condition', {
       templateUrl : 'pages/consent.html',
       controller  : 'consentController'
   })
@@ -57,7 +59,7 @@ app.config(function($routeProvider) {
       controller  : 'part2Controller'
   })
 
-  // route for the contact page
+  // route to a specific contect the contact page
   .when('/part3/:id', {
       templateUrl : 'pages/part3.html',
       controller  : 'part3Controller'
@@ -84,6 +86,7 @@ app.controller('mainController', ['$scope','$http','$location', function($scope,
   var id = Math.random().toString(36).substring(7);
   $scope._id = id;
   $scope.studymode = false;
+  $scope.condition = 1; // by deafult we test synchronous condition
 
   $scope.participant_data = {
       studyStartTime: (new Date()).getTime(),
@@ -114,9 +117,21 @@ app.controller('mainController', ['$scope','$http','$location', function($scope,
 var consentController = function($scope, $http, $timeout, $location, $routeParams){
   window.scrollTo(0,0);
   $scope.disableSubmit = true;
-  if ( $location.$$path == "/study"){
+  if ( $location.$$path.includes("/study")){
     $scope.$parent.studymode = true;
   }
+
+  if (!$routeParams.condition){
+    alert("specify the condition. 0 for baseline, 1 for synchronous");
+  }
+  $scope.$parent.condition = parseInt($routeParams.condition);
+  /*
+  condition can be 1, 2, 3
+  0: baseline
+  1: synchronous
+  2: asynchronous.
+  */
+
 
   $scope.isToggled = function() {
    return $scope.disableSubmit;
@@ -312,7 +327,7 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
   };
 };
 
-var part3Controller = function($scope, $http, $timeout, $location, $routeParams){
+var part3Controller = function($scope, $http, $timeout, $location, $routeParams, $interval){
   $scope.consoleOutput = '';
   $scope.runlog = [];
   $scope.lastOutput = null;
@@ -438,7 +453,9 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
     $scope.levelButton = false;
     $scope.loading = false;
     if(timer){
-        $timeout.cancel(timer);
+      $timeout.cancel(timer);
+      $interval.cancel(updateProgressBar);
+
     }
     $scope.level = -1;
 
@@ -471,7 +488,20 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
         $scope.loading = false;
         $scope.level++;
         $scope.levelButton = false;
+        $interval.cancel(updateProgressBar);
       }, $scope.task.level1time * 1000);
+
+      $(".progress-bar").attr("aria-valuenow",0);
+      $(".progress-bar").text("0% Complete");
+      $(".progress-bar").attr("style", "width:0%;");
+
+      updateProgressBar = $interval(function() {
+        var progress = parseInt($(".progress-bar").attr("aria-valuenow"));
+        progress++;
+        $(".progress-bar").attr("aria-valuenow", progress);
+        $(".progress-bar").text(progress + "% Complete");
+        $(".progress-bar").attr("style", "width:" + progress + "%;");
+      }, $scope.task.level1time * 1000 / 100);
 
     }else if($scope.level == 0){
       var timestamp = new Date();
@@ -484,7 +514,21 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
         $scope.loading = false;
         $scope.level++;
         $scope.levelButton = false;
+        $interval.cancel(updateProgressBar);
+
       }, $scope.task.level2time * 1000);
+
+      $(".progress-bar").attr("aria-valuenow",0);
+      $(".progress-bar").text("0% Complete");
+      $(".progress-bar").attr("style", "width:0%;");
+
+      updateProgressBar = $interval(function() {
+        var progress = parseInt($(".progress-bar").attr("aria-valuenow"));
+        progress++;
+        $(".progress-bar").attr("aria-valuenow", progress);
+        $(".progress-bar").text(progress + "% Complete");
+        $(".progress-bar").attr("style", "width:" + progress + "%;");
+      }, $scope.task.level2time * 1000 / 100);
 
     }else if($scope.level == 1){
       var timestamp = new Date();
@@ -499,7 +543,21 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
         $scope.levelButton = false;
 
         $scope.slowProgrammingDisabled = true;
+        $interval.cancel(updateProgressBar);
+
       }, $scope.task.level3time * 1000);
+
+      $(".progress-bar").attr("aria-valuenow",0);
+      $(".progress-bar").text("0% Complete");
+      $(".progress-bar").attr("style", "width:0%;");
+
+      updateProgressBar = $interval(function() {
+        var progress = parseInt($(".progress-bar").attr("aria-valuenow"));
+        progress++;
+        $(".progress-bar").attr("aria-valuenow", progress);
+        $(".progress-bar").text(progress + "% Complete");
+        $(".progress-bar").attr("style", "width:" + progress + "%;");
+      }, $scope.task.level3time * 1000 / 100);
     }
   }
 
@@ -692,13 +750,13 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
 
 
 
-app.controller('consentController', ['$scope','$http', '$timeout', '$location', consentController]);
+app.controller('consentController', ['$scope','$http', '$timeout', '$location', '$routeParams', consentController]);
 
 app.controller('part1Controller', ['$scope','$http', '$timeout', '$location', part1Controller]);
 
 app.controller('part2Controller', ['$scope','$http', '$timeout', '$location', '$routeParams',  part2Controller]);
 
-app.controller('part3Controller', ['$scope','$http', '$timeout', '$location', '$routeParams',  part3Controller]);
+app.controller('part3Controller', ['$scope','$http', '$timeout', '$location', '$routeParams','$interval',  part3Controller]);
 
 app.controller('taskController', ['$scope','$http', '$timeout', '$location', '$routeParams',  taskController]);
 
