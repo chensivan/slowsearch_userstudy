@@ -3,7 +3,7 @@
 // TODO slider initial value NaN
 
 
-var DEFAULT_DELAY = 5;
+
 // create the module and name it scotchApp
     // also include ngRoute for all our routing needs
 var app = angular.module('app', ['rzModule', 'ui.ace','ui.bootstrap', 'ngRoute', "xeditable"]);
@@ -336,10 +336,17 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
   $scope.showinstruction = false;
   $scope.taskid = 0;
   $scope.startTime = (new Date()).getTime();
+  $scope.moveOn = false;
 
   if($scope.timer){
     $timeout.cancel($scope.timer);
   }
+
+  $timeout(function(){
+    $scope.moveOn = true;
+    alert("Now you have an option to move on to the next task.");
+
+  },cutOffTime * 1000);
 
   if($scope.updateProgressBar){
     $interval.cancel($scope.updateProgressBar);
@@ -456,7 +463,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
     return JSON.stringify(a);
   }
 
-  $scope.nextTask = function() {
+  $scope.nextTask = function(moveOn) {
     $scope.endTime = (new Date()).getTime();
 
     $scope.consoleOutput = "";
@@ -477,6 +484,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
     $scope.participant_data.objectiveTask[$scope.taskid].startTime =$scope.startTime;
     $scope.participant_data.objectiveTask[$scope.taskid].finishTime =$scope.endTime;
     $scope.participant_data.objectiveTask[$scope.taskid].runlog = $scope.runlog;
+    $scope.participant_data.objectiveTask[$scope.taskid].moveOn = moveOn;
 
     $scope.updateData(function(){
        window.onbeforeunload = null;
@@ -485,7 +493,6 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
 
     $scope.disableSubmit = true;
     $scope.msg="";
-
     $scope.disableNext = !$scope.disableNext;
   };
 
@@ -505,15 +512,16 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
       }, $scope.task.level1time * 1000);
 
       $(".progress-bar").attr("aria-valuenow",0);
-      $(".progress-bar").text("0% Complete");
+      if(displayProgress)$(".progress-bar").text("0% Complete");
       $(".progress-bar").attr("style", "width:0%;");
 
       $scope.updateProgressBar = $interval(function() {
         var progress = parseInt($(".progress-bar").attr("aria-valuenow"));
         progress++;
-        $(".progress-bar").attr("aria-valuenow", progress);
-        $(".progress-bar").text(progress + "% Complete");
         $(".progress-bar").attr("style", "width:" + progress + "%;");
+        $(".progress-bar").attr("aria-valuenow", progress);
+        if(displayProgress)$(".progress-bar").text(progress + "% Complete");
+
       }, $scope.task.level1time * 1000 / 100);
 
     }else if($scope.level == 0){
@@ -532,15 +540,15 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
       }, $scope.task.level2time * 1000);
 
       $(".progress-bar").attr("aria-valuenow",0);
-      $(".progress-bar").text("0% Complete");
+      if(displayProgress) $(".progress-bar").text("0% Complete");
       $(".progress-bar").attr("style", "width:0%;");
 
       $scope.updateProgressBar = $interval(function() {
         var progress = parseInt($(".progress-bar").attr("aria-valuenow"));
         progress++;
-        $(".progress-bar").attr("aria-valuenow", progress);
-        $(".progress-bar").text(progress + "% Complete");
         $(".progress-bar").attr("style", "width:" + progress + "%;");
+        $(".progress-bar").attr("aria-valuenow", progress);
+        if(displayProgress)  $(".progress-bar").text(progress + "% Complete");
       }, $scope.task.level2time * 1000 / 100);
 
     }else if($scope.level == 1){
@@ -561,15 +569,15 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
       }, $scope.task.level3time * 1000);
 
       $(".progress-bar").attr("aria-valuenow",0);
-      $(".progress-bar").text("0% Complete");
+      if(displayProgress) $(".progress-bar").text("0% Complete");
       $(".progress-bar").attr("style", "width:0%;");
 
       $scope.updateProgressBar = $interval(function() {
         var progress = parseInt($(".progress-bar").attr("aria-valuenow"));
         progress++;
-        $(".progress-bar").attr("aria-valuenow", progress);
-        $(".progress-bar").text(progress + "% Complete");
         $(".progress-bar").attr("style", "width:" + progress + "%;");
+        $(".progress-bar").attr("aria-valuenow", progress);
+        if(displayProgress)    $(".progress-bar").text(progress + "% Complete");
       }, $scope.task.level3time * 1000 / 100);
     }
   }

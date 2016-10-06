@@ -35,21 +35,21 @@
 
       <div id="col2" ng-show = 'condition>0'>
         <span ng-show = "!levelButton && level>=0">Level {{(level + 1)}} Answer</span>
-        <span ng-show = "levelButton">Writing an answer</span>
+    <!--<span ng-show = "levelButton">Writing an answer</span>
+        <img style="width:45px" src="typingindicator.gif" ng-show='loading'>-->
 
-        <img style="width:45px" src="typingindicator.gif" ng-show='loading'>
+        <div class="progress" ng-show = "levelButton">
+          <div class="progress-bar progress-bar-success active" role="progressbar" aria-valuenow="0"
+          aria-valuemin="0" aria-valuemax="100" style="width:100%">
+          Working...
+          </div>
+        </div>
+
         <button ng-show='level==-1 && !slowProgrammingDisabled' class="btn btn-xs btn-primary" style="float: right" ng-click="slowprogramming()" uib-tooltip="Click this button to see hints or answers. But you need to wait a few minutes." ng-disabled='levelButton'>
           Ask for Help!</button>
         <button ng-show='level>=0 && !slowProgrammingDisabled' class="btn btn-xs btn-primary" style="float: right" ng-click="slowprogramming()" uib-tooltip="Click this button to see hints or answers. But you need to wait a few minutes." ng-disabled='levelButton'>
           Ask for More Help!</button>
-        <br/>
-        <div class="progress" ng-show = "levelButton">
-          <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0"
-          aria-valuemin="0" aria-valuemax="100" style="width:100%">
-            0% Complete (success)
-          </div>
-        </div>
-        <br/>
+        <br/><br/>
         <pre class = 'part3-answer-form' ng-show="level>=0" style="border: 1px solid #000000;word-wrap: break-word;">{{task.level1}}</pre>
         <pre class = 'part3-answer-form' ng-show="level>=1" style="border: 1px solid #000000;word-wrap: break-word;">{{task.level2}}</pre>
         <pre class = 'part3-answer-form' ng-show="level>=2">{{task.code}}</pre>
@@ -98,7 +98,8 @@
 
     </div>
     <div uib-tooltip="You can proceed to the next task when test cases above are passed."  style="float:right;">
-      <button ng-click="nextTask()" class="btn btn-xs btn-primary" type="button" ng-disabled="disableNext"> Next Task </button>
+      <button ng-click="nextTask(false)" class="btn btn-xs btn-primary" type="button" ng-disabled="disableNext"> Next Task </button>
+      <button ng-click="nextTask(true)" class="btn btn-xs btn-primary" type="button" ng-show="moveOn"> Move on to the next task.</button>
     </div>
     <br/>
     <br/>
