@@ -36,7 +36,7 @@
       <div class = "pool-title">Problem Set 1</div>
       <div id = "ps1" class ="pool-task-div connectedSortable">
         <div id = "{{task.id}}" ng-show="task.ps=='ps1'" ng-repeat = "task in tasks" class=" task-item-ps btn btn-warning">
-             {{task.name}}
+            ({{task.ps}}) {{task.name}}
         </div>
       </div>
     </div>
@@ -60,7 +60,7 @@
       <div  class = "pool-title">Task Pool</div>
       <div id = "ps0" class ="pool-task-div connectedSortable">
         <div id = "{{task.id}}" ng-show="task.ps=='ps0'" ng-repeat = "task in tasks" class=" task-item-ps btn btn-warning">
-            ({{task.ps}}) {{task.name}}
+          {{task.name}}
         </div>
       </div>
     </div>
