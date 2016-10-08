@@ -10,6 +10,34 @@ body {
   width: 96%;
 }
 
+.task-item-ps{
+
+}
+
+.task-pool{
+  width:25%;
+  height:600px;
+  list-style-type: none;
+  margin: 0;
+  float: left;
+}
+.pool-title{
+
+}
+.pool-task-div{
+  overflow-y:auto;
+  overflow-x:visible;
+  border: solid gray;
+  padding: 5px ;
+  height:100%;
+}
+.task-item-ps{
+  margin: 5px 5px 5px 5px;
+  padding: 5px;
+  font-size: 1.2em;
+  color:black;
+}
+
 .progress{
   float:left;
   width:50%;

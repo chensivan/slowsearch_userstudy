@@ -2,7 +2,7 @@
   "name": "slowsearch-userstudy",
   "description": "slowSearch User Study",
   "version": "0.0.1",
-  "homepage": "https://github.com/angular/angular-phonecat",
+  "homepage": "http://www.sangwonlee.com",
   "license": "MIT",
   "private": true,
   "dependencies": {
@@ -13,6 +13,19 @@
     "angular-route": "1.5.x",
     "bootstrap": "3.3.x",
     "jquery": "2.2.x",
+    "jquery-ui":"1.12.1",
     "angular-xeditable": "0.2.0"
-  }
+  },
+  "authors": [
+    "Sang Won Lee <snaglee@umich.edu>"
+  ],
+  "main": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components/",
+    "test",
+    "tests"
+  ]
 }

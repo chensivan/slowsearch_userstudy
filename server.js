@@ -25,7 +25,11 @@ app.get('/slowsearch', function (req, res) {
 app.get('/gettasks', function (req, res) {
   console.log('I received a GET request re: tasks');
 
-  db.tasks.find({}, {id:true, name:true, selected:true, selectedid: true}, function (err, docs) {
+  db.tasks.find({}, {id:true, name:true, selected:true, selectedid: true, ps:true},
+    {
+      "sort": "id"
+    }
+    , function (err, docs) {
     res.json(docs);
   });
 });
@@ -34,7 +38,7 @@ app.get('/gettask/:taskid', function (req, res) {
   console.log('I received a GET request re: tasks');
   var task_id = parseInt(req.params.taskid);
 
-  db.tasks.find({selectedid:task_id},{}, function (err, docs) {
+  db.tasks.find({id:task_id},{}, function (err, docs) {
     res.json(docs);
   });
 });

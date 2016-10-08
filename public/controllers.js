@@ -344,8 +344,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
 
   $timeout(function(){
     $scope.moveOn = true;
-    alert("Now you have an option to move on to the next task.");
-
+    alert("Now you have an option to give up on this task and move on to the next task. Once you move on you cannot solve this task");
   },cutOffTime * 1000);
 
   if($scope.updateProgressBar){
@@ -613,39 +612,42 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
         return;
       }
       $scope.task = response.data[0];
-      $scope.showTaskSelection = false;
+      $scope.ç = false;
 
     });
   }else{
     $http.get("gettasks")
     .then(function(response) {
       $scope.tasks = response.data;
+      for (var ii=0; ii<$scope.tasks.length; ii++){
+        $scope.tasks[ii].ps = ($scope.tasks[ii].ps ? $scope.tasks[ii].ps : "ps0");
+      }
+      $timeout(function () {
+    //DOM has finished rendering
+      $( ".pool-task-div" ).sortable({
+        connectWith: ".connectedSortable",
+        receive: function(event, ui){
+          console.log(ui.item.attr("id") ," in ", event.target.id);
+          var taskid = ui.item.attr("id");
+          $scope.tasks[taskid-1].ps = event.target.id;
+        }
+      }).disableSelection();
+      });
+
     });
   };
 
   $scope.updateTaskSet = function(){
     console.log("updateTaskSet");
     var totalCount = 0;
-    for(var i=0; i< this.tasks.length; i++){
-      this.tasks[i].selectedid = -1;
-
-      if(this.tasks[i].selected){
-        totalCount++;
-        this.tasks[i].selectedid = totalCount;
-      }
-    }
-
-    if(totalCount > 7){
-      alert("Don't we only allow up to 7 tasks?");
-      return;
-    }
 
     var count = 0;
+    var length = this.tasks.length;
     for(var i=0; i< this.tasks.length; i++){
-      $http.post('/taskupdate', {_id: this.tasks[i]._id, update: {selected:this.tasks[i].selected, selectedid: this.tasks[i].selectedid}}).success(function(response) {
+      $http.post('/taskupdate', {_id: this.tasks[i]._id, update: {ps:this.tasks[i].ps}}).success(function(response) {
         console.log(JSON.stringify(response));
         count++;
-        if(count == totalCount){
+        if(count == length){
           location.reload();
         }
       });
@@ -686,7 +688,8 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
     }
     $scope.consoleOutput += "\n";
   };
-  console.log = custom_console_log;
+  if(!$scope.showTaskSelection)
+    console.log = custom_console_log;
 
   $scope.aceLoaded = function(_editor){
       _editor.setTheme("ace/theme/twilight");
@@ -741,11 +744,14 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
 
    };
    $scope.remove = function(){
-     console.log($scope.task);
-     $http.post('/taskremove', $scope.task).success(function(response) {
-        console.log("response", response);
-       location.reload();
-     });
+  //   temp_handle($scope.task);
+     if(prompt("are you sure?")){
+       $http.post('/taskremove', $scope.task).success(function(response) {
+          console.log("response", response);
+         location.reload();
+       });
+     }
+
    };
 
    $scope.update = function(){
@@ -755,7 +761,7 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
        $scope.task.testCase[ss_index].match = false;
        $scope.task.testCase[ss_index].answer = eval($scope.task.testCase[ss_index].answer) ;
      }
-
+     $scope.task.ps = "ps0";
      $scope.task.level1time = parseInt($scope.task.level1time);
      $scope.task.level2time = parseInt($scope.task.level2time);
      $scope.task.level3time = parseInt($scope.task.level3time);
