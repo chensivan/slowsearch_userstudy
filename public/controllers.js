@@ -347,6 +347,14 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
       console.log("updateData Successful");
       window.scrollTo(0,0);
       $scope.searchSlider.value = 3;
+      $scope.howLongSlider.value = 0;
+      $scope.taskAs[$scope.idCounter].answers[0].value = 0;
+      $scope.taskAs[$scope.idCounter].answers[1].value = 0;
+      $scope.taskAs[$scope.idCounter].answers[2].value = 0;
+      $scope.taskAs[$scope.idCounter].answers[0].expectedTime = 0;
+      $scope.taskAs[$scope.idCounter].answers[1].expectedTime = 0;
+      $scope.taskAs[$scope.idCounter].answers[2].expectedTime = 0;
+
       if ($scope.idCounter == 7){
         $location.path("part3/"+condition+"/" + ps + "/0/none");
       }else{
