@@ -3,7 +3,7 @@
 part1_quiz = [
   {
     "question": "What is the result of the following script?",
-    "code": "<script type=\"text/javascript\">\n \tx=4+\"4\";\n\tdocument.write(x);\n</script>",
+    "code": "x=4+\"4\";\nconsole.log(x)",
     "options": ["44",
                 "8",
                 "4",
@@ -11,7 +11,7 @@ part1_quiz = [
   },
    {
      "question": "What is the output from the following script?",
-    "code": "<script type=\"text/javascript\">\nvar s = \"9123456 or 80000?\";\nvar pattern = /\d{4}/;\nvar output = s.match(pattern);\ndocument.write(output);\n</script>",
+    "code": "var s = \"9123456 or 80000?\";\nvar pattern = /\d{4}/;\nvar output = s.match(pattern);\nconsole.log(output);",
     "options": ["9123",
                 "91234",
                 "80000",
@@ -19,7 +19,7 @@ part1_quiz = [
   },
    {
      "question": "What is will be shown in the console with the following function?",
-    "code": "function printprops(o) \n{\n    for(var p in o)\n      console.log(p + \": \" + o[p] + \" \");\n}",
+    "code": "function printprops(o){\n    for(var p in o){\n      console.log(p + \": \" + o[p] + \" \");\n    }\n}",
     "options": ["Prints the contents of each property of o",
                 "Returns undefined",
                 "Both a and b",
