@@ -8,6 +8,25 @@
     // also include ngRoute for all our routing needs
 var app = angular.module('app', ['rzModule', 'ui.ace','ui.bootstrap', 'ngRoute', "xeditable"]);
 
+var shuffle = function(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+};
+
 app.run(function(editableOptions) {
   editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
 });
@@ -27,7 +46,7 @@ app.config(function($routeProvider) {
   $routeProvider
 
   // route for the home page
-  .when('/study/:condition', {
+  .when('/study/:condition/:ps', {
       templateUrl : 'pages/consent.html',
       controller  : 'consentController'
   })
@@ -38,31 +57,27 @@ app.config(function($routeProvider) {
   })
 
   // route for the about page
-  .when('/part1', {
+  .when('/part1/:condition/:ps', {
       templateUrl : 'pages/part1.html',
       controller  : 'part1Controller'
   })
 
   // route for the contact page
-  .when('/part2', {
+  .when('/part2/:condition/:ps', {
       templateUrl : 'pages/part2.html',
       controller  : 'part2Controller'
   })
 
-  // route for the contact page
-  .when('/part3', {
-      templateUrl : 'pages/part3.html',
-      controller  : 'part3Controller'
-  })
+
 
   // route for the contact page
-  .when('/part2/:id', {
+  .when('/part2/:condition/:ps/:id', {
       templateUrl : 'pages/part2.html',
       controller  : 'part2Controller'
   })
 
   // route to a specific contect the contact page
-  .when('/part3/:id', {
+  .when('/part3/:condition/:ps/:id/:array', {
       templateUrl : 'pages/part3.html',
       controller  : 'part3Controller'
   })
@@ -122,11 +137,18 @@ var consentController = function($scope, $http, $timeout, $location, $routeParam
   if ( $location.$$path.includes("/study")){
     $scope.$parent.studymode = true;
   }
+  var condition = $routeParams.condition;
+  var ps = $routeParams.ps;
+
 
   if (!$routeParams.condition){
     alert("specify the condition. 0 for baseline, 1 for synchronous");
   }
+  if (!$routeParams.ps){
+    alert("specify the condition. 0 for baseline, 1 for synchronous");
+  }
   $scope.$parent.condition = parseInt($routeParams.condition);
+  $scope.$parent.ps = $routeParams.ps;
   /*
   condition can be 1, 2, 3
   0: baseline
@@ -144,17 +166,20 @@ var consentController = function($scope, $http, $timeout, $location, $routeParam
   };
 
   $scope.submitConsent = function() {
-    $location.path("part1");
+    $location.path("part1/" + condition + "/" + ps);
   };
 
 
 };
 
-var part1Controller = function($scope,  $http, $timeout, $location){
+var part1Controller = function($scope,  $http, $timeout, $location, $routeParams){
   $scope.quiz = part1_quiz;
   $scope.startTime = new Date();
   $scope.quizAnswer = [];
   window.scrollTo(0,0);
+  var condition = $routeParams.condition;
+  var ps = $routeParams.ps;
+
 
   $scope.submitQuiz = function() {
 
@@ -164,13 +189,16 @@ var part1Controller = function($scope,  $http, $timeout, $location){
     $scope.participant_data.quiz['startTime'] = $scope.startTime.getTime();
 
     $scope.updateData(function(){
-      $location.path("part2");
+      $location.path("part2/" + condition + "/" + ps);
     });
   }
 
 };
 
 var part2Controller = function($scope,$http, $timeout, $location, $routeParams  ){
+  var condition = $routeParams.condition;
+  var ps = $routeParams.ps;
+
   window.scrollTo(0,0);
 
   $scope.subjectiveTaskInstruction = true;
@@ -320,7 +348,7 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
       window.scrollTo(0,0);
       $scope.searchSlider.value = 3;
       if ($scope.idCounter == 7){
-        $location.path("part3/1/");
+        $location.path("part3/"+condition+"/" + ps + "/0/none");
       }else{
         $scope.showAnswers = !$scope.showAnswers;
         $scope.disableSubmit = !$scope.disableSubmit;
@@ -337,16 +365,16 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
   $scope.taskid = 0;
   $scope.startTime = (new Date()).getTime();
   $scope.moveOn = false;
+  $scope.array = ($routeParams.array?$routeParams.array.split("-"):[]);
+  var temp_handle = console.log;
 
   if($scope.timer){
     $timeout.cancel($scope.timer);
   }
 
-  $timeout(function(){
-    $scope.moveOn = true;
-    alert("Now you have an option to give up on this task and move on to the next task. Once you move on you cannot solve this task");
-  },cutOffTime * 1000);
-
+  var condition = $routeParams.condition;
+  var ps = $routeParams.ps;
+  $scope.condition = parseInt(condition);
   if($scope.updateProgressBar){
     $interval.cancel($scope.updateProgressBar);
   }
@@ -354,15 +382,38 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
   if($routeParams.id){
 
     $scope.taskid = parseInt($routeParams.id);
-    if($scope.taskid == 1){
-        $scope.showinstruction = true;
+    if($scope.taskid == 0){
+      $scope.showinstruction = true;
+
+      var task_ids = [];
+      $http.get("gettasks")
+      .then(function(response) {
+        var tasks = response.data;
+        temp_handle("tasks.length",tasks.length);
+        for (var ii=0; ii<tasks.length; ii++){
+          if (tasks[ii].ps== ps){
+            task_ids.push(tasks[ii].id);
+          }
+        }
+        temp_handle("before:", task_ids);
+        task_ids = shuffle(task_ids);
+        temp_handle("shuffle:", task_ids);
+        $scope.array = task_ids;
+      });
     }
   }else{
     $scope.showinstruction = true;
-    $scope.taskid = 1;
+    alert("we need id /part3/:taskid/");
+    return;
+  }
+  if(!$scope.showinstruction){
+
+    $timeout(function(){
+      $scope.moveOn = true;
+      alert("Now you have an option to give up on this task and move on to the next task. Once you move on you cannot solve this task");
+    },cutOffTime * 1000);
 
   }
-
   var custom_console_log = function(message, raw) {
     if(raw){
       $scope.consoleOutput += message;
@@ -373,7 +424,6 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
     $scope.consoleOutput += "\n";
     $scope.lastOutput = message;
   };
-  var temp_handle = console.log;
   console.log = custom_console_log;
 
   window.scrollTo(0,0);
@@ -381,27 +431,32 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
   $scope.slowProgrammingDisabled = false;
 
   //$scope.tasks = part3_questions;
-  $http.get("gettask/" + $scope.taskid)
-  .then(function(response) {
+  if($scope.taskid > 0)
+  {
+    var task_id = $scope.array[$scope.taskid-1];
+    temp_handle("retrieving task :", task_id);
+    $http.get("gettask/" + task_id)
+    .then(function(response) {
 
-    if(response.data.length>1){
-      console.error("more than one task returned: investigate this!");
-      alert("Look at the console!");
-      return;
-    }else if (response.data.length == 0){
-      window.onbeforeunload = null;
-      $scope.thankyou = true;
-      alert("Thank you for your particiaption!" , $scope._id);
-    }
-    $scope.task = response.data[0];
-  });
+      if(response.data.length>1){
+        console.error("more than one task returned: investigate this!");
+        alert("Look at the console!");
+        return;
+      }else if (response.data.length == 0){
+        window.onbeforeunload = null;
+        $scope.thankyou = true;
+        alert("Thank you for your particiaption!" , $scope._id);
+      }
+      $scope.task = response.data[0];
+    });
+
+  }
 
   $scope.disableNext = true;
   $scope.level = -1;
   $scope.gotoActualTask = function(){
-    $scope.showinstruction = false;
-    $scope.startTime = (new Date()).getTime();
-
+    window.onbeforeunload = null;
+    $location.path("part3/" + condition + "/" + ps + "/" +($scope.taskid + 1)+ "/" + $scope.array.join("-"));
   };
 
   $scope.aceLoaded = function(_editor){
@@ -479,6 +534,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
     $scope.level = -1;
 
     var timestamp = new Date();
+    $scope.participant_data.objectiveTask[$scope.taskid].taskid = $scope.task.id;
     $scope.participant_data.objectiveTask[$scope.taskid].content = $scope.task.startercode;
     $scope.participant_data.objectiveTask[$scope.taskid].startTime =$scope.startTime;
     $scope.participant_data.objectiveTask[$scope.taskid].finishTime =$scope.endTime;
@@ -487,7 +543,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
 
     $scope.updateData(function(){
        window.onbeforeunload = null;
-       $location.path("part3/" + ($scope.taskid + 1));
+       $location.path("part3/" + condition + "/" + ps + "/" + ($scope.taskid + 1)+ "/" + $scope.array.join("-"));
     });
 
     $scope.disableSubmit = true;
@@ -612,7 +668,7 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
         return;
       }
       $scope.task = response.data[0];
-      $scope.ç = false;
+      $scope.showTaskSelection = false;
 
     });
   }else{
@@ -779,7 +835,7 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
 
 app.controller('consentController', ['$scope','$http', '$timeout', '$location', '$routeParams', consentController]);
 
-app.controller('part1Controller', ['$scope','$http', '$timeout', '$location', part1Controller]);
+app.controller('part1Controller', ['$scope','$http', '$timeout', '$location','$routeParams', part1Controller]);
 
 app.controller('part2Controller', ['$scope','$http', '$timeout', '$location', '$routeParams',  part2Controller]);
 
