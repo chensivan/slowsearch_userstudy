@@ -5,7 +5,7 @@
     (Total {{tasks.length}} tasks available)
     <button ng-click="createNewTask()" class=" btn btn-primary"> Create a new task </button>
     &nbsp;&nbsp;&nbsp;
-    <span class="dropdown">
+  <!--  <span class="dropdown">
       <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">  Select Task
       <span class="caret"></span></button>
       <ul id = "task-dropdown" class="dropdown-menu">
@@ -14,18 +14,61 @@
         </li>
       </ul>
     </span>
+  -->
   </div>
   <div>
-    <h3> Part3 task selection </h3>
+    <h3> Edit Task </h3>
     <div ng-repeat = "task in tasks">
-      <label >
-        <input type="checkbox" ng-model="task.selected" ng-checked = "task.selected">
-        {{task.name}}
-      </label>
+      <div >
+        <!--<input type="checkbox" ng-model="task.selected" ng-checked = "task.selected">-->
+       <a href="/#/task/{{task.id}}" class = "btn btn-default btn-success">EDIT</a>  {{task.name}}
+      </div>
     </div>
-    <button ng-click="updateTaskSet()" class=" btn btn-primary"> Choose up to 7 tasks for part3.</button>
+    <br/><br/>
+
+    <!--<button ng-click="updateTaskSet()" class=" btn btn-primary"> Choose up to 7 tasks for part3.</button>-->
   </div>
 
+  <div>
+    <h3> Problem Set Generation </h3>
+
+    <div class = "task-pool">
+      <div class = "pool-title">Problem Set 1</div>
+      <div id = "ps1" class ="pool-task-div connectedSortable">
+        <div id = "{{task.id}}" ng-show="task.ps=='ps1'" ng-repeat = "task in tasks" class=" task-item-ps btn btn-warning">
+            ({{task.ps}}) {{task.name}}
+        </div>
+      </div>
+    </div>
+    <div class = "task-pool">
+      <div class = "pool-title">Problem Set 2</div>
+      <div id = "ps2" class ="pool-task-div connectedSortable">
+        <div id = "{{task.id}}" ng-show="task.ps=='ps2'" ng-repeat = "task in tasks" class=" task-item-ps btn btn-warning">
+            ({{task.ps}}) {{task.name}}
+        </div>
+      </div>
+    </div>
+    <div class = "task-pool">
+      <div class = "pool-title">Problem Set 3</div>
+      <div id = "ps3" class ="pool-task-div connectedSortable">
+        <div id = "{{task.id}}" ng-show="task.ps=='ps3'" ng-repeat = "task in tasks" class=" task-item-ps btn btn-warning">
+            ({{task.ps}}) {{task.name}}
+        </div>
+      </div>
+    </div>
+    <div class = "task-pool ">
+      <div  class = "pool-title">Task Pool</div>
+      <div id = "ps0" class ="pool-task-div connectedSortable">
+        <div id = "{{task.id}}" ng-show="task.ps=='ps0'" ng-repeat = "task in tasks" class=" task-item-ps btn btn-warning">
+          {{task.name}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="display:inline-block;">
+    <br><br>
+    <button ng-click="updateTaskSet()" class="btn btn-primary">Update Problem Sets</button>
+  </div>
 </div>
 
 <div ng-show = "!showTaskSelection">
@@ -163,6 +206,8 @@
   </div>
   <div ng-show="!newTask" uib-tooltip="You can update the task when test cases above are passed."  style="float:right;">
     <button ng-click="update()" class="btn btn-xs btn-primary" type="button" ng-disabled= "!updateEnabled"> Update </button>
+    <button ng-click="remove()" class="btn btn-xs btn-primary" type="button" > DELETE TASK  </button>
+
     <br/>
     <br/>
     <br/>

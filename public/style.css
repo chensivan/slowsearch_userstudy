@@ -10,6 +10,49 @@ body {
   width: 96%;
 }
 
+.task-item-ps{
+
+}
+
+.task-pool{
+  width:25%;
+  height:600px;
+  list-style-type: none;
+  margin: 0;
+  float: left;
+}
+.pool-title{
+
+}
+.pool-task-div{
+  overflow-y:auto;
+  overflow-x:visible;
+  border: solid gray;
+  padding: 5px ;
+  height:100%;
+}
+.task-item-ps{
+  margin: 5px 5px 5px 5px;
+  padding: 5px;
+  font-size: 1.2em;
+  color:black;
+}
+
+.progress{
+  float:left;
+  width:50%;
+  border:solid 1px;
+  margin: 3px 10px 3px 10px;
+}
+
+.progress-bar {
+    -webkit-transition: none;
+    -moz-transition: none;
+    -ms-transition: none;
+    -o-transition: none;
+    transition: none;
+}​
+
 .answer-form-part2{
   width: 90%;
   border: solid 1px;
