@@ -24,60 +24,7 @@ app.filter('minsToMinSeconds', [function() {
     }])
     // configure our routes
 app.config(function($routeProvider) {
-<<<<<<< HEAD:public/script.js
-    $routeProvider
 
-    // route for the home page
-    .when('/study', {
-        templateUrl: 'pages/consent.html',
-        controller: 'consentController'
-    })
-
-    .when('/consent', {
-        templateUrl: 'pages/consent.html',
-        controller: 'consentController'
-    })
-
-    // route for the about page
-    .when('/part1', {
-        templateUrl: 'pages/part1.html',
-        controller: 'part1Controller'
-    })
-
-    // route for the contact page
-    .when('/part2', {
-        templateUrl: 'pages/part2.html',
-        controller: 'part2Controller'
-    })
-
-    // route for the contact page
-    .when('/part3', {
-        templateUrl: 'pages/part3.html',
-        controller: 'part3Controller'
-    })
-
-    // route for the contact page
-    .when('/part2/:id', {
-        templateUrl: 'pages/part2.html',
-        controller: 'part2Controller'
-    })
-
-    // route for the contact page
-    .when('/part3/:id', {
-        templateUrl: 'pages/part3.html',
-        controller: 'part3Controller'
-    })
-
-    .when('/task', {
-        templateUrl: 'pages/task.html',
-        controller: 'taskController'
-    })
-
-    .when('/task/:taskid', {
-        templateUrl: 'pages/task.html',
-        controller: 'taskController'
-    });
-=======
   $routeProvider
 
   // route for the home page
@@ -130,38 +77,12 @@ app.config(function($routeProvider) {
       templateUrl : 'pages/task.html',
       controller  : 'taskController'
   });
->>>>>>> 34a7c61f36dfe3b412aec3f4b2735c9158bc3b13:public/controllers.js
 
 });
 
 
 // create the controller and inject Angular's $scope
-<<<<<<< HEAD:public/script.js
-app.controller('mainController', ['$scope', '$http', '$location', function($scope, $http, $location) {
 
-    // create a message to display in our view
-    $scope.message = 'N/A';
-    var id = Math.random().toString(36).substring(7);
-    $scope._id = id;
-    $scope.studymode = false;
-
-    $scope.participant_data = {
-        studyStartTime: (new Date()).getTime(),
-        _id: id,
-        quiz: {
-            quiz_answer: []
-        },
-        subjectiveTask: {},
-        objectiveTask: {
-            "1": {},
-            "2": {},
-            "3": {},
-            "4": {},
-            "5": {},
-            "6": {},
-            "7": {}
-        }
-=======
 app.controller('mainController', ['$scope','$http','$location', function($scope, $http, $location) {
 
   // create a message to display in our view
@@ -187,7 +108,6 @@ app.controller('mainController', ['$scope','$http','$location', function($scope,
         "6":{},
         "7":{}
       }
->>>>>>> 34a7c61f36dfe3b412aec3f4b2735c9158bc3b13:public/controllers.js
     };
 
     $scope.updateData = function(callback) {
@@ -198,18 +118,7 @@ app.controller('mainController', ['$scope','$http','$location', function($scope,
     };
 }]);
 
-<<<<<<< HEAD:public/script.js
-var consentController = function($scope, $http, $timeout, $location, $routeParams) {
-    window.scrollTo(0, 0);
-    $scope.disableSubmit = true;
-    if ($location.$$path == "/study") {
-        $scope.$parent.studymode = true;
-    }
 
-    $scope.isToggled = function() {
-        return $scope.disableSubmit;
-    };
-=======
 var consentController = function($scope, $http, $timeout, $location, $routeParams){
   window.scrollTo(0,0);
   $scope.disableSubmit = true;
@@ -232,7 +141,6 @@ var consentController = function($scope, $http, $timeout, $location, $routeParam
   $scope.isToggled = function() {
    return $scope.disableSubmit;
   };
->>>>>>> 34a7c61f36dfe3b412aec3f4b2735c9158bc3b13:public/controllers.js
 
     $scope.toggle = function() {
         $scope.disableSubmit = !$scope.disableSubmit;
@@ -342,38 +250,6 @@ var part2Controller = function($scope, $http, $timeout, $location, $routeParams)
         $scope.disableSubmit = false;
     };
 
-<<<<<<< HEAD:public/script.js
-    $scope.searchSlider = {
-        value: 3,
-        options: {
-            floor: 1,
-            ceil: 5,
-            stepsArray: [{
-                value: 1,
-                legend: 'Definitely not'
-            }, {
-                value: 2,
-                legend: 'Maybe not'
-            }, {
-                value: 3,
-                legend: 'Netural'
-            }, {
-                value: 4,
-                legend: 'Maybe'
-            }, {
-                value: 5,
-                legend: 'Definitely'
-            }],
-            showTicksValues: true,
-            ticksValuesTooltip: function(v) {
-                return 'Tooltip for ' + v;
-            },
-            translate: function(value) {
-                return value;
-            }
-        }
-    };
-=======
 var part3Controller = function($scope, $http, $timeout, $location, $routeParams, $interval){
   $scope.consoleOutput = '';
   $scope.runlog = [];
@@ -405,7 +281,6 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
   }else{
     $scope.showinstruction = true;
     $scope.taskid = 1;
->>>>>>> 34a7c61f36dfe3b412aec3f4b2735c9158bc3b13:public/controllers.js
 
     $scope.howLongSlider = {
         value: 0,
@@ -492,40 +367,12 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
             $scope.consoleOutput += JSON.stringify(message);
         }
 
-<<<<<<< HEAD:public/script.js
-        $scope.consoleOutput += "\n";
-        $scope.lastOutput = message;
-    };
-    var temp_handle = console.log;
-    console.log = custom_console_log;
-=======
   $scope.nextTask = function(moveOn) {
     $scope.endTime = (new Date()).getTime();
->>>>>>> 34a7c61f36dfe3b412aec3f4b2735c9158bc3b13:public/controllers.js
 
     window.scrollTo(0, 0);
     $scope.levelButton = false;
-<<<<<<< HEAD:public/script.js
-    $scope.slowProgrammingDisabled = false;
 
-    //$scope.tasks = part3_questions;
-    $http.get("gettask/" + $scope.taskid)
-        .then(function(response) {
-
-            if (response.data.length > 1) {
-                console.error("more than one task returned: investigate this!");
-                alert("Look at the console!");
-                return;
-            } else if (response.data.length == 0) {
-                window.onbeforeunload = null;
-                $scope.thankyou = true;
-                alert("Thank you for your particiaption!", $scope._id);
-            }
-            $scope.task = response.data[0];
-        });
-
-    $scope.disableNext = true;
-=======
     $scope.loading = false;
     if($scope.timer){
       $timeout.cancel($scope.timer);
@@ -534,22 +381,17 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
     if($scope.updateProgressBar){
       $interval.cancel($scope.updateProgressBar);
     }
->>>>>>> 34a7c61f36dfe3b412aec3f4b2735c9158bc3b13:public/controllers.js
     $scope.level = -1;
     $scope.gotoActualTask = function() {
         $scope.showinstruction = false;
         $scope.startTime = (new Date()).getTime();
 
-<<<<<<< HEAD:public/script.js
-    };
-=======
     var timestamp = new Date();
     $scope.participant_data.objectiveTask[$scope.taskid].content = $scope.task.startercode;
     $scope.participant_data.objectiveTask[$scope.taskid].startTime =$scope.startTime;
     $scope.participant_data.objectiveTask[$scope.taskid].finishTime =$scope.endTime;
     $scope.participant_data.objectiveTask[$scope.taskid].runlog = $scope.runlog;
     $scope.participant_data.objectiveTask[$scope.taskid].moveOn = moveOn;
->>>>>>> 34a7c61f36dfe3b412aec3f4b2735c9158bc3b13:public/controllers.js
 
     $scope.aceLoaded = function(_editor) {
         _editor.setTheme("ace/theme/twilight");
@@ -557,22 +399,10 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
         _editor.focus();
     }
 
-<<<<<<< HEAD:public/script.js
-    $scope.aceOption = {
-        theme: 'tomorrow_night_eighties',
-        mode: 'html',
-        useWrapMode: true
-    };
-
-    $scope.typeofAnswer = function(caseIndex) {
-        return typeof $scope.task.testCase[caseIndex].answer;
-    };
-=======
     $scope.disableSubmit = true;
     $scope.msg="";
     $scope.disableNext = !$scope.disableNext;
   };
->>>>>>> 34a7c61f36dfe3b412aec3f4b2735c9158bc3b13:public/controllers.js
 
     $scope.typeofOutput = function(caseIndex) {
         return typeof $scope.task.testCase[caseIndex].output;
@@ -615,83 +445,6 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
         }
     };
 
-<<<<<<< HEAD:public/script.js
-    $scope.stringify = function(a) {
-        return JSON.stringify(a);
-    }
-
-    $scope.nextTask = function() {
-        $scope.endTime = (new Date()).getTime();
-
-        $scope.consoleOutput = "";
-        $scope.slowProgrammingDisabled = false;
-        $scope.levelButton = false;
-        $scope.loading = false;
-        if (timer) {
-            $timeout.cancel(timer);
-        }
-        $scope.level = -1;
-
-        var timestamp = new Date();
-        $scope.participant_data.objectiveTask[$scope.taskid].content = $scope.task.startercode;
-        $scope.participant_data.objectiveTask[$scope.taskid].startTime = $scope.startTime;
-        $scope.participant_data.objectiveTask[$scope.taskid].finishTime = $scope.endTime;
-        $scope.participant_data.objectiveTask[$scope.taskid].runlog = $scope.runlog;
-
-        $scope.updateData(function() {
-            window.onbeforeunload = null;
-            $location.path("part3/" + ($scope.taskid + 1));
-        });
-
-        $scope.disableSubmit = true;
-        $scope.msg = "";
-
-        $scope.disableNext = !$scope.disableNext;
-    };
-
-    $scope.slowprogramming = function() {
-
-        if ($scope.level == -1) {
-            var timestamp = new Date();
-            $scope.participant_data.objectiveTask[$scope.taskid].level1time = timestamp.getTime();
-            $scope.levelButton = true;
-            $scope.loading = true;
-            if (!$scope.task.level1time) $scope.task.level1time = 1;
-            timer = $timeout(function() {
-                $scope.loading = false;
-                $scope.level++;
-                $scope.levelButton = false;
-            }, $scope.task.level1time * 1000);
-
-        } else if ($scope.level == 0) {
-            var timestamp = new Date();
-            $scope.participant_data.objectiveTask[$scope.taskid].level2 = timestamp.getTime();
-            $scope.levelButton = true;
-            $scope.loading = true;
-            if (!$scope.task.level2time) $scope.task.level2time = 1;
-
-            timer = $timeout(function() {
-                $scope.loading = false;
-                $scope.level++;
-                $scope.levelButton = false;
-            }, $scope.task.level2time * 1000);
-
-        } else if ($scope.level == 1) {
-            var timestamp = new Date();
-            $scope.participant_data.objectiveTask[$scope.taskid].level3 = timestamp.getTime();
-            $scope.levelButton = true;
-            $scope.loading = true;
-            if (!$scope.task.level3time) $scope.task.level3time = 1;
-
-            timer = $timeout(function() {
-                $scope.loading = false;
-                $scope.level++;
-                $scope.levelButton = false;
-
-                $scope.slowProgrammingDisabled = true;
-            }, $scope.task.level3time * 1000);
-        }
-=======
     if($scope.level == -1){
       var timestamp = new Date();
       $scope.participant_data.objectiveTask[$scope.taskid].level1time = timestamp.getTime();
@@ -773,80 +526,10 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams)
         $(".progress-bar").attr("aria-valuenow", progress);
         if(displayProgress)    $(".progress-bar").text(progress + "% Complete");
       }, $scope.task.level3time * 1000 / 100);
->>>>>>> 34a7c61f36dfe3b412aec3f4b2735c9158bc3b13:public/controllers.js
     }
 
 };
 
-
-<<<<<<< HEAD:public/script.js
-var taskController = function($scope, $http, $timeout, $location, $routeParams) {
-    $scope.message = "hello";
-    $scope.taskid = $routeParams.taskid;
-    $scope.consoleOutput = 'console.log message in starter code will appear here.';
-    $scope.showTaskSelection = true;
-    $scope.updateEnabled = false;
-    $scope.newTask = false;
-    $scope.tasks = [];
-    $scope.pTypes = [{
-        name: "Memory Aids",
-        desc: "Participants sought a specific function name."
-    }, {
-        name: "Explanatory Requests",
-        desc: "Participants sought examples or explanations of their code."
-    }, {
-        name: "High-Level Strategic Guidance",
-        desc: "Participants sought best ways to approach problems."
-    }, {
-        name: "Code Requests",
-        desc: "Participants sought specific pieces of code,"
-    }, {
-        name: "Bug Fixing",
-        desc: "Participants sought specific solutions to program errors."
-    }, {
-        name: "Code Refactoring",
-        desc: "Participants asked for code improvements."
-    }, {
-        name: "Effort-Saving Requests",
-        desc: " Participants handed off tasks to save time and effort"
-    }, ];
-
-    if ($scope.taskid) {
-        $http.get("gettaskid/" + $scope.taskid)
-            .then(function(response) {
-
-                if (response.data.length > 1) {
-                    console.error("more than one task returned: investigate this!");
-                    alert("Look at the console!");
-                    return;
-                }
-                $scope.task = response.data[0];
-                $scope.showTaskSelection = false;
-
-            });
-    } else {
-        $http.get("gettasks")
-            .then(function(response) {
-                $scope.tasks = response.data;
-            });
-    };
-
-    $scope.updateTaskSet = function() {
-        console.log("updateTaskSet");
-        var totalCount = 0;
-        for (var i = 0; i < this.tasks.length; i++) {
-            this.tasks[i].selectedid = -1;
-
-            if (this.tasks[i].selected) {
-                totalCount++;
-                this.tasks[i].selectedid = totalCount;
-            }
-        }
-
-        if (totalCount > 7) {
-            alert("Don't we only allow up to 7 tasks?");
-            return;
-=======
 var taskController = function($scope, $http, $timeout, $location, $routeParams){
   $scope.message = "hello";
   $scope.taskid = $routeParams.taskid;
@@ -912,7 +595,6 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
         count++;
         if(count == length){
           location.reload();
->>>>>>> 34a7c61f36dfe3b412aec3f4b2735c9158bc3b13:public/controllers.js
         }
 
         var count = 0;
@@ -972,85 +654,7 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
         _editor.getSession().setMode("ace/mode/javascript");
         _editor.focus();
     }
-<<<<<<< HEAD:public/script.js
-    $scope.typeofAnswer = function(caseIndex) {
-        try {
-            var evaluated = eval($scope.task.testCase[caseIndex].answer);
-        } catch (e) {
-            return ("Answer has an error:" + e.message);
-        }
-        return typeof evaluated;
-    };
 
-    $scope.typeofOutput = function(caseIndex) {
-        return typeof $scope.task.testCase[caseIndex].output;
-    };
-
-    $scope.run = function(userContent) {
-        $scope.consoleOutput = '';
-        var result;
-        try {
-            $scope.currentOutput = eval(userContent);
-        } catch (e) {
-            custom_console_log(e.message);
-        }
-        var aggResult = true;
-        if (!$scope.task.testCase) return;
-        for (var ss_index = 0; ss_index < $scope.task.testCase.length; ss_index++) {
-            try {
-                var answer = eval($scope.task.testCase[ss_index].answer);
-                $scope.task.testCase[ss_index].output = eval("custom_console_log('test case ' + " + (ss_index + 1) + "+' running...', true);\n" + userContent + "\n" + $scope.task.testCase[ss_index].code);
-
-                if ($scope.task.testCase[ss_index].output === undefined) {
-                    $scope.task.testCase[ss_index].output = eval($scope.lastOutput);
-                }
-            } catch (e) {
-                $scope.task.testCase[ss_index].output = e.message;
-            }
-
-            // check the return value
-            $scope.task.testCase[ss_index].match = JSON.stringify(answer) == JSON.stringify($scope.task.testCase[ss_index].output);
-            aggResult = aggResult & $scope.task.testCase[ss_index].match
-        }
-
-        if (aggResult) {
-            $scope.updateEnabled = true;
-        } else {
-            $scope.updateEnabled = false;
-        }
-
-    };
-    $scope.remove = function() {
-        console.log($scope.task);
-        $http.post('/taskremove', $scope.task).success(function(response) {
-            console.log("response", response);
-            location.reload();
-        });
-    };
-
-    $scope.update = function() {
-        console.log("update pressed");
-        for (var ss_index = 0; ss_index < $scope.task.testCase.length; ss_index++) {
-            $scope.task.testCase[ss_index].output = "";
-            $scope.task.testCase[ss_index].match = false;
-            $scope.task.testCase[ss_index].answer = eval($scope.task.testCase[ss_index].answer);
-        }
-
-        $scope.task.level1time = parseInt($scope.task.level1time);
-        $scope.task.level2time = parseInt($scope.task.level2time);
-        $scope.task.level3time = parseInt($scope.task.level3time);
-
-
-        $http.post('/taskupdate', {
-            _id: $scope.task._id,
-            update: $scope.task
-        }).success(function(response) {
-            alert("Thank you for your update!");
-            console.log(JSON.stringify(response));
-            location.reload();
-        });
-    }
-=======
     $scope.consoleOutput += "\n";
   };
   if(!$scope.showTaskSelection)
@@ -1138,26 +742,17 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
        location.reload();
      });
    }
->>>>>>> 34a7c61f36dfe3b412aec3f4b2735c9158bc3b13:public/controllers.js
 }
 
 
 
-<<<<<<< HEAD:public/script.js
-app.controller('consentController', ['$scope', '$http', '$timeout', '$location', consentController]);
-=======
 app.controller('consentController', ['$scope','$http', '$timeout', '$location', '$routeParams', consentController]);
->>>>>>> 34a7c61f36dfe3b412aec3f4b2735c9158bc3b13:public/controllers.js
 
 app.controller('part1Controller', ['$scope', '$http', '$timeout', '$location', part1Controller]);
 
 app.controller('part2Controller', ['$scope', '$http', '$timeout', '$location', '$routeParams', part2Controller]);
 
-<<<<<<< HEAD:public/script.js
-app.controller('part3Controller', ['$scope', '$http', '$timeout', '$location', '$routeParams', part3Controller]);
-=======
 app.controller('part3Controller', ['$scope','$http', '$timeout', '$location', '$routeParams','$interval',  part3Controller]);
->>>>>>> 34a7c61f36dfe3b412aec3f4b2735c9158bc3b13:public/controllers.js
 
 app.controller('taskController', ['$scope', '$http', '$timeout', '$location', '$routeParams', taskController]);
 
