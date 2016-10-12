@@ -131,8 +131,8 @@ var consentController = function($scope, $http, $timeout, $location, $routeParam
     $scope.$parent.studymode = true;
   }
   var condition = $routeParams.condition;
-  var ps2 = $routeParams.part2_ps;
-  var ps3 = $routeParams.part3_ps;
+  var part2_ps = $routeParams.part2_ps;
+  var part3_ps = $routeParams.part3_ps;
 
 
   if (!$routeParams.condition){
