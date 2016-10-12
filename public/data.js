@@ -83,7 +83,7 @@ var defaultValue = 0;
 
 part2_questions = [
   {
-    id: '1',
+    id: '0',
     name: 'Task 1 (a)',
     content: '',
     description: "Write a function that uses 'switch' and 'do/while' (but no 'if/else' statement) in Javascript to loop through an array, and find if the 0th and the 2nd element in the array are string 'hello'. Return a boolean value.\n\nFor example, if the array is ['hello', '1', 'hello'], then return true.",
@@ -93,7 +93,7 @@ part2_questions = [
       {text:"function task8(myArr){\n    \n    var checkBo = [0,0];\n    var i = 0;\n    do{\n      switch(true){\n                      case (myArr[i] =='hello' && i==0):\n                  checkBo[0] = 1;\n            break;\n          case (myArr[i] =='hello' && i==2):\n                  checkBo[1] = 1;\n            break;\n          default:\n                  break;\n      }\n      i++;\n    }while(i < myArr.length)\n    // console.log(checkBo[0] && checkBo[1])\n    return (checkBo[0] && checkBo[1]);\n}\n", value:defaultValue, expectedTime : 0}
     ]
       },{
-    id: '2',
+    id: '1',
     name: 'Task 2 (a)',
     content: '',
     description: "Consider the following code snippet\n\nfor (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button')\n  btn.setAttribute('id',i);\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', function(){ \n      console.log(i); \n  });\n  document.body.appendChild(btn);\n}\n \nWhen any button is clicked, it should print the corresponding ID. For example, clicking button 4 should print 4 to the console. Currently, it always prints 5. Do you know why? Can you rewrite it to produce the correct behavior?\n",
@@ -103,7 +103,7 @@ part2_questions = [
       {text:"//Here is a way to accomplish this:\n\nfor (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button');\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', (function(i) {\n    return function() { console.log(i); };\n  })(i));\n  document.body.appendChild(btn);\n}\n\n//check case, the correct value is 4",value:defaultValue}
     ]
       },{
-    id: '3',
+    id: '2',
     name: 'Task 3(a)',
     content: '',
     description: 'Given the following JavaScript snippet:\n\nfunction countdown (num) {\n    for (var i = 0; i <= num; i += 1) {\n        setTimeout(function () {\n            console.log(num - i);\n        }, i * 1000);\n    }\n}\n\ncountdown(5);\nThe desired result is a countdown from 5 to 0 using alert messages. Explain why the code only alerts -1, then fix the code so it works as expected.\n\n',
@@ -114,7 +114,7 @@ part2_questions = [
 
     ]
       },{
-    id: '4',
+    id: '3',
     name: 'Task 4 (a)',
     content: '',
     description: 'Complete this JavaScript function to convert a date formatted of MM/DD/YYYY to a format of YYYYMMD string.\n\nFor example, when input is "12/31/2014", the return value should be "20141231". \n\nfunction formatDate(userDate) {\n  // format from MM/DD/YYYY to YYYYMMDD\n}\n\nconsole.log(formatDate("12/31/2014")); //prints 20141231',
@@ -124,7 +124,7 @@ part2_questions = [
       {text:"function formatDate(userDate) {\n  var parts = userDate.split('/');\n  if (parseInt(parts[0])>12 || parseInt(parts[0])<1 \n  || parseInt(parts[1])>31|| parseInt(parts[1])<1)\n     return 'wrong date'\n  \n  if (parts[0].length == 1) parts[0] = '0' + parts[0];\n  if (parts[1].length == 1) parts[1] = '0' + parts[1];\n  return parts[2] + parts[0] + parts[1];\n}\n\n\nconsole.log(formatDate('13/32/2014')) // prints wrong date",value:defaultValue}
     ]
       },{
-    id: '5',
+    id: '4',
     name: 'Task 5 (a)',
     content: '',
     description: 'Please write a function to sort an array of objects by a given property name. Each object may have different properties and each property might be a string or number. \n\nFor example, given the following array, \n \nvar arrayOfPeople = [\n{name:"Rick", age: 30, place: 2},\n{name:"Alan", age: 25, place: 1},\n{name:"Joe", age: 40, place: 4},\n{name:"Dave", age: 35, place:3}\n];\n\nIf sorting by place, this function should print out:\n\n[\n{name:"Alan", age: 25, place: 1},\n{name:"Rick", age: 30, place: 2},\n{name:"Dave", age: 35, place:3},\n{name:"Joe", age: 40, place: 4}\n];',
@@ -134,7 +134,7 @@ part2_questions = [
       {text:"var arrayOfPeople = [\n{name:\"Rick\", age: 30, place: 2},\n{name:\"Alan\", age: 25, place: 1},\n{name:\"Joe\", age: 40, place: 4},\n{name:\"Dave\", age: 35, place:3}\n];\n\n\nfunction bubbleSort(a, par)\n{\n    var swapped;\n    do {\n        swapped = false;\n        for (var i=0; i < a.length-1; i++) {\n            if (a[i][par] > a[i+1][par]) {\n                var temp = a[i];\n                a[i] = a[i+1];\n                a[i+1] = temp;\n                swapped = true;\n            }\n        }\n    } while (swapped);\n}\n\n\nbubbleSort(arrayOfPeople, 'place');\n\nfor (i = 0; i < arrayOfPeople.length; i++) {\n   console.log(arrayOfPeople[i]);\n }",value:defaultValue}
     ]
       },{
-    id: '6',
+    id: '5',
     name: 'Task 6 (a)',
     content: '',
     description: 'Rewrite the following code snippet using the jQuery library\n\n<script>\nfunction change(){\n    \n   var myNewTitle = document.getElementById("myTextField").value;\n   if( myNewTitle.length==0 ){\n       console.log("Write Some real Text please.");\n       return;\n   }\n   \n   var title = document.getElementById("title");\n   title.innerHTML = myNewTitle;\n    \n}\n</script>\n\n\n<h1 id="title">Javascript example no.2</h1>\n<input type="text" id="myTextField"/>\n<input type="submit" id="byBtn" value="Change" onclick="change()"/>\n\n',
@@ -144,7 +144,7 @@ part2_questions = [
       {text:"<script>\n$('document').ready(function(){\n  \n$('#byBtn').click(function(){\nvar text = $('#myTextField').val();\n  if(text.length==0)\n      console.log('Write Some real Text please.');\nelse{\n$('#title').text(text);\n   }\n    \n});\n</script>\n\n\n<h1 id=\"title\">Javascript example no.2</h1>\n<input type=\"text\" id=\"myTextField\"/>\n<input type=\"submit\" id=\"byBtn\" value=\"Change\" onclick=\"change()\"/>\n\n",value:defaultValue},
     ]
       },{
-    id: '7',
+    id: '6',
     name: 'Task 7 (a)',
     content: '',
     description: 'Giving the following JSON structure. Write a function to reformat the structure so that each element in this new JSON has the pattern of {"firstName": "Akira", "lastName":"Laine", "number":"0543236543"}.\n\nvar contacts = {\n    "firstName": ["Akira", "Harry","Sherlock","Kristian"],\n    "lastName": ["Laine","Potter", "Holmes","Vos"],\n    "number": ["0543236543","0994372684","0487345643","0123321122"]\n    };\n\n',

@@ -9,7 +9,7 @@
 
     <div id="task(A)">
 
-        <div ng-repeat="taskA in taskAs track by $index" ng-show="taskA.id == idCounter+1" ng-init = "task_index = $index">
+        <div ng-repeat="taskA in taskAs track by $index" ng-show="taskA.id == idCounter" ng-init = "task_index = $index">
 
             <h2>{{taskA.name}}</h2>
             <p>Please read the following question and think of how to solve the problem. </p>

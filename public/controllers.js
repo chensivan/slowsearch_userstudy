@@ -46,7 +46,7 @@ app.config(function($routeProvider) {
   $routeProvider
 
   // route for the home page
-  .when('/study/:condition/:ps', {
+  .when('/study/:condition/:part2_ps/:part3_ps', {
       templateUrl : 'pages/consent.html',
       controller  : 'consentController'
   })
@@ -57,27 +57,20 @@ app.config(function($routeProvider) {
   })
 
   // route for the about page
-  .when('/part1/:condition/:ps', {
+  .when('/part1/:condition/:part2_ps/:part3_ps', {
       templateUrl : 'pages/part1.html',
       controller  : 'part1Controller'
   })
 
   // route for the contact page
-  .when('/part2/:condition/:ps', {
+  .when('/part2/:condition/:part2_ps/:part3_ps', {
       templateUrl : 'pages/part2.html',
       controller  : 'part2Controller'
   })
 
-
-
-  // route for the contact page
-  .when('/part2/:condition/:ps/:id', {
-      templateUrl : 'pages/part2.html',
-      controller  : 'part2Controller'
-  })
 
   // route to a specific contect the contact page
-  .when('/part3/:condition/:ps/:id/:array', {
+  .when('/part3/:condition/:part3_ps/:id/:array', {
       templateUrl : 'pages/part3.html',
       controller  : 'part3Controller'
   })
@@ -138,17 +131,22 @@ var consentController = function($scope, $http, $timeout, $location, $routeParam
     $scope.$parent.studymode = true;
   }
   var condition = $routeParams.condition;
-  var ps = $routeParams.ps;
+  var ps2 = $routeParams.part2_ps;
+  var ps3 = $routeParams.part3_ps;
 
 
   if (!$routeParams.condition){
     alert("specify the condition. 0 for baseline, 1 for synchronous");
   }
-  if (!$routeParams.ps){
-    alert("specify the condition. 0 for baseline, 1 for synchronous");
+  if (!$routeParams.part2_ps){
+    alert("specify the problem set for part 2 . 0 for baseline, 1 for synchronous");
+  }
+  if (!$routeParams.part3_ps){
+    alert("specify the problem set for part 2 . 0 for baseline, 1 for synchronous");
   }
   $scope.$parent.condition = parseInt($routeParams.condition);
-  $scope.$parent.ps = $routeParams.ps;
+  $scope.$parent.part2_ps = $routeParams.part2_ps;
+  $scope.$parent.part3_ps = $routeParams.part3_ps;
   /*
   condition can be 1, 2, 3
   0: baseline
@@ -166,7 +164,7 @@ var consentController = function($scope, $http, $timeout, $location, $routeParam
   };
 
   $scope.submitConsent = function() {
-    $location.path("part1/" + condition + "/" + ps);
+    $location.path("part1/" + condition + "/" + part2_ps + "/" + part3_ps);
   };
 
 
@@ -178,7 +176,8 @@ var part1Controller = function($scope,  $http, $timeout, $location, $routeParams
   $scope.quizAnswer = [];
   window.scrollTo(0,0);
   var condition = $routeParams.condition;
-  var ps = $routeParams.ps;
+  var part2_ps = $routeParams.part2_ps;
+  var part3_ps = $routeParams.part3_ps;
 
 
   $scope.submitQuiz = function() {
@@ -189,7 +188,7 @@ var part1Controller = function($scope,  $http, $timeout, $location, $routeParams
     $scope.participant_data.quiz['startTime'] = $scope.startTime.getTime();
 
     $scope.updateData(function(){
-      $location.path("part2/" + condition + "/" + ps);
+      $location.path("part2/" + condition + "/" + part2_ps + "/" + part3_ps);
     });
   }
 
@@ -197,7 +196,8 @@ var part1Controller = function($scope,  $http, $timeout, $location, $routeParams
 
 var part2Controller = function($scope,$http, $timeout, $location, $routeParams  ){
   var condition = $routeParams.condition;
-  var ps = $routeParams.ps;
+  var part2_ps = $routeParams.part2_ps;
+  var part3_ps = $routeParams.part3_ps;
 
   window.scrollTo(0,0);
 
@@ -216,8 +216,53 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
     $scope.participant_data["startTime"] = timestamp.getTime();
     $scope.subjectiveTaskInstruction = !$scope.subjectiveTaskInstruction;
   }
+  if(part2_ps != 'ps1' && part2_ps != 'ps2'&& part2_ps != 'ps3')
+  {
+    $scope.taskAs = part2_questions;
+  }
+  else{
 
-  $scope.taskAs = part2_questions;
+    $scope.taskAs = [];
+
+    var task_ids = [];
+
+    $http.get("gettasks")
+    .then(function(response) {
+      var tasks = response.data;
+      console.log("tasks.length",tasks.length);
+      for (var i=0; i<tasks.length; i++){
+        if (tasks[i].ps== part2_ps){
+          task_ids.push(tasks[i].id);
+        }
+      }
+      console.log("before:", task_ids);
+      task_ids = shuffle(task_ids);
+      console.log("shuffle:", task_ids);
+      for (i=0; i< task_ids.length; i++){
+        $http.get("gettask/" + task_ids[i])
+        .then(function(response) {
+          if(response.data.length>1){
+            console.error("more than one task returned: investigate this!");
+            alert("Look at the console!");
+            return;
+          }
+          $scope.taskAs.push({
+            id: $scope.taskAs.length,
+            task_id : response.data[0].id,
+            name: response.data[0].name,
+            content: response.data[0].startercode,
+            description: response.data[0].description ,
+            answers:[
+              {text:(response.data[0].level1?response.data[0].level1:"Level 1 answer not yet specified"), value:defaultValue,  expectedTime : 0},
+              {text:(response.data[0].level2?response.data[0].level2:"Level 2 answer not yet specified"), value:defaultValue, expectedTime : 0},
+              {text:(response.data[0].code?response.data[0].code:"Level 3 answer not yet specified"), value:defaultValue, expectedTime : 0}
+            ]
+          })
+
+        });
+      }
+    });
+  }
 
   $scope.testhtml = function(test){
     return "<strong>I'm string, "+test+"</strong>";
@@ -263,13 +308,11 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
 
   $scope.searchSliderChanged = function(a,b,c){
       console.log(a,b,c);
-    };
+  };
 
-
-
-    $scope.howLongSliderChanged = function(a,b,c){
-      console.log(a,b,c);
-    };
+  $scope.howLongSliderChanged = function(a,b,c){
+    console.log(a,b,c);
+  };
 
   $scope.waitSliderChanged = function(a,b,c){
     $scope.disableSubmit = false;
@@ -331,6 +374,7 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
     var timestamp = new Date();
 
     $scope.participant_data.subjectiveTask[$scope.idCounter] = {};
+    $scope.participant_data.subjectiveTask[$scope.idCounter]["task_id"] = $scope.taskAs[$scope.idCounter].task_id;
     $scope.participant_data.subjectiveTask[$scope.idCounter]["search"] = $scope.searchSlider.value;
     $scope.participant_data.subjectiveTask[$scope.idCounter]["howLong"] = $scope.howLongSlider.value
     $scope.participant_data.subjectiveTask[$scope.idCounter]["level1"] = $scope.taskAs[$scope.idCounter].answers[0].value;
@@ -342,7 +386,6 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
 
     $scope.participant_data.subjectiveTask[$scope.idCounter]["submitTime"] = timestamp.getTime();
 
-    $scope.idCounter++;
     $scope.updateData(function(){
       console.log("updateData Successful");
       window.scrollTo(0,0);
@@ -354,9 +397,10 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
       $scope.taskAs[$scope.idCounter].answers[0].expectedTime = 0;
       $scope.taskAs[$scope.idCounter].answers[1].expectedTime = 0;
       $scope.taskAs[$scope.idCounter].answers[2].expectedTime = 0;
+      $scope.idCounter++;
 
-      if ($scope.idCounter == 7){
-        $location.path("part3/"+condition+"/" + ps + "/0/none");
+      if ($scope.idCounter == $scope.taskAs.length){
+        $location.path("part3/"+condition+"/" + part3_ps + "/0/none");
       }else{
         $scope.showAnswers = !$scope.showAnswers;
         $scope.disableSubmit = !$scope.disableSubmit;
@@ -381,7 +425,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
   }
 
   var condition = $routeParams.condition;
-  var ps = $routeParams.ps;
+  var part3_ps = $routeParams.part3_ps;
   $scope.condition = parseInt(condition);
   if($scope.updateProgressBar){
     $interval.cancel($scope.updateProgressBar);
@@ -399,7 +443,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
         var tasks = response.data;
         temp_handle("tasks.length",tasks.length);
         for (var ii=0; ii<tasks.length; ii++){
-          if (tasks[ii].ps== ps){
+          if (tasks[ii].ps== part3_ps){
             task_ids.push(tasks[ii].id);
           }
         }
@@ -464,7 +508,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
   $scope.level = -1;
   $scope.gotoActualTask = function(){
     window.onbeforeunload = null;
-    $location.path("part3/" + condition + "/" + ps + "/" +($scope.taskid + 1)+ "/" + $scope.array.join("-"));
+    $location.path("part3/" + condition + "/" + part3_ps + "/" +($scope.taskid + 1)+ "/" + $scope.array.join("-"));
   };
 
   $scope.aceLoaded = function(_editor){
@@ -551,7 +595,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
 
     $scope.updateData(function(){
        window.onbeforeunload = null;
-       $location.path("part3/" + condition + "/" + ps + "/" + ($scope.taskid + 1)+ "/" + $scope.array.join("-"));
+       $location.path("part3/" + condition + "/" + part3_ps + "/" + ($scope.taskid + 1)+ "/" + $scope.array.join("-"));
     });
 
     $scope.disableSubmit = true;
@@ -809,7 +853,7 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
    };
    $scope.remove = function(){
   //   temp_handle($scope.task);
-     if(prompt("are you sure?")){
+     if(confirm("are you sure?")){
        $http.post('/taskremove', $scope.task).success(function(response) {
           console.log("response", response);
          location.reload();
@@ -823,7 +867,6 @@ var taskController = function($scope, $http, $timeout, $location, $routeParams){
      for (var ss_index=0; ss_index< $scope.task.testCase.length; ss_index++){
        $scope.task.testCase[ss_index].output = "";
        $scope.task.testCase[ss_index].match = false;
-       $scope.task.testCase[ss_index].answer = eval($scope.task.testCase[ss_index].answer) ;
      }
      $scope.task.ps = "ps0";
      $scope.task.level1time = parseInt($scope.task.level1time);
