@@ -48,7 +48,7 @@ part1_quiz = [
   },
    {
     "question": "In the following block of code, what are 'firstname' and 'surname' called?",
-    "code":"var book = {\"main title\": \"JavaScript\",\n\"sub-title\": \"The Definitive Guide\",\n\"for\": \"all audiences\",\n\"author\": { \n   firstname: \"David\", \n    surname: \"Flanagan\" \n}};\n",
+    "code":"var book = {\n\"main title\": \"JavaScript\",\n\"sub-title\": \"The Definitive Guide\",\n\"for\": \"all audiences\",\n\"author\": { \n   firstname: \"David\", \n   surname: \"Flanagan\" \n}};\n",
     "options": ["properties",
                 "property values",
                 "property names",
@@ -64,7 +64,7 @@ part1_quiz = [
   },
   {
     "question": "The following code returns",
-    "code":"(function(){  \n  return typeof arguments; \n })();",
+    "code":"(function(){  \n  return typeof arguments; \n})();",
     "options": ["\"object\"",
                 "\"array\"",
                 "\"arguments\"",
@@ -86,11 +86,11 @@ part2_questions = [
     id: '1',
     name: 'Task 1 (a)',
     content: '',
-    description: "You are given a variable that contains text. \n\nvar task1 = 'I have 300 dollars in my pocket. Could you sell me that?';\n\nRemove all digits, whitespace characters and punctuation, and print the result to the console.",
+    description: "Write a function that uses 'switch' and 'do/while' (but no 'if/else' statement) in Javascript to loop through an array, and find if the 0th and the 2nd element in the array are string 'hello'. Return a boolean value.\n\nFor example, if the array is ['hello', '1', 'hello'], then return true.",
     answers:[
-      {text:"You can go to this link to find what you need: \n\nhttp://www.w3schools.com/jsref/jsref_obj_regexp.asp", value:defaultValue,  expectedTime : 0},
-      {text:"You could use .match(), .replace() function, /\s+/g expression, /[0-9]/g, and /[.?]/g expression", value:defaultValue, expectedTime : 0},
-      {text:"var task1 = 'I have 300 dollars in my pocket. Could you sell me that?';\n //the correct answer is 'IhavedollarsinmypocketCouldyousellmethat'\n   \nvar task1 = task1.replace(/\s+/g,'');\nvar task1 = task1.replace(/[0-9]/g,'');\nvar task1 = task1.replace(/[.?]/g,'');\n\nconsole.log(task1);", value:defaultValue, expectedTime : 0}
+      {text:"General syntax for these methods are:\n\nswitch(expression) {\n    case n:\n        code block\n        break;\n    case n:\n        code block\n        break;\n    default:\n        default code block\n}\n\ndo {\n    code block to be executed\n}\nwhile (condition);", value:defaultValue,  expectedTime : 0},
+      {text:"You need to have two conditions in each case, one to check the element value, and the other to check the index value. \n\nswitch(always running){\n  case (condition1)\n    a1 = true\n  case (condition2)\n    a2 = true\n}\n\nreturn a1 && a2", value:defaultValue, expectedTime : 0},
+      {text:"function task8(myArr){\n    \n    var checkBo = [0,0];\n    var i = 0;\n    do{\n      switch(true){\n                      case (myArr[i] =='hello' && i==0):\n                  checkBo[0] = 1;\n            break;\n          case (myArr[i] =='hello' && i==2):\n                  checkBo[1] = 1;\n            break;\n          default:\n                  break;\n      }\n      i++;\n    }while(i < myArr.length)\n    // console.log(checkBo[0] && checkBo[1])\n    return (checkBo[0] && checkBo[1]);\n}\n", value:defaultValue, expectedTime : 0}
     ]
       },{
     id: '2',
@@ -98,40 +98,40 @@ part2_questions = [
     content: '',
     description: "Consider the following code snippet\n\nfor (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button')\n  btn.setAttribute('id',i);\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', function(){ \n      console.log(i); \n  });\n  document.body.appendChild(btn);\n}\n \nWhen any button is clicked, it should print the corresponding ID. For example, clicking button 4 should print 4 to the console. Currently, it always prints 5. Do you know why? Can you rewrite it to produce the correct behavior?\n",
     answers:[
-      {text:'This task is about asynchronous method in javascript. You need to understand that within the synchronous function, the asynchronous function. "No matter what button the user clicks the number 5 will always be logged to the console. This is because, at the point that the onclick method is invoked (for any of the buttons), the for loop has already completed and the variable i already has a value of 5.\n" ',value:defaultValue},
-      {text:"The key to making this work is to capture the value of i at each pass through the for loop by passing it into a newly created function object.  You should consider to use closure function to scope the adding click even listener.",value:defaultValue},
+      {text:'This task is about asynchronous method in javascript. You need to understand that inside the for loop function, the addEventListener method is an asynchronous function. No matter what button the user clicks the number 5 will always be logged to the console. This is because, at the point that the onclick method is invoked (for any of the buttons), the for loop has already completed and the variable i already has a value of 5.',value:defaultValue},
+      {text:"The key to make this work is to capture the value of i at each iteration in the for loop, and store it to a newly created function object.  You should consider to use a closure function to scope the adding click even listener.",value:defaultValue},
       {text:"//Here is a way to accomplish this:\n\nfor (var i = 0; i < 5; i++) {\n  var btn = document.createElement('button');\n  btn.appendChild(document.createTextNode('Button ' + i));\n  btn.addEventListener('click', (function(i) {\n    return function() { console.log(i); };\n  })(i));\n  document.body.appendChild(btn);\n}\n\n//check case, the correct value is 4",value:defaultValue}
     ]
       },{
     id: '3',
     name: 'Task 3(a)',
     content: '',
-    description: 'Given the following JavaScript snippet:\n\nfunction countdown (num) {\n    for (var i = 0; i <= num; i += 1) {\n        setTimeout(function () {\n            alert(num - i);\n        }, i * 1000);\n    }\n}\n\ncountdown(5);\nThe desired result is a countdown from 5 to 0 using alert messages. Explain why the code only alerts -1, then fix the code so it works as expected.\n\n',
+    description: 'Given the following JavaScript snippet:\n\nfunction countdown (num) {\n    for (var i = 0; i <= num; i += 1) {\n        setTimeout(function () {\n            console.log(num - i);\n        }, i * 1000);\n    }\n}\n\ncountdown(5);\nThe desired result is a countdown from 5 to 0 using alert messages. Explain why the code only alerts -1, then fix the code so it works as expected.\n\n',
     answers:[
-        {text:"Because of the scope of i when the anonymous function is called the loop is over and iis in it's final value(-1). ",value:defaultValue},
+        {text:"The setTimeout is an asynchronous method so it will be executed after the for loop. The variable i, therefore, will be the last value in the iteration. ",value:defaultValue},
       {text:"To solve this you can isolate a local scope with another anonymous function where you can redefine private variable i like this:\n\ncountdown function:\n    for loop:\n        using a closure to close the setTimeout function\n            setTimeout\n       closing the closure function, and call the iteration\n    end\nend\n\ncountdown(5);",value:defaultValue},
-      {text:"function countdown (num) {\n    for (var i = 0; i <= num; i += 1) {\n        (function(i) {\n            setTimeout(function () {\n                alert(num - i);\n            }, i * 1000);\n        })(i);\n    }\n}\n\ncountdown(5);\n\n",value:defaultValue}
+      {text:"function countdown (num) {\n    for (var i = 0; i <= num; i += 1) {\n        (function(i) {\n            setTimeout(function () {\n                console.log(num - i);\n            }, i * 1000);\n        })(i);\n    }\n}\n\ncountdown(5);\n\n",value:defaultValue}
 
     ]
       },{
     id: '4',
     name: 'Task 4 (a)',
     content: '',
-    description: 'Complete this JavaScript function to convert a date formatted as MM/DD/YYYY to a format as YYYYMMD string.\n\nFor example, it should convert the user entered date "12/31/2014" to "20141231". \n\nfunction formatDate(userDate) {\n  // format from MM/DD/YYYY to YYYYMMDD\n}\n\nconsole.log(formatDate("12/31/2014"));',
+    description: 'Complete this JavaScript function to convert a date formatted of MM/DD/YYYY to a format of YYYYMMD string.\n\nFor example, when input is "12/31/2014", the return value should be "20141231". \n\nfunction formatDate(userDate) {\n  // format from MM/DD/YYYY to YYYYMMDD\n}\n\nconsole.log(formatDate("12/31/2014")); //prints 20141231',
     answers:[
-      {text:"First, you need to split the string to an array. Then you can do regex manipulation on the array",value:defaultValue},
-      {text:"You can do the following:\n\nfunction:\n   split the string using .split(/(\d{1,2})\/(\d{1,2})\/(\d{6})/);\nreturn the results",value:defaultValue},
-      {text:"function formatDate(userDate) {\n // format from M/D/YYYY to YYYYMMDD\n var dateParts = userDate.split(/(\d{1,2})\/(\d{1,2})\/(\d{6})/);\n return dateParts[3] + dateParts[1] + dateParts[2];\n}\n\nconsole.log(formatDate(\"12/31/2016\"));",value:defaultValue}
+      {text:"First, you need to split the string date to an array by '/'. Then you want to check if the date is valid, and then join the array back to string by some string manipulation.",value:defaultValue},
+      {text:"The date constraints are: the month should be less than 13 but greater than 1, the day should be less than 31 but greater than 0. You need to also add a '0' if the month or day is less than 10.",value:defaultValue},
+      {text:"function formatDate(userDate) {\n  var parts = userDate.split('/');\n  if (parseInt(parts[0])>12 || parseInt(parts[0])<1 \n  || parseInt(parts[1])>31|| parseInt(parts[1])<1)\n     return 'wrong date'\n  \n  if (parts[0].length == 1) parts[0] = '0' + parts[0];\n  if (parts[1].length == 1) parts[1] = '0' + parts[1];\n  return parts[2] + parts[0] + parts[1];\n}\n\n\nconsole.log(formatDate('13/32/2014')) // prints wrong date",value:defaultValue}
     ]
       },{
     id: '5',
     name: 'Task 5 (a)',
     content: '',
-    description: 'Please write a function to sort an array of objects by one of their properties. Each object may have different properties and each property might be a string or number. \n\nFor example, given the following array, \n \nvar arrayOfPeople = [\n{name:"Rick", age: 30, place: 2},\n{name:"Alan", age: 25, place: 1},\n{name:"Joe", age: 40, place: 4},\n{name:"Dave", age: 35, place:3}\n];\n\nIf sorting by place, this function should print out:\n\n[\n{name:"Alan", age: 25, place: 1},\n{name:"Rick", age: 30, place: 2},\n{name:"Dave", age: 35, place:3},\n{name:"Joe", age: 40, place: 4}\n];',
+    description: 'Please write a function to sort an array of objects by a given property name. Each object may have different properties and each property might be a string or number. \n\nFor example, given the following array, \n \nvar arrayOfPeople = [\n{name:"Rick", age: 30, place: 2},\n{name:"Alan", age: 25, place: 1},\n{name:"Joe", age: 40, place: 4},\n{name:"Dave", age: 35, place:3}\n];\n\nIf sorting by place, this function should print out:\n\n[\n{name:"Alan", age: 25, place: 1},\n{name:"Rick", age: 30, place: 2},\n{name:"Dave", age: 35, place:3},\n{name:"Joe", age: 40, place: 4}\n];',
     answers:[
-      {text:"You can do bubble sorting by the property name. \n\n", value:defaultValue},
+      {text:"There are two input variables: array and property name. You can do do a bubble sort on the property name. \n\n", value:defaultValue},
       {text:"Here is the algorithm\n\ninput: array, property\n\nfunction:\n   for i=1:length of the array\n      if array[i-1]>array[i] swap these two\n   end\nend", value:defaultValue},
-      {text:"var arrayOfPeople = [\n{name:\"Rick\", age: 30, place: 2},\n{name:\"Alan\", age: 25, place: 1},\n{name:\"Joe\", age: 40, place: 4},\n{name:\"Dave\", age: 35, place:3}\n];\n\n\nfunction bubbleSort(a, par)\n{\n    var swapped;\n    do {\n        swapped = false;\n        for (var i=0; i < a.length-1; i++) {\n            if (a[i][par] > a[i+1][par]) {\n                var temp = a[i];\n                a[i] = a[i+1];\n                a[i+1] = temp;\n                swapped = true;\n            }\n        }\n    } while (swapped);\n}\n\n\nbubbleSort(arrayOfPeople, 'place');\n\nfor (i = 0; i < arrayOfPeople.length; i++) {\n   console.log(arrayOfPeople[i]); }",value:defaultValue}
+      {text:"var arrayOfPeople = [\n{name:\"Rick\", age: 30, place: 2},\n{name:\"Alan\", age: 25, place: 1},\n{name:\"Joe\", age: 40, place: 4},\n{name:\"Dave\", age: 35, place:3}\n];\n\n\nfunction bubbleSort(a, par)\n{\n    var swapped;\n    do {\n        swapped = false;\n        for (var i=0; i < a.length-1; i++) {\n            if (a[i][par] > a[i+1][par]) {\n                var temp = a[i];\n                a[i] = a[i+1];\n                a[i+1] = temp;\n                swapped = true;\n            }\n        }\n    } while (swapped);\n}\n\n\nbubbleSort(arrayOfPeople, 'place');\n\nfor (i = 0; i < arrayOfPeople.length; i++) {\n   console.log(arrayOfPeople[i]);\n }",value:defaultValue}
     ]
       },{
     id: '6',
@@ -139,7 +139,7 @@ part2_questions = [
     content: '',
     description: 'Rewrite the following code snippet using the jQuery library\n\n<script>\nfunction change(){\n    \n   var myNewTitle = document.getElementById("myTextField").value;\n   if( myNewTitle.length==0 ){\n       console.log("Write Some real Text please.");\n       return;\n   }\n   \n   var title = document.getElementById("title");\n   title.innerHTML = myNewTitle;\n    \n}\n</script>\n\n\n<h1 id="title">Javascript example no.2</h1>\n<input type="text" id="myTextField"/>\n<input type="submit" id="byBtn" value="Change" onclick="change()"/>\n\n',
     answers:[
-      {text:"To select id, you use '#' sign to select the element.",value:defaultValue},
+      {text:"First of all, this code is creating a text input area and a button. Instead of using .getElementById method, you can use '#<id>' to select the element.",value:defaultValue},
       {text:"To select title, you use: $('#title')\n\nTo select the first input, you use: $('#myTextField')\n\n2nd input, you use: $('#byBtn')\n\nTo change value, you use: .val(' ')\n\n", value:defaultValue},
       {text:"<script>\n$('document').ready(function(){\n  \n$('#byBtn').click(function(){\nvar text = $('#myTextField').val();\n  if(text.length==0)\n      console.log('Write Some real Text please.');\nelse{\n$('#title').text(text);\n   }\n    \n});\n</script>\n\n\n<h1 id=\"title\">Javascript example no.2</h1>\n<input type=\"text\" id=\"myTextField\"/>\n<input type=\"submit\" id=\"byBtn\" value=\"Change\" onclick=\"change()\"/>\n\n",value:defaultValue},
     ]
@@ -147,7 +147,7 @@ part2_questions = [
     id: '7',
     name: 'Task 7 (a)',
     content: '',
-    description: 'Giving the following JSON structure, try to rewrite it to an array format with each element having the pattern of {"firstName": "Akira", "lastName":"Laine", "number":"0543236543"}.\n\nvar contacts = {\n    "firstName": ["Akira", "Harry","Sherlock","Kristian"],\n    "lastName": ["Laine","Potter", "Holmes","Vos"],\n    "number": ["0543236543","0994372684","0487345643","0123321122"]\n    };\n\n',
+    description: 'Giving the following JSON structure. Write a function to reformat the structure so that each element in this new JSON has the pattern of {"firstName": "Akira", "lastName":"Laine", "number":"0543236543"}.\n\nvar contacts = {\n    "firstName": ["Akira", "Harry","Sherlock","Kristian"],\n    "lastName": ["Laine","Potter", "Holmes","Vos"],\n    "number": ["0543236543","0994372684","0487345643","0123321122"]\n    };\n\n',
     answers:[
       {text:"You need to make sure that you match the right element from each property. To do that you can track the index.",value:defaultValue},
       {text:"Since you know the format and the key, you can use:\n\nfor(key in obj)\n   temp[key] = obj[key][i];\n   push temp to final array\n   i++\nend",value:defaultValue},
