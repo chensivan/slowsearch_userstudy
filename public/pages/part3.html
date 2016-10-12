@@ -4,6 +4,14 @@
 
 <div ng-show="thankyou">
   Thank you for your participation!
+
+  Please fill out the following survey:
+  <div ng-hide = "condition>0"><!--baseline -->
+    <a href="https://goo.gl/forms/l8AQdVd7Y8a9VmwF2" target=_blank>Survey Link (baseline)</a>
+  </div>
+  <div ng-show = "condition>0"> <!--sync -->
+    <a href="https://goo.gl/forms/hplTcK9BC7dqtkJH3" target=_blank>Survey Link (Sync.)</a>
+  </div>
 </div>
 
 <div id="task(B)" ng-show="!showinstruction && !thankyou">
