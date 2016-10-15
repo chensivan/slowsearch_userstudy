@@ -398,7 +398,7 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
       $scope.idCounter++;
 
       if ($scope.idCounter == $scope.taskAs.length){
-        $location.path("part3/"+condition+"/" + part3_ps + "/0/none");
+        $location.path("part3/"+condition+"/" + part3_ps + "/0/none");//  .when('/part3/:condition/:part3_ps/:id/:array', {
       }else{
         $scope.showAnswers = !$scope.showAnswers;
         $scope.disableSubmit = !$scope.disableSubmit;
@@ -498,7 +498,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
           alert("Now you have an option to give up on this task and move on to the next task. Once you move on you cannot solve this task");
         },cutOffTime * 1000);
 
-      } 
+      }
     });
 
   }
