@@ -223,9 +223,7 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
   else{
 
     $scope.taskAs = [];
-
     var task_ids = [];
-
     $http.get("gettasks")
     .then(function(response) {
       var tasks = response.data;
@@ -458,14 +456,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
     alert("we need id /part3/:taskid/");
     return;
   }
-  if(!$scope.showinstruction){
 
-    $timeout(function(){
-      $scope.moveOn = true;
-      alert("Now you have an option to give up on this task and move on to the next task. Once you move on you cannot solve this task");
-    },cutOffTime * 1000);
-
-  }
   var custom_console_log = function(message, raw) {
     if(raw){
       $scope.consoleOutput += message;
@@ -500,6 +491,14 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
         alert("Thank you for your particiaption!" , $scope._id);
       }
       $scope.task = response.data[0];
+      if(!$scope.showinstruction){
+
+        $timeout(function(){
+          $scope.moveOn = true;
+          alert("Now you have an option to give up on this task and move on to the next task. Once you move on you cannot solve this task");
+        },cutOffTime * 1000);
+
+      } 
     });
 
   }

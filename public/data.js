@@ -224,7 +224,7 @@ part3_questions = [{
 
 ];
 
-cutOffTime =  5; // in seconds - 5 means 5 seconds this is used to enable Give up button
+cutOffTime =  60*10; // in seconds - 5 means 5 seconds this is used to enable Give up button
 //cutOffTime =  60 * 5; // in seconds - this is used to enable Give up button
 DEFAULT_DELAY = 5;    // in seconds
 displayProgress = false; // false if progress bar has no text.
