@@ -417,7 +417,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
   $scope.moveOn = false;
   $scope.array = ($routeParams.array?$routeParams.array.split("-"):[]);
   var temp_handle = console.log;
-
+  $scope.moveonTimeout = null;
   if($scope.timer){
     $timeout.cancel($scope.timer);
   }
@@ -489,11 +489,12 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
         window.onbeforeunload = null;
         $scope.thankyou = true;
         alert("Thank you for your particiaption!" , $scope._id);
+        return;
       }
       $scope.task = response.data[0];
       if(!$scope.showinstruction){
 
-        $timeout(function(){
+        $scope.moveonTimeout = $timeout(function(){
           $scope.moveOn = true;
           alert("Now you have an option to give up on this task and move on to the next task. Once you move on you cannot solve this task");
         },cutOffTime * 1000);
@@ -577,6 +578,10 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
     $scope.loading = false;
     if($scope.timer){
       $timeout.cancel($scope.timer);
+    }
+
+    if($scope.moveonTimeout){
+      $timeout.cancel($scope.moveonTimeout);
     }
 
     if($scope.updateProgressBar){
