@@ -2,7 +2,38 @@
 
 // TODO slider initial value NaN
 
+var limitEval = function (code, fnOnStop, opt_timeoutInMS) {
+  var id = Math.random() + 1,
+    blob = new Blob(
+      ['onmessage=function(a){a=a.data;postMessage({i:a.i+1});postMessage({r:eval.call(this,a.c),i:a.i})};'],
+      { type:'text/javascript' }
+    ),
+    myWorker = new Worker(URL.createObjectURL(blob));
 
+  function onDone() {
+    URL.revokeObjectURL(blob);
+    fnOnStop.apply(this, arguments);
+  }
+
+  myWorker.onmessage = function (data) {
+    data = data.data;
+    if (data) {
+      if (data.i === id) {
+        id = 0;
+        onDone(true, data.r);
+      }
+      else if (data.i === id + 1) {
+        setTimeout(function() {
+          if (id) {
+            myWorker.terminate();
+            onDone(false);
+          }
+        }, opt_timeoutInMS || 1000);
+      }
+    }
+  };
+  myWorker.postMessage({ c: code, i: id });
+}
 
 // create the module and name it scotchApp
     // also include ngRoute for all our routing needs
@@ -51,26 +82,21 @@ app.config(function($routeProvider) {
       controller  : 'consentController'
   })
 
-  .when('/consent', {
-      templateUrl : 'pages/consent.html',
-      controller  : 'consentController'
-  })
-
   // route for the about page
-  .when('/part1/:condition/:part2_ps/:part3_ps', {
+  .when('/part1/:_id/:condition/:part2_ps/:part3_ps', {
       templateUrl : 'pages/part1.html',
       controller  : 'part1Controller'
   })
 
   // route for the contact page
-  .when('/part2/:condition/:part2_ps/:part3_ps', {
+  .when('/part2/:_id/:condition/:part2_ps/:part3_ps', {
       templateUrl : 'pages/part2.html',
       controller  : 'part2Controller'
   })
 
 
   // route to a specific contect the contact page
-  .when('/part3/:condition/:part3_ps/:id/:array', {
+  .when('/part3/:_id/:condition/:part3_ps/:id/:array', {
       templateUrl : 'pages/part3.html',
       controller  : 'part3Controller'
   })
@@ -95,6 +121,7 @@ app.controller('mainController', ['$scope','$http','$location', function($scope,
   $scope.message = 'N/A';
   var id = Math.random().toString(36).substring(7);
   $scope._id = id;
+
   $scope.studymode = false;
   $scope.condition = 1; // by deafult we test synchronous condition
 
@@ -133,8 +160,6 @@ var consentController = function($scope, $http, $timeout, $location, $routeParam
   var condition = $routeParams.condition;
   var part2_ps = $routeParams.part2_ps;
   var part3_ps = $routeParams.part3_ps;
-
-
   if (!$routeParams.condition){
     alert("specify the condition. 0 for baseline, 1 for synchronous");
   }
@@ -164,7 +189,7 @@ var consentController = function($scope, $http, $timeout, $location, $routeParam
   };
 
   $scope.submitConsent = function() {
-    $location.path("part1/" + condition + "/" + part2_ps + "/" + part3_ps);
+    $location.path("part1/" +   $scope.$parent._id + "/"  + condition + "/" + part2_ps + "/" + part3_ps);
   };
 
 
@@ -174,6 +199,8 @@ var part1Controller = function($scope,  $http, $timeout, $location, $routeParams
   $scope.quiz = part1_quiz;
   $scope.startTime = new Date();
   $scope.quizAnswer = [];
+    $scope.$parent._id = $routeParams._id;
+
   window.scrollTo(0,0);
   var condition = $routeParams.condition;
   var part2_ps = $routeParams.part2_ps;
@@ -188,7 +215,7 @@ var part1Controller = function($scope,  $http, $timeout, $location, $routeParams
     $scope.participant_data.quiz['startTime'] = $scope.startTime.getTime();
 
     $scope.updateData(function(){
-      $location.path("part2/" + condition + "/" + part2_ps + "/" + part3_ps);
+      $location.path("part2/" +   $scope.$parent._id + "/" + condition + "/" + part2_ps + "/" + part3_ps);
     });
   }
 
@@ -199,7 +226,11 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
   var part2_ps = $routeParams.part2_ps;
   var part3_ps = $routeParams.part3_ps;
 
+
+
   window.scrollTo(0,0);
+  $scope.$parent._id = $routeParams._id;
+
 
   $scope.subjectiveTaskInstruction = true;
   $scope.showAnswers = false;
@@ -215,6 +246,10 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
     var timestamp = new Date();
     $scope.participant_data["startTime"] = timestamp.getTime();
     $scope.subjectiveTaskInstruction = !$scope.subjectiveTaskInstruction;
+    $timeout(function(){
+        $scope.$broadcast('reCalcViewDimensions');
+    },10);
+
   }
   if(part2_ps != 'ps1' && part2_ps != 'ps2'&& part2_ps != 'ps3')
   {
@@ -255,7 +290,11 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
               {text:(response.data[0].level2?response.data[0].level2:"Level 2 answer not yet specified"), value:defaultValue, expectedTime : 0},
               {text:(response.data[0].code?response.data[0].code:"Level 3 answer not yet specified"), value:defaultValue, expectedTime : 0}
             ]
-          })
+          });
+          if(task_ids.length ==$scope.taskAs.length ){
+            setTimeout(function(){
+          },500);
+          }
 
         });
       }
@@ -289,6 +328,29 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
     }
   };
 
+  $scope.searchSlider = {
+    value:3,
+    options:{
+      floor: 1,
+      ceil: 5,
+      precision: 1,
+      stepsArray: [
+        {value: 1, legend: 'Definitely not'},
+        {value: 2, legend: 'Maybe not'},
+        {value: 3, legend: 'Netural'},
+        {value: 4, legend: 'Maybe'},
+        {value: 5, legend: 'Definitely'}
+      ],
+      showTicksValues: true,
+      ticksValuesTooltip: function(v) {
+        return 'Tooltip for ' + v;
+      },
+      translate: function(value) {
+        return value;
+      }
+    }
+  };
+
   $scope.timeSliderOptions = {
     step: 1,
     floor: 0,
@@ -316,27 +378,7 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
     $scope.disableSubmit = false;
   };
 
-  $scope.searchSlider = {
-    value:3,
-    options:{
-      floor: 1,
-      ceil: 5,
-      stepsArray: [
-        {value: 1, legend: 'Definitely not'},
-        {value: 2, legend: 'Maybe not'},
-        {value: 3, legend: 'Netural'},
-        {value: 4, legend: 'Maybe'},
-        {value: 5, legend: 'Definitely'}
-      ],
-      showTicksValues: true,
-      ticksValuesTooltip: function(v) {
-        return 'Tooltip for ' + v;
-      },
-      translate: function(value) {
-        return value;
-      }
-    }
-  };
+
 
   $scope.howLongSlider = {
     value:0,
@@ -398,11 +440,15 @@ var part2Controller = function($scope,$http, $timeout, $location, $routeParams  
       $scope.idCounter++;
 
       if ($scope.idCounter == $scope.taskAs.length){
-        $location.path("part3/"+condition+"/" + part3_ps + "/0/none");//  .when('/part3/:condition/:part3_ps/:id/:array', {
+        $location.path("part3/"+   $scope.$parent._id + "/" +condition+"/" + part3_ps + "/0/none");//  .when('/part3/:condition/:part3_ps/:id/:array', {
       }else{
         $scope.showAnswers = !$scope.showAnswers;
         $scope.disableSubmit = !$scope.disableSubmit;
+        $timeout(function(){
+            $scope.$broadcast('reCalcViewDimensions');
+        },10);
       }
+
     });
   };
 };
@@ -416,6 +462,8 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
   $scope.startTime = (new Date()).getTime();
   $scope.moveOn = false;
   $scope.array = ($routeParams.array?$routeParams.array.split("-"):[]);
+  $scope.$parent._id = $routeParams._id;
+
   var temp_handle = console.log;
   $scope.moveonTimeout = null;
   if($scope.timer){
@@ -488,7 +536,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
       }else if (response.data.length == 0){
         window.onbeforeunload = null;
         $scope.thankyou = true;
-        alert("Thank you for your particiaption!" , $scope._id);
+        alert("Thank you for your particiaption!" , $scope.$parent._id);
         return;
       }
       $scope.task = response.data[0];
@@ -507,8 +555,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
   $scope.disableNext = true;
   $scope.level = -1;
   $scope.gotoActualTask = function(){
-    window.onbeforeunload = null;
-    $location.path("part3/" + condition + "/" + part3_ps + "/" +($scope.taskid + 1)+ "/" + $scope.array.join("-"));
+    $location.path("part3/"+   $scope.$parent._id + "/"  + condition + "/" + part3_ps + "/" +($scope.taskid + 1)+ "/" + $scope.array.join("-"));
   };
 
   $scope.aceLoaded = function(_editor){
@@ -534,35 +581,43 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
     var log = {time: (new Date()).getTime(), match:0};
     $scope.consoleOutput = '';
     var result;
-    try {
-      $scope.currentOutput = eval(userContent);
-    } catch (e) {
-      custom_console_log(e.message);
-    }
-    var aggResult = true;
-    for (var ss_index=0; ss_index< $scope.task.testCase.length; ss_index++){
-      try {
-        $scope.task.testCase[ss_index].output = eval("custom_console_log('test case ' + " + (ss_index+1)+ "+' running...', true);\n" + userContent + "\n" + $scope.task.testCase[ss_index].code );
-        if($scope.task.testCase[ss_index].output === undefined){
-          $scope.task.testCase[ss_index].output = $scope.lastOutput;
+
+    limitEval(userContent, function(success, returnValue) {
+      if (success) {
+        try {
+          $scope.currentOutput = eval(userContent);
+        } catch (e) {
+          custom_console_log(e.message);
         }
-      } catch (e) {
-        $scope.task.testCase[ss_index].output = e.message;
+        var aggResult = true;
+        for (var ss_index=0; ss_index< $scope.task.testCase.length; ss_index++){
+          try {
+            $scope.task.testCase[ss_index].output = eval("custom_console_log('test case ' + " + (ss_index+1)+ "+' running...', true);\n" + userContent + "\n" + $scope.task.testCase[ss_index].code );
+            if($scope.task.testCase[ss_index].output === undefined){
+              $scope.task.testCase[ss_index].output = $scope.lastOutput;
+            }
+          } catch (e) {
+            $scope.task.testCase[ss_index].output = e.message;
+          }
+          // check the return value
+          $scope.task.testCase[ss_index].match = JSON.stringify($scope.task.testCase[ss_index].answer) == JSON.stringify($scope.task.testCase[ss_index].output);
+          aggResult = aggResult & $scope.task.testCase[ss_index].match
+          if($scope.task.testCase[ss_index].match ){
+            log.match++;
+          }
+        }
+        log.match /= $scope.task.testCase.length;
+        $scope.runlog.push(log);
+        if (aggResult){
+          $scope.disableNext = false;
+        }else{
+          $scope.disableNext = true;
+        }
       }
-      // check the return value
-      $scope.task.testCase[ss_index].match = JSON.stringify($scope.task.testCase[ss_index].answer) == JSON.stringify($scope.task.testCase[ss_index].output);
-      aggResult = aggResult & $scope.task.testCase[ss_index].match
-      if($scope.task.testCase[ss_index].match ){
-        log.match++;
+      else {
+        alert('The code takes too long to run.  Is there is an infinite loop?');
       }
-    }
-    log.match /= $scope.task.testCase.length;
-    $scope.runlog.push(log);
-    if (aggResult){
-      $scope.disableNext = false;
-    }else{
-      $scope.disableNext = true;
-    }
+    }, 3000);
   };
 
   $scope.stringify = function (a){
@@ -598,8 +653,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
     $scope.participant_data.objectiveTask[$scope.taskid].moveOn = moveOn;
 
     $scope.updateData(function(){
-       window.onbeforeunload = null;
-       $location.path("part3/" + condition + "/" + part3_ps + "/" + ($scope.taskid + 1)+ "/" + $scope.array.join("-"));
+       $location.path("part3/"+   $scope.$parent._id + "/"  + condition + "/" + part3_ps + "/" + ($scope.taskid + 1)+ "/" + $scope.array.join("-"));
     });
 
     $scope.disableSubmit = true;
