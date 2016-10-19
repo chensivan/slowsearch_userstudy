@@ -570,8 +570,14 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
     useWrapMode : true
   };
 
+
   $scope.typeofAnswer = function(caseIndex){
-    return typeof $scope.task.testCase[caseIndex].answer;
+    try {
+      var evaluated = eval($scope.task.testCase[caseIndex].answer);
+    } catch (e) {
+      return ("Answer has an error:" +  e.message);
+    }
+    return typeof evaluated;
   };
 
   $scope.typeofOutput = function(caseIndex){
@@ -592,6 +598,8 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
         var aggResult = true;
         for (var ss_index=0; ss_index< $scope.task.testCase.length; ss_index++){
           try {
+            var answer = eval($scope.task.testCase[ss_index].answer) ;
+
             $scope.task.testCase[ss_index].output = eval("custom_console_log('test case ' + " + (ss_index+1)+ "+' running...', true);\n" + userContent + "\n" + $scope.task.testCase[ss_index].code );
             if($scope.task.testCase[ss_index].output === undefined){
               $scope.task.testCase[ss_index].output = $scope.lastOutput;
@@ -600,7 +608,7 @@ var part3Controller = function($scope, $http, $timeout, $location, $routeParams,
             $scope.task.testCase[ss_index].output = e.message;
           }
           // check the return value
-          $scope.task.testCase[ss_index].match = JSON.stringify($scope.task.testCase[ss_index].answer) == JSON.stringify($scope.task.testCase[ss_index].output);
+          $scope.task.testCase[ss_index].match = JSON.stringify(answer) == JSON.stringify($scope.task.testCase[ss_index].output);
           aggResult = aggResult & $scope.task.testCase[ss_index].match
           if($scope.task.testCase[ss_index].match ){
             log.match++;
